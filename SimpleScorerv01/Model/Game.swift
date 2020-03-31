@@ -16,7 +16,7 @@ class Game: ObservableObject {
     
     func addPlayer(player: Player) {
         players.append(player)
-        playerScores.append(PlayerScore(player: player, pointsList: [0,1,2]))
+        playerScores.append(PlayerScore(player: player, pointsList: []))
     }
     
     func addPlayer(player: Player, score: Int) {
@@ -24,8 +24,12 @@ class Game: ObservableObject {
         playerScores.append(PlayerScore(player: player, pointsList: [score]))
     }
     
-    func indexOfPlayerInScores(player: Player) -> Int {
+    private func indexOfPlayerInScores(player: Player) -> Int {
         return  playerScores.firstIndex(where: {$0.player.id == player.id})!
+    }
+    
+    func findScore(uuid: PlayerScore.ID) -> PlayerScore {
+        return playerScores[playerScores.firstIndex(where: {$0.id == uuid})!]
     }
     
     init () {
@@ -37,6 +41,29 @@ class Game: ObservableObject {
         self.addPlayer(player: Player(name: "Sophie", shortName: "Sof", photoURL:"sof", color: Color(.sRGB, red: 189/255, green: 0/255, blue: 82/255)))
         self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color(.sRGB,red: 251/255, green: 78/255, blue: 84/255)))
         self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
+        
+//        self.playerScores[0].addPoints(scoreValue: 1)
+//        
+//        self.playerScores[1].addPoints(scoreValue: 1)
+//        self.playerScores[1].addPoints(scoreValue: 2)
+//        self.playerScores[1].addPoints(scoreValue: 3)
+//        
+//        self.playerScores[2].addPoints(scoreValue: 1)
+//        self.playerScores[2].addPoints(scoreValue: 2)
+//        self.playerScores[2].addPoints(scoreValue: 3)
+//        self.playerScores[2].addPoints(scoreValue: 4)
+//        self.playerScores[2].addPoints(scoreValue: 5)
+//        self.playerScores[2].addPoints(scoreValue: 6)
+//        
+//        self.playerScores[3].addPoints(scoreValue: 1)
+//        self.playerScores[3].addPoints(scoreValue: 2)
+//        self.playerScores[3].addPoints(scoreValue: 3)
+//        self.playerScores[3].addPoints(scoreValue: 4)
+//        self.playerScores[3].addPoints(scoreValue: 5)
+//        self.playerScores[3].addPoints(scoreValue: 6)
+//        self.playerScores[3].addPoints(scoreValue: 7)
+//        self.playerScores[3].addPoints(scoreValue: 8)
+//        self.playerScores[3].addPoints(scoreValue: 9)
     }
     
 

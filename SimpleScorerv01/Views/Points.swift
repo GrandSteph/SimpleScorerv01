@@ -14,14 +14,16 @@ struct Points: View {
     
     var body: some View {
         VStack(alignment: .center, spacing: 0) {
-            ForEach(points.indices, id: \.self) { i in
+            Spacer()
+            ForEach(points.indices.reversed(), id: \.self) { i in
                 Group{
                     CircleNumber(number: "\(self.points[i])" )
-                    i == self.points.count-1 ? nil : VerticalSeparator()
+//                    i == self.points.first ? nil : VerticalSeparator()
+                    VerticalSeparator()
                 }
             }
+            
         }
-        .padding(.vertical)
     }
 }
 
@@ -44,7 +46,7 @@ struct VerticalSeparator: View {
 
 struct Points_Previews: PreviewProvider {
     static var previews: some View {
-        Points(points: [10,100,5,10])
+        Points(points: [1,2,3,4])
             .environmentObject(Game())
             .background(Color .orange)
             .previewLayout(.fixed(width: 70, height: 300))

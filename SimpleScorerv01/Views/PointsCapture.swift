@@ -11,8 +11,10 @@ import SwiftUI
 struct PointsCapture: View {
     
     @EnvironmentObject var game : Game
-    
     @Binding var isPresented: Bool
+    @State private var displayValue = ""
+    
+    var playerScoreID: PlayerScore.ID
     
     let Numericalbuttons = [
         [7,8,9],
@@ -21,12 +23,13 @@ struct PointsCapture: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            CircleImage(image: Image("Steph")).padding()
+            CircleImage(image: Image("\(game.findScore(uuid: playerScoreID).player.photoURL)")).padding()
+//            CircleImage(image: Image("steph")).padding()
             
             Button(action: {
                 
             }) {
-                Text("0").font(.system(size: 35))
+                Text("\(self.displayValue)").font(.system(size: 35))
             }
             .foregroundColor(Color .white)
             .frame(width: 180, height: 60, alignment: .trailing)
@@ -39,7 +42,8 @@ struct PointsCapture: View {
                 HStack {
                     ForEach(row, id: \.self) { button in
                         Button(action: {
-                            print("\(button)")
+                            self.displayValue += String(button)
+                            
                         }) {
                             Text("\(button)")
                         }
@@ -47,30 +51,34 @@ struct PointsCapture: View {
                     }
                 }
             }
-            
+
             HStack {
                 Button(action: {
-                    
+                    self.displayValue = String(self.displayValue.dropLast())
                 }) {
                     Image(systemName: "delete.left").font(.system(size: 25)).offset(x: -3, y: 0)
                 }
                 .buttonStyle(CircleButton())
-                
+
                 Button(action: {
-                    
+
                 }) {
                     Text("0")
                 }
                 .buttonStyle(CircleButton())
-                
+
                 Button(action: {
-                    self.isPresented.toggle()
+                    if self.displayValue == "" {
+                        self.displayValue = "0"
+                    }
+                    self.isPresented = false
+                    let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScoreID})
+                    self.game.playerScores[index!].addPoints(scoreValue: Int(self.displayValue)!)
                 }) {
                     Image(systemName: "checkmark").font(.system(size: 25))
-                    //                self.game.playerScores[self.game.playerScores.firstIndex(of: self.playerScore)!].addPoints(scoreValue: 50)
                 }
                 .buttonStyle(CircleButton())
-                
+
             }
         }
         .padding()
@@ -98,7 +106,7 @@ struct CircleButton: ButtonStyle {
 
 struct PointsCapture_Previews: PreviewProvider {
     static var previews: some View {
-        PointsCapture(isPresented: .constant(true))
+        PointsCapture(isPresented: .constant(true), playerScoreID: Player.ID())
             .environmentObject(Game())
             .previewDevice("iPhone 7")
             //            .previewLayout(.fixed(width: 400, height: 500))

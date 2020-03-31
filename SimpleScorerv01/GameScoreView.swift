@@ -13,8 +13,8 @@ struct GameScoreView: View {
     @EnvironmentObject var game: Game
     
     @State private var shouldScroll = false
-    
     @State private var showPointsCapture = false
+    @State private var playerScoreToEdit = PlayerScore.ID()
     
     private var axes: Axis.Set {
         return shouldScroll ? .horizontal : []
@@ -26,9 +26,7 @@ struct GameScoreView: View {
                 ScrollView(self.axes) {
                     HStack(spacing: 0)  {
                         ForEach(self.game.playerScores) { playerScore in
-                            ScoreCell(playerScore: playerScore
-                                , showPointsCapture: self.$showPointsCapture
-                                , playerScoreForEdit: .constant(playerScore) )
+                            ScoreCell(playerScore: playerScore, showPointsCapture: self.$showPointsCapture, playerScoreToEditID: self.$playerScoreToEdit)
                                 .frame(minWidth: 60, maxWidth: .infinity)
                         }
                     }
@@ -45,7 +43,7 @@ struct GameScoreView: View {
                 
                 
                 if self.showPointsCapture {
-                    PointsCapture(isPresented: self.$showPointsCapture)
+                    PointsCapture(isPresented: self.$showPointsCapture, playerScoreID:self.playerScoreToEdit)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
 //                        .background(Color .white.opacity(0.5))
                         .shadow(radius: 35)

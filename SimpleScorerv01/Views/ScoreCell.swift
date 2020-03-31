@@ -13,9 +13,8 @@ struct ScoreCell: View {
     var playerScore: PlayerScore
     
     @Binding var showPointsCapture: Bool
-    @Binding var playerScoreForEdit: PlayerScore
-
-   
+    @Binding var playerScoreToEditID: PlayerScore.ID
+    
     var body: some View {
         VStack {
             
@@ -43,25 +42,27 @@ struct ScoreCell: View {
             } // SCORE
             
             Spacer()
+            ScrollView (.vertical) {
+                    Points(points: playerScore.pointsList)
+            }
             
-            Points(points: playerScore.pointsList)
             
-            Group {
-                Button(action: {
-                    self.showPointsCapture.toggle()
-                    self.playerScoreForEdit = self.playerScore
-                }) {
-                    Text("+").foregroundColor(.black).font(.system(size: 40))
-                }
-                .padding()
-                .background(Color(.white))
-                .opacity(0.5)
-                .clipShape(Circle())
-                .overlay(Circle().stroke(Color.white, lineWidth: 2))
-                .shadow(radius: 5)
-            } // picker
             
-
+            Button(action: {
+                self.showPointsCapture.toggle()
+                self.playerScoreToEditID = self.playerScore.id
+            }) {
+                Text("+").foregroundColor(.black).font(.system(size: 40))
+            }
+            .padding()
+            .background(Color(.white))
+            .opacity(0.5)
+            .clipShape(Circle())
+            .overlay(Circle().stroke(Color.white, lineWidth: 2))
+            .shadow(radius: 5)
+            
+            
+            
         }
         .padding(.vertical, 30)
         .frame(maxWidth: .infinity)
@@ -70,14 +71,14 @@ struct ScoreCell: View {
 }
 
 struct ScoreCell_Previews: PreviewProvider {
-        
+    
     static var previews: some View {
         ScoreCell(
-            playerScore: PlayerScore(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: .orange),pointsList: [])
+            playerScore: PlayerScore(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: .orange),pointsList: [1,2,3,4,5,6,7,8,9,10,11,12,13,14])
             ,showPointsCapture: .constant(false)
-            ,playerScoreForEdit: .constant(PlayerScore(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: .orange),pointsList: []))
+            ,playerScoreToEditID: .constant(PlayerScore.ID())
         )
-//            .environmentObject(Game())
-//            .previewLayout(.fixed(width: 100, height: 800))
+        //            .environmentObject(Game())
+        //            .previewLayout(.fixed(width: 100, height: 800))
     }
 }
