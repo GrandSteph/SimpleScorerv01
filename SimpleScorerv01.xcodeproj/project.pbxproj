@@ -12,6 +12,8 @@
 		E83131B02428D3820056DC21 /* Points.swift in Sources */ = {isa = PBXBuildFile; fileRef = E83131AF2428D3820056DC21 /* Points.swift */; };
 		E8462582242A4A8D00EA5286 /* CircleNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8462581242A4A8D00EA5286 /* CircleNumber.swift */; };
 		E84D87F0242218DB00FEBFFF /* Round.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84D87EF242218DB00FEBFFF /* Round.swift */; };
+		E84FABFC2435E68500C806D2 /* Neumorphism.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84FABFB2435E68500C806D2 /* Neumorphism.swift */; };
+		E84FABFE2435E94B00C806D2 /* ClickWheel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E84FABFD2435E94B00C806D2 /* ClickWheel.swift */; };
 		E86E719A242A325A0016D903 /* PointsCapture.swift in Sources */ = {isa = PBXBuildFile; fileRef = E86E7199242A325A0016D903 /* PointsCapture.swift */; };
 		E8875198241F99DB0091853F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8875197241F99DB0091853F /* AppDelegate.swift */; };
 		E887519A241F99DB0091853F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8875199241F99DB0091853F /* SceneDelegate.swift */; };
@@ -30,6 +32,8 @@
 		E83131AF2428D3820056DC21 /* Points.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Points.swift; sourceTree = "<group>"; };
 		E8462581242A4A8D00EA5286 /* CircleNumber.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleNumber.swift; sourceTree = "<group>"; };
 		E84D87EF242218DB00FEBFFF /* Round.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Round.swift; sourceTree = "<group>"; };
+		E84FABFB2435E68500C806D2 /* Neumorphism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Neumorphism.swift; sourceTree = "<group>"; };
+		E84FABFD2435E94B00C806D2 /* ClickWheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickWheel.swift; sourceTree = "<group>"; };
 		E86E7199242A325A0016D903 /* PointsCapture.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PointsCapture.swift; sourceTree = "<group>"; };
 		E8875194241F99DB0091853F /* SimpleScorerv01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleScorerv01.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8875197241F99DB0091853F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -58,6 +62,7 @@
 		E887518B241F99DB0091853F = {
 			isa = PBXGroup;
 			children = (
+				E84FABFB2435E68500C806D2 /* Neumorphism.swift */,
 				E8875196241F99DB0091853F /* SimpleScorerv01 */,
 				E8875195241F99DB0091853F /* Products */,
 			);
@@ -123,6 +128,7 @@
 				E88751B4241F9E000091853F /* CircleImage.swift */,
 				E83131AF2428D3820056DC21 /* Points.swift */,
 				E8462581242A4A8D00EA5286 /* CircleNumber.swift */,
+				E84FABFD2435E94B00C806D2 /* ClickWheel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -213,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E84FABFE2435E94B00C806D2 /* ClickWheel.swift in Sources */,
 				E88751B1241F9B9A0091853F /* Player.swift in Sources */,
 				E828ADB4242387500046BAF8 /* Game.swift in Sources */,
 				E8875198241F99DB0091853F /* AppDelegate.swift in Sources */,
@@ -221,6 +228,7 @@
 				E83131B02428D3820056DC21 /* Points.swift in Sources */,
 				E88751BD241FA7E40091853F /* ScoreCell.swift in Sources */,
 				E84D87F0242218DB00FEBFFF /* Round.swift in Sources */,
+				E84FABFC2435E68500C806D2 /* Neumorphism.swift in Sources */,
 				E8462582242A4A8D00EA5286 /* CircleNumber.swift in Sources */,
 				E86E719A242A325A0016D903 /* PointsCapture.swift in Sources */,
 				E828ADB2242370F40046BAF8 /* PlayerScore.swift in Sources */,

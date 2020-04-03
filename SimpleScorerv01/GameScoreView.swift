@@ -43,10 +43,12 @@ struct GameScoreView: View {
                 
                 
                 if self.showPointsCapture {
-                    PointsCapture(isPresented: self.$showPointsCapture, playerScoreID:self.playerScoreToEdit)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                        .background(Color .white.opacity(0.5))
-                        .shadow(radius: 35)
+//                    PointsCapture(isPresented: self.$showPointsCapture, playerScoreID:self.playerScoreToEdit)
+//                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+////                        .background(Color .white.opacity(0.5))
+//                        .shadow(radius: 35)
+                    
+                    Neumorphism()
 
 
                 }
