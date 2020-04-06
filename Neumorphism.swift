@@ -10,6 +10,9 @@ import SwiftUI
 
 extension Color {
     static let offWhite = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
+    
+    static let whiteStart = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
+    static let whiteEnd = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
 
     static let darkStart = Color(red: 50 / 255, green: 60 / 255, blue: 65 / 255)
     static let darkEnd = Color(red: 25 / 255, green: 25 / 255, blue: 30 / 255)
@@ -56,6 +59,29 @@ struct SimpleButtonStyle: ButtonStyle {
                     }
                 }
             )
+    }
+}
+
+struct WhiteGradientBackground<S: Shape>: View {
+    var isHighlighted: Bool
+    var shape: S
+
+    var body: some View {
+        ZStack {
+            if isHighlighted {
+                shape
+                    .fill(LinearGradient(Color.whiteEnd, Color.whiteStart))
+                    .overlay(shape.stroke(LinearGradient(Color.whiteStart, Color.whiteEnd), lineWidth: 4))
+                    .shadow(color: Color.darkStart, radius: 10, x: 5, y: 5)
+                    .shadow(color: Color.darkEnd, radius: 10, x: -5, y: -5)
+            } else {
+                shape
+                    .fill(LinearGradient(Color.darkStart, Color.darkEnd))
+                    .overlay(shape.stroke(Color.darkEnd, lineWidth: 4))
+                    .shadow(color: Color.darkStart, radius: 10, x: -10, y: -10)
+                    .shadow(color: Color.darkEnd, radius: 10, x: 10, y: 10)
+            }
+        }
     }
 }
 
@@ -170,18 +196,19 @@ struct Neumorphism: View {
                 
                 HStack {
                     Button(action: {
-                        print("Button tapped")
+
                     }) {
                         Image(systemName: "heart.fill")
                             .foregroundColor(.white)
                     }
                     .buttonStyle(SimpleButtonStyle())
-                }.frame(width: 450, height: 120).background(Color .offWhite)
+                }
+                .frame(maxWidth: .infinity, minHeight: 100).background(Color .offWhite)
                 
                 
                 
                 Button(action: {
-                    print("Button tapped")
+
                 }) {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.white)
@@ -189,7 +216,7 @@ struct Neumorphism: View {
                 .buttonStyle(DarkButtonStyle())
                 
                 Button(action: {
-                    print("Button tapped")
+
                 }) {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.white)

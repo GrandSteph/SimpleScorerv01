@@ -48,7 +48,10 @@ struct GameScoreView: View {
 ////                        .background(Color .white.opacity(0.5))
 //                        .shadow(radius: 35)
                     
-                    Neumorphism()
+//                    Neumorphism()
+                    
+                    ClickWheel(isPresented: self.$showPointsCapture, playerScoreID:self.playerScoreToEdit)
+                        .frame(maxWidth: 500, maxHeight: 550)
 
 
                 }
