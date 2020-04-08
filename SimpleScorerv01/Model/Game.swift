@@ -28,8 +28,22 @@ class Game: ObservableObject {
         return  playerScores.firstIndex(where: {$0.player.id == player.id})!
     }
     
-    func findScore(uuid: PlayerScore.ID) -> PlayerScore {
-        return playerScores[playerScores.firstIndex(where: {$0.id == uuid})!]
+    private func findScore(playerScoreId: PlayerScore.ID) -> PlayerScore {
+        return playerScores[playerScores.firstIndex(where: {$0.id == playerScoreId})!]
+    }
+    
+    func addScore(pointsValue: Int, playerScoreID: PlayerScore.ID) {
+        playerScores[playerScores.firstIndex(where: {$0.id == playerScoreID})!].addPoints(scoreValue: pointsValue)
+    }
+    
+    func maxScore() -> Int {
+        var maxScore = Int (0)
+        for score in self.playerScores {
+            if maxScore < score.totalScore()  {
+                maxScore = score.totalScore()
+            }
+        }
+        return maxScore
     }
     
     init () {
@@ -42,13 +56,13 @@ class Game: ObservableObject {
         self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color(.sRGB,red: 251/255, green: 78/255, blue: 84/255)))
         self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
         
-//        self.playerScores[0].addPoints(scoreValue: 1)
+        self.playerScores[0].addPoints(scoreValue: 13)
 //        
-//        self.playerScores[1].addPoints(scoreValue: 1)
+        self.playerScores[1].addPoints(scoreValue: 18)
 //        self.playerScores[1].addPoints(scoreValue: 2)
 //        self.playerScores[1].addPoints(scoreValue: 3)
 //        
-//        self.playerScores[2].addPoints(scoreValue: 1)
+        self.playerScores[2].addPoints(scoreValue: 24)
 //        self.playerScores[2].addPoints(scoreValue: 2)
 //        self.playerScores[2].addPoints(scoreValue: 3)
 //        self.playerScores[2].addPoints(scoreValue: 4)

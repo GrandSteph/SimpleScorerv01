@@ -15,9 +15,14 @@ struct ClickWheel: View {
     @State private var rotatesClockwise = true
     @State private var points = Float(0.0)
     
-    @Binding var isPresented: Bool
     @EnvironmentObject var game : Game
-    var playerScoreID: PlayerScore.ID
+    
+    @Binding var isPresented: Bool
+    var playerScore: PlayerScore
+    
+    var scoreIndex: Int {
+        game.playerScores.firstIndex(where: { $0.id == playerScore.id})!
+    }
     
     var body: some View {
         GeometryReader { geo in
@@ -26,15 +31,15 @@ struct ClickWheel: View {
                 VStack {
                     
                     HStack {
-                        Text(String(format: "%.0f",self.game.playerScores[self.game.playerScores.firstIndex(where: {$0.id == self.playerScoreID})!].totalScore()))
-                        .font(.system(size: 35))
-                        .foregroundColor(Color .white)
-                        .frame(width: 100, height: 100)
-                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
-                        .minimumScaleFactor(0.4)
-                        .lineLimit(1)
+//                        Text("\(self.game.playerScores[self.scoreIndex].totalScore())")
+//                        .font(.system(size: 35))
+//                        .foregroundColor(Color .white)
+//                        .frame(width: 100, height: 100)
+//                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+//                        .minimumScaleFactor(0.4)
+//                        .lineLimit(1)
                                                 
-                        CircleImage(image: Image(self.game.playerScores[self.game.playerScores.firstIndex(where: {$0.id == self.playerScoreID})!].player.photoURL)).frame(maxHeight: 108)
+                        CircleImage(image: Image(self.playerScore.player.photoURL)).frame(maxHeight: 108)
                         
                         Text(String(format: "%.0f",self.points))
                         .font(.system(size: 35))
@@ -49,37 +54,28 @@ struct ClickWheel: View {
                     ZStack {
                         Circle()
                             .fill(Color .white)
-//                            .padding()
-//                            .padding(.vertical, 10)
                         
                         self.rotatesClockwise ? Image(systemName: "arrow.clockwise.circle").font(.system(size: 80)) : Image(systemName: "arrow.counterclockwise.circle.fill").font(.system(size: 80))
                         
                     }
-//                    .background(Color .red)
                 }
             }
-//            .background(Color .green)
-            .background(self.game.playerScores[self.game.playerScores.firstIndex(where: {$0.id == self.playerScoreID})!].player.favoriteColor)
+            .background(self.playerScore.player.favoriteColor)
             .frame(maxWidth: .infinity)
             .gesture(
                 DragGesture(minimumDistance: 0, coordinateSpace: .global)
                     .onEnded({ (value) in
                         self.isPresented = false
-                        let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScoreID})
-                        self.game.playerScores[index!].addPoints(scoreValue: Int(String(format: "%.0f",self.points))!)
-                        print("  -->\( Int(String(format: "%.0f",self.points))!)")
-                        
-                        
+//                        self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.points))!)
+                        self.game.addScore(pointsValue: Int(String(format: "%.0f",self.points))!, playerScoreID: self.playerScore.id)
+                        print(self.game.playerScores[0].totalScore())
+                        print(self.game.playerScores[self.scoreIndex].totalScore())
                     })
                     .onChanged { value in
-                        
-                        
-                        
+
                         var VerticalDragSpeed = CGFloat(0)
                         var HorizontalDragSpeed = CGFloat(0)
                         var speed = Float(0)
-                        
-                        //                        var dragSpeed = CGFloat(0)
                         
                         if self.lastDragLocation != nil {
                             let timeDifference = value.time.timeIntervalSince(self.lastDragLocation!.time)
@@ -99,6 +95,8 @@ struct ClickWheel: View {
                         speed = abs(Float(HorizontalDragSpeed + VerticalDragSpeed))/1000
                         
                         self.points += self.rotatesClockwise ? speed : -speed
+                        
+                        
                         
                         if (x < 0 && y < 0) { // Upper left corner
                             if (VerticalDragSpeed <= 0 && HorizontalDragSpeed >= 0) {
@@ -154,6 +152,9 @@ struct ClickWheel: View {
 //@available(iOS 13.4, *)
 struct ClickWheel_Previews: PreviewProvider {
     static var previews: some View {
-        ClickWheel(isPresented: .constant(true), playerScoreID: Player.ID()).environmentObject(Game())
+        ClickWheel(
+            isPresented: .constant(true)
+            ,playerScore: PlayerScore(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: .orange),pointsList: [1,2])
+        ).environmentObject(Game())
     }
 }

@@ -14,7 +14,7 @@ struct GameScoreView: View {
     
     @State private var shouldScroll = false
     @State private var showPointsCapture = false
-    @State private var playerScoreToEdit = PlayerScore.ID()
+    @State private var playerScore: PlayerScore?
     
     private var axes: Axis.Set {
         return shouldScroll ? .horizontal : []
@@ -26,7 +26,11 @@ struct GameScoreView: View {
                 ScrollView(self.axes) {
                     HStack(spacing: 0)  {
                         ForEach(self.game.playerScores) { playerScore in
-                            ScoreCell(playerScore: playerScore, showPointsCapture: self.$showPointsCapture, playerScoreToEditID: self.$playerScoreToEdit)
+                            ScoreCell(
+                                playerScore: playerScore
+                                ,showPointsCapture: self.$showPointsCapture
+                                ,playerScoreToEdit: self.$playerScore
+                            )
                                 .frame(minWidth: 60, maxWidth: .infinity)
                         }
                     }
@@ -50,7 +54,7 @@ struct GameScoreView: View {
                     
 //                    Neumorphism()
                     
-                    ClickWheel(isPresented: self.$showPointsCapture, playerScoreID:self.playerScoreToEdit)
+                    ClickWheel(isPresented: self.$showPointsCapture, playerScore: self.playerScore!)
                         .frame(maxWidth: 500, maxHeight: 550)
 
 
@@ -66,9 +70,10 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             GameScoreView().environmentObject(Game())
-                .previewDevice("iPad Air 2")
             GameScoreView().environmentObject(Game())
-                .previewDevice("iPhone 7")
+                .previewDevice("iPad Air 2")
+//            GameScoreView().environmentObject(Game())
+//                .previewDevice("iPhone 7")
         }
         
     }

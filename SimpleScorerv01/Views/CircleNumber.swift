@@ -16,7 +16,7 @@ struct CircleNumber: View {
         Text("\(number)")
             .multilineTextAlignment(.center)
             .foregroundColor(Color .white)
-//            .padding(4)
+            .padding(4)
             .frame(width: 40, height: 40)
             .overlay(Circle().stroke(Color.white, lineWidth: 1))
             .minimumScaleFactor(0.4)

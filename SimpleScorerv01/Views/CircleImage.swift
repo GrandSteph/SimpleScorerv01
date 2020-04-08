@@ -18,7 +18,7 @@ struct CircleImage: View {
             .scaledToFit()
             .clipShape(Circle())
             .overlay(Circle().stroke(Color.white, lineWidth: 4))
-            .padding(2)
+//            .padding(2)
         //            .shadow(radius: 5)
     }
 }
