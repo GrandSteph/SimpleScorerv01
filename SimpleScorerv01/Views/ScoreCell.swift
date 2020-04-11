@@ -35,7 +35,7 @@ struct ScoreCell: View {
     var body: some View {
         GeometryReader{ g in
             VStack {
-                Spacer(minLength: 30)
+                Spacer(minLength: 20)
                 Group {
                     CircleImage(image: Image(self.playerScore.player.photoURL))
                         .padding(5)

@@ -24,6 +24,7 @@
 		E88751B1241F9B9A0091853F /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88751B0241F9B9A0091853F /* Player.swift */; };
 		E88751B5241F9E000091853F /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88751B4241F9E000091853F /* CircleImage.swift */; };
 		E88751BD241FA7E40091853F /* ScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88751BC241FA7E40091853F /* ScoreCell.swift */; };
+		E8B455F2243DECFF008E950D /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B455F1243DECFF008E950D /* PlayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		E88751B0241F9B9A0091853F /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		E88751B4241F9E000091853F /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		E88751BC241FA7E40091853F /* ScoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCell.swift; sourceTree = "<group>"; };
+		E8B455F1243DECFF008E950D /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				E84FABFB2435E68500C806D2 /* Neumorphism.swift */,
+				E8B455F1243DECFF008E950D /* PlayView.swift */,
 				E8875196241F99DB0091853F /* SimpleScorerv01 */,
 				E8875195241F99DB0091853F /* Products */,
 			);
@@ -222,6 +225,7 @@
 				E84FABFE2435E94B00C806D2 /* ClickWheel.swift in Sources */,
 				E88751B1241F9B9A0091853F /* Player.swift in Sources */,
 				E828ADB4242387500046BAF8 /* Game.swift in Sources */,
+				E8B455F2243DECFF008E950D /* PlayView.swift in Sources */,
 				E8875198241F99DB0091853F /* AppDelegate.swift in Sources */,
 				E887519A241F99DB0091853F /* SceneDelegate.swift in Sources */,
 				E887519C241F99DB0091853F /* GameScoreView.swift in Sources */,

@@ -10,10 +10,11 @@ import SwiftUI
 
 struct ClickWheel: View {
     
-    @State private var dragLocation = CGPoint(x: 0, y: 0)
+    @State private var dragLocation: DragGesture.Value?
     @State private var lastDragLocation: DragGesture.Value?
     @State private var rotatesClockwise = true
-    @State private var points = Float(0.0)
+    @State private var points = CGFloat(0.0)
+    @State private var totalRotation = CGFloat(0)
     
     @EnvironmentObject var game : Game
     
@@ -25,131 +26,134 @@ struct ClickWheel: View {
     }
     
     var body: some View {
-        GeometryReader { geo in
+        
+        
+        ZStack (alignment: .bottom) {
             
-            ZStack (alignment: .bottom) {
-                VStack {
-                    
-                    HStack {
-//                        Text("\(self.game.playerScores[self.scoreIndex].totalScore())")
-//                        .font(.system(size: 35))
-//                        .foregroundColor(Color .white)
-//                        .frame(width: 100, height: 100)
-//                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
-//                        .minimumScaleFactor(0.4)
-//                        .lineLimit(1)
-                                                
-                        CircleImage(image: Image(self.playerScore.player.photoURL)).frame(maxHeight: 108)
-                        
-                        Text(String(format: "%.0f",self.points))
+            
+            VStack {
+                
+                HStack {
+//                    Text("\(self.game.playerScores[self.scoreIndex].totalScore())")
+                        Text("\(self.game.playerScores[0].totalScore())")
                         .font(.system(size: 35))
                         .foregroundColor(Color .white)
                         .frame(width: 100, height: 100)
                         .overlay(Circle().stroke(Color.white, lineWidth: 4))
                         .minimumScaleFactor(0.4)
                         .lineLimit(1)
-                    }
-                    .padding()
+                    
+                    CircleImage(image: Image(self.playerScore.player.photoURL)).frame(maxHeight: 108)
+                    
+                    Text(String(format: "%.0f",self.points))
+                        .font(.system(size: 35))
+                        .foregroundColor(Color .white)
+                        .frame(width: 100, height: 100)
+                        .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                        .minimumScaleFactor(0.4)
+                        .lineLimit(1)
+                }
+                .padding()
+                GeometryReader { geo in
                     
                     ZStack {
-                        Circle()
-                            .fill(Color .white)
-                        
-                        self.rotatesClockwise ? Image(systemName: "arrow.clockwise.circle").font(.system(size: 80)) : Image(systemName: "arrow.counterclockwise.circle.fill").font(.system(size: 80))
-                        
-                    }
-                }
-            }
-            .background(self.playerScore.player.favoriteColor)
-            .frame(maxWidth: .infinity)
-            .gesture(
-                DragGesture(minimumDistance: 0, coordinateSpace: .global)
-                    .onEnded({ (value) in
-                        self.isPresented = false
-//                        self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.points))!)
-                        self.game.addScore(pointsValue: Int(String(format: "%.0f",self.points))!, playerScoreID: self.playerScore.id)
-                        print(self.game.playerScores[0].totalScore())
-                        print(self.game.playerScores[self.scoreIndex].totalScore())
-                    })
-                    .onChanged { value in
-
-                        var VerticalDragSpeed = CGFloat(0)
-                        var HorizontalDragSpeed = CGFloat(0)
-                        var speed = Float(0)
-                        
-                        if self.lastDragLocation != nil {
-                            let timeDifference = value.time.timeIntervalSince(self.lastDragLocation!.time)
-                            VerticalDragSpeed = CGFloat(value.translation.height - self.lastDragLocation!.translation.height) / CGFloat(timeDifference)
-                            HorizontalDragSpeed = CGFloat(value.translation.width - self.lastDragLocation!.translation.width) / CGFloat(timeDifference)
-
-                        }
-                        self.lastDragLocation = value
-                        
-                        self.dragLocation = value.location
-                        let x = self.dragLocation.x - geo.frame(in: .global).midX
-                        let y = self.dragLocation.y - geo.frame(in: .global).midY
-                        let deltaAngle = atan2(y, x)
-                        
-                        print("x= \(String(format: "%.001f",x)) y= \(String(format: "%.001f",y)) delta= \(String(format: "%.001f",deltaAngle))")
-                        
-                        speed = abs(Float(HorizontalDragSpeed + VerticalDragSpeed))/1000
-                        
-                        self.points += self.rotatesClockwise ? speed : -speed
                         
                         
                         
-                        if (x < 0 && y < 0) { // Upper left corner
-                            if (VerticalDragSpeed <= 0 && HorizontalDragSpeed >= 0) {
-                                self.rotatesClockwise = true
-                            } else {
-                                if (VerticalDragSpeed >= 0 && HorizontalDragSpeed <= 0) {
-                                    self.rotatesClockwise = false
-                                }
-                            }
-                        } else {
-                            if (x > 0 && y < 0) { // Upper right corner
-                                if (VerticalDragSpeed >= 0 && HorizontalDragSpeed >= 0) {
-                                    self.rotatesClockwise = true
-                                } else {
-                                    if (VerticalDragSpeed <= 0 && HorizontalDragSpeed <= 0) {
-                                        self.rotatesClockwise = false
-                                    }
-                                }
-                            } else {
-                                if (x > 0 && y > 0) { // Lower right corner
-                                    if (VerticalDragSpeed >= 0 && HorizontalDragSpeed <= 0) {
-                                        self.rotatesClockwise = true
-                                    } else {
-                                        if (VerticalDragSpeed <= 0 && HorizontalDragSpeed >= 0) {
-                                            self.rotatesClockwise = false
-                                        }
-                                    }
-                                } else {
-                                    if (x < 0 && y > 0) { // Lower left corner
-                                        if (VerticalDragSpeed <= 0 && HorizontalDragSpeed <= 0) {
-                                            self.rotatesClockwise = true
-                                        } else {
-                                            if (VerticalDragSpeed >= 0 && HorizontalDragSpeed >= 0) {
-                                                self.rotatesClockwise = false
-                                            }
-                                        }
-                                    }
-                                }
-                                
-                            }
+                        Group {
+                            Circle()
+                                .fill(Color .white)
+                            Circle().scale(1/5).offset(x: 0, y: -120)
+                            Circle().scale(1/10).foregroundColor(Color .red)//.position(CGPoint(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY))
+                            //                            Circle().scale(1/50).offset(x: 0, y: -180)
+                            //                            Circle().scale(1/50).offset(x: 0, y: -180).rotationEffect(Angle(degrees: 90))
+                            //                            Circle().scale(1/50).offset(x: 0, y: -180).rotationEffect(Angle(degrees: 180))
+                            //                            Circle().scale(1/50).offset(x: 0, y: -180).rotationEffect(Angle(degrees: 270))
+                            //
+                            //                            Circle().scale(1/50).offset(x: 0, y: -180).rotationEffect(Angle(radians: 1)).foregroundColor(Color .red)
                             
                         }
+                        .rotationEffect(Angle(degrees: Double(self.totalRotation)))
+                    .padding()
+                        
+                        
+                    }
+                    .gesture(
+                        DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                            .onEnded({ (value) in
+                                self.isPresented = false
+                                //                                                        self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.points))!)
+                                self.game.addScore(pointsValue: Int(String(format: "%.0f",self.points))!, playerScoreID: self.playerScore.id)
+                                //                                                                print(self.game.playerScores[0].totalScore())
+                                //                                                                print(self.game.playerScores[self.scoreIndex].totalScore())
+                            })
+                            .onChanged { value in
+                                
+                                let center = CGPoint(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).midY)
+                                
+                                
+                                if self.lastDragLocation != nil {
+                                    
+                                    self.dragLocation = value
+                                    
+                                    let timeDifference = value.time.timeIntervalSince(self.lastDragLocation!.time)
+                                    
+                                    let radiansToDegrees = 180 / CGFloat.pi
+                                    
+                                    let previousAngle = atan2(self.lastDragLocation!.location.y - center.y, self.lastDragLocation!.location.x - center.x)
+                                    let angle = atan2(self.dragLocation!.location.y - center.y, self.dragLocation!.location.x - center.x)
+                                    
+                                    self.totalRotation = (angle * radiansToDegrees) + 90
+                                    
+                                    // did angle flip from +π to -π, or -π to +π?
+                                    
+                                    var speed = CGFloat(angle - previousAngle) / CGFloat(timeDifference)
+                                    if angle - previousAngle > CGFloat.pi {
+                                        //                                    self.totalRotation += 2 * CGFloat.pi
+                                        speed = CGFloat(angle - previousAngle - (2 * CGFloat.pi)) / CGFloat(timeDifference)
+                                        
+                                    } else if previousAngle - angle > CGFloat.pi {
+                                        //                                    self.totalRotation -= 2 * CGFloat.pi
+                                        speed = CGFloat(angle - previousAngle + (2 * CGFloat.pi)) / CGFloat(timeDifference)
+                                        
+                                        
+                                    }
+                                    
+                                    
+                                    
+                                    self.lastDragLocation = value
+                                    
+                                    switch abs(speed) {
+                                    case 0..<8:
+                                        self.points += speed / 15
+                                        print("1")
+                                    case 8..<15:
+                                        self.points += speed / 10
+                                        print("2")
+                                    default:
+                                        self.points += speed / 5
+                                        print("3")
+                                    }
+                                }
+                                self.lastDragLocation = value
+                                
+                        }
+                    )
                 }
-            )
-            .cornerRadius(40)
-                .padding(.vertical)
+            }
+            
+            
         }
+        .background(self.playerScore.player.favoriteColor)
+        .frame(maxWidth: .infinity)
+            
+        .cornerRadius(40)
+        .padding(.vertical)
+        
     }
 }
 
 
-
-//@available(iOS 13.4, *)
 struct ClickWheel_Previews: PreviewProvider {
     static var previews: some View {
         ClickWheel(
