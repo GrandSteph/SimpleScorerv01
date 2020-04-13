@@ -12,9 +12,9 @@ struct ClickWheel: View {
     
     @State private var dragLocation: DragGesture.Value?
     @State private var lastDragLocation: DragGesture.Value?
-    @State private var rotatesClockwise = true
+    
     @State private var points = CGFloat(0.0)
-    @State private var totalRotation = CGFloat(0)
+    @State private var wheelRotation = CGFloat(0)
     
     @EnvironmentObject var game : Game
     
@@ -73,7 +73,7 @@ struct ClickWheel: View {
                             //                            Circle().scale(1/50).offset(x: 0, y: -180).rotationEffect(Angle(radians: 1)).foregroundColor(Color .red)
                             
                         }
-                        .rotationEffect(Angle(degrees: Double(self.totalRotation)))
+                        .rotationEffect(Angle(degrees: Double(self.wheelRotation)))
                     .padding()
                         
                         
@@ -103,7 +103,7 @@ struct ClickWheel: View {
                                     let previousAngle = atan2(self.lastDragLocation!.location.y - center.y, self.lastDragLocation!.location.x - center.x)
                                     let angle = atan2(self.dragLocation!.location.y - center.y, self.dragLocation!.location.x - center.x)
                                     
-                                    self.totalRotation = (angle * radiansToDegrees) + 90
+                                    self.wheelRotation = (angle * radiansToDegrees) + 90
                                     
                                     // did angle flip from +π to -π, or -π to +π?
                                     
