@@ -19,17 +19,17 @@ struct ScoreCell: View {
     
     var scoreScaleFactor : CGFloat {
         abs(1 / (1 + (CGFloat(String(game.maxScore()).count) - CGFloat(String(self.playerScore.totalScore()).count))/1.2))
-//                ((CGFloat(String(self.playerScore.totalScore()).count)))/CGFloat(String(game.maxScore()).count)
-//        switch (String(self.playerScore.totalScore()).count) {
-//        case 1:
-//            return 1/2 // 2
-//        case 2:
-//            return 1/1.5 // 1
-//        case 3:
-//            return 1 // 0
-//        default:
-//            return 1
-//        }
+        //                ((CGFloat(String(self.playerScore.totalScore()).count)))/CGFloat(String(game.maxScore()).count)
+        //        switch (String(self.playerScore.totalScore()).count) {
+        //        case 1:
+        //            return 1/2 // 2
+        //        case 2:
+        //            return 1/1.5 // 1
+        //        case 3:
+        //            return 1 // 0
+        //        default:
+        //            return 1
+        //        }
     }
     
     var body: some View {
@@ -37,9 +37,11 @@ struct ScoreCell: View {
             VStack {
                 Spacer(minLength: 20)
                 Group {
-                    CircleImage(image: Image(self.playerScore.player.photoURL))
+                    
+                    CircleImage(image: Image(uiImage: UIImage(named: self.playerScore.player.photoURL) ?? UIImage(systemName: "person")!))
                         .padding(5)
-                        .frame(minHeight: 80)
+                        .frame(minWidth: g.size.width, minHeight: g.size.width)
+                        
                     
                     Text(self.playerScore.player.shortName)
                         .font(.headline)
@@ -54,7 +56,7 @@ struct ScoreCell: View {
                     .font(.system(size: 200, weight: .bold, design: .rounded) )
                     .lineLimit(1)
                     .minimumScaleFactor(0.1)
-//                    .layoutPriority(1)
+                    //                    .layoutPriority(1)
                     .padding(.horizontal, 10)
                     .frame(width: g.size.width, height: g.size.width, alignment: .center)
                     .scaleEffect(self.scoreScaleFactor)
@@ -86,7 +88,7 @@ struct ScoreCell: View {
             }
             .padding(.vertical, 30)
             .frame(maxWidth: .infinity)
-            .background(self.playerScore.player.favoriteColor)
+            .background(self.playerScore.player.color)
         }
     }
 }

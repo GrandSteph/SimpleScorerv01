@@ -13,7 +13,7 @@ struct CircleImage: View {
     var image: Image
     
     var body: some View {
-        image
+        Image(image: Image(uiImage: UIImage(named: self.playerScore.player.photoURL) ?? UIImage(systemName: "person")!))
             .resizable()
             .scaledToFit()
             .clipShape(Circle())

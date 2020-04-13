@@ -34,8 +34,8 @@ struct ClickWheel: View {
             VStack {
                 
                 HStack {
-//                    Text("\(self.game.playerScores[self.scoreIndex].totalScore())")
-                        Text("\(self.game.playerScores[0].totalScore())")
+                    Text("\(self.game.findScore(playerScoreId: self.playerScore.id).totalScore())")
+//                        Text("\(self.game.playerScores[0].totalScore())")
                         .font(.system(size: 35))
                         .foregroundColor(Color .white)
                         .frame(width: 100, height: 100)
@@ -144,7 +144,7 @@ struct ClickWheel: View {
             
             
         }
-        .background(self.playerScore.player.favoriteColor)
+        .background(self.playerScore.player.color)
         .frame(maxWidth: .infinity)
             
         .cornerRadius(40)
@@ -158,7 +158,7 @@ struct ClickWheel_Previews: PreviewProvider {
     static var previews: some View {
         ClickWheel(
             isPresented: .constant(true)
-            ,playerScore: PlayerScore(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: .orange),pointsList: [1,2])
+            ,playerScore: PlayerScore(player: Player(),pointsList: [1,2])
         ).environmentObject(Game())
     }
 }

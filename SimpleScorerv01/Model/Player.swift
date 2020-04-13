@@ -15,13 +15,26 @@ struct Player: Identifiable, Hashable {
     var name: String
     var shortName: String
     var photoURL: String
-    var favoriteColor = Color.white
+    var color: Color
     
-    init (name: String, shortName: String, photoURL: String, color: Color) {
-        self.name = name
-        self.shortName = shortName
-        self.photoURL = photoURL
-        self.favoriteColor = color
+//    init (name: String, shortName: String, photoURL: String, color: Color) {
+//        self.name = name
+//        self.shortName = shortName
+//        self.photoURL = photoURL
+//        self.color = color
+//    }
+    
+    func defaultPlayer() -> Player {
+        return Player()
     }
     
+}
+
+extension Player {
+    init() {
+        self.name = "Default Name"
+        self.shortName = "Def"
+        self.photoURL = ""
+        self.color = Color .orange
+    }
 }
