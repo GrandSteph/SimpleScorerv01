@@ -23,8 +23,8 @@ struct PointsCapture: View {
     
     var body: some View {
         VStack(spacing: 0) {
-//            CircleImage(image: Image("\(game.findScore(uuid: playerScoreID).player.photoURL)")).padding()
-            CircleImage(image: Image("steph")).padding()
+            CircleImage(name: game.findScore(playerScoreId: playerScoreID).player.photoURL).padding()
+//            CircleImage(image: Image("steph")).padding()
             
             Button(action: {
                 

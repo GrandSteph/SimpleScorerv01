@@ -35,7 +35,6 @@ struct ClickWheel: View {
                 
                 HStack {
                     Text("\(self.game.findScore(playerScoreId: self.playerScore.id).totalScore())")
-//                        Text("\(self.game.playerScores[0].totalScore())")
                         .font(.system(size: 35))
                         .foregroundColor(Color .white)
                         .frame(width: 100, height: 100)
@@ -43,7 +42,7 @@ struct ClickWheel: View {
                         .minimumScaleFactor(0.4)
                         .lineLimit(1)
                     
-                    CircleImage(image: Image(self.playerScore.player.photoURL)).frame(maxHeight: 108)
+                    CircleImage(name: self.playerScore.player.photoURL).frame(maxHeight: 108)
                     
                     Text(String(format: "%.0f",self.points))
                         .font(.system(size: 35))

@@ -38,7 +38,7 @@ struct ScoreCell: View {
                 Spacer(minLength: 20)
                 Group {
                     
-                    CircleImage(image: Image(uiImage: UIImage(named: self.playerScore.player.photoURL) ?? UIImage(systemName: "person")!))
+                    CircleImage(name: self.playerScore.player.photoURL)
                         .padding(5)
                         .frame(minWidth: g.size.width, minHeight: g.size.width)
                         
