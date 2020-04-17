@@ -13,20 +13,20 @@ struct CircleImage: View {
     var name: String
     
     var body: some View {
-        //        Image(uiImage: UIImage(named: self.name) ?? UIImage(systemName: "person")!)
-        //            .resizable()
-        //            .scaledToFit()
-        //            .clipShape(Circle())
-        //            .overlay(Circle().stroke(Color.white, lineWidth: 4))
+                Image(uiImage: UIImage(named: self.name) ?? UIImage(systemName: "person")!)
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(Circle())
+                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
         
-        Button(action: {
-            
-        }) {
-            Image(systemName: "heart.fill")
-                .foregroundColor(.white)
-        }
-        .buttonStyle(LightButtonStyle())
-        .padding()
+//        Button(action: {
+//
+//        }) {
+//            Image(systemName: "heart.fill")
+//                .foregroundColor(.white)
+//        }
+//        .buttonStyle(LightButtonStyle())
+//        .padding()
         
     }
 }
