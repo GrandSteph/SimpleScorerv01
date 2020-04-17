@@ -56,18 +56,18 @@ class Game: ObservableObject {
 //        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
 //        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
 //        self.addPlayer(player: Player(name: "Gabriel2", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
-        self.addPlayer(player: Player(name: "Stephane", shortName: "Steph", photoURL:"s teph", color: Color(.sRGB,red: 90/255, green: 197/255, blue: 191/255)))
+        self.addPlayer(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: Color(.sRGB,red: 90/255, green: 197/255, blue: 191/255)))
         self.addPlayer(player: Player(name: "Sophie", shortName: "Sof", photoURL:"sof", color: Color(.sRGB, red: 189/255, green: 0/255, blue: 82/255)))
         self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color(.sRGB,red: 251/255, green: 78/255, blue: 84/255)))
         self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
         
-        self.playerScores[0].addPoints(scoreValue: 13)
+//        self.playerScores[0].addPoints(scoreValue: 13)
 //        
-        self.playerScores[1].addPoints(scoreValue: 18)
+//        self.playerScores[1].addPoints(scoreValue: 18)
 //        self.playerScores[1].addPoints(scoreValue: 2)
 //        self.playerScores[1].addPoints(scoreValue: 3)
 //        
-        self.playerScores[2].addPoints(scoreValue: 24)
+//        self.playerScores[2].addPoints(scoreValue: 24)
 //        self.playerScores[2].addPoints(scoreValue: 2)
 //        self.playerScores[2].addPoints(scoreValue: 3)
 //        self.playerScores[2].addPoints(scoreValue: 4)

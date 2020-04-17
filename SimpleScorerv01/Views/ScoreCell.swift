@@ -88,7 +88,7 @@ struct ScoreCell: View {
             }
             .padding(.vertical, 30)
             .frame(maxWidth: .infinity)
-            .background(self.playerScore.player.color)
+//            .background(self.playerScore.player.color)
         }
     }
 }

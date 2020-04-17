@@ -23,6 +23,9 @@ struct GameScoreView: View {
     var body: some View {
         GeometryReader { geometry in
             ZStack {
+                
+                LinearGradient(Color.whiteStart, Color.whiteEnd)
+                
                 ScrollView(self.axes) {
                     HStack(spacing: 0)  {
                         ForEach(self.game.playerScores) { playerScore in
@@ -34,30 +37,28 @@ struct GameScoreView: View {
                                 .frame(minWidth: 60, maxWidth: .infinity)
                         }
                     }
-                    .background(Color.white)
                     .edgesIgnoringSafeArea(.all)
                 }
-
-  
+                    
+                    
                 .overlay(
                     Rectangle()
                         .opacity(self.showPointsCapture ? 0.4 : 0)
-                )
-                    .blur(radius: self.showPointsCapture ? 10 : 0)
+                ).blur(radius: self.showPointsCapture ? 10 : 0)
                 
                 
                 if self.showPointsCapture {
-//                    PointsCapture(isPresented: self.$showPointsCapture, playerScoreID:self.playerScoreToEdit)
-//                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-////                        .background(Color .white.opacity(0.5))
-//                        .shadow(radius: 35)
+                    //                    PointsCapture(isPresented: self.$showPointsCapture, playerScoreID:self.playerScoreToEdit)
+                    //                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    ////                        .background(Color .white.opacity(0.5))
+                    //                        .shadow(radius: 35)
                     
-//                    Neumorphism()
+                    //                    Neumorphism()
                     
                     ClickWheel(isPresented: self.$showPointsCapture, playerScore: self.playerScore!)
                         .frame(maxWidth: 500, maxHeight: 550)
-
-
+                    
+                    
                 }
             }
             .background(Color .gray)
@@ -72,8 +73,6 @@ struct ContentView_Previews: PreviewProvider {
             GameScoreView().environmentObject(Game())
             GameScoreView().environmentObject(Game())
                 .previewDevice("iPad Air 2")
-//            GameScoreView().environmentObject(Game())
-//                .previewDevice("iPhone 7")
         }
         
     }

@@ -24,6 +24,7 @@
 		E88751B1241F9B9A0091853F /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88751B0241F9B9A0091853F /* Player.swift */; };
 		E88751B5241F9E000091853F /* CircleImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88751B4241F9E000091853F /* CircleImage.swift */; };
 		E88751BD241FA7E40091853F /* ScoreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88751BC241FA7E40091853F /* ScoreCell.swift */; };
+		E897D6C62449B1C900FB214D /* ScoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897D6C52449B1C900FB214D /* ScoreCardView.swift */; };
 		E8B455F2243DECFF008E950D /* PlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B455F1243DECFF008E950D /* PlayView.swift */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		E88751B0241F9B9A0091853F /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		E88751B4241F9E000091853F /* CircleImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImage.swift; sourceTree = "<group>"; };
 		E88751BC241FA7E40091853F /* ScoreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCell.swift; sourceTree = "<group>"; };
+		E897D6C52449B1C900FB214D /* ScoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCardView.swift; sourceTree = "<group>"; };
 		E8B455F1243DECFF008E950D /* PlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +134,7 @@
 				E83131AF2428D3820056DC21 /* Points.swift */,
 				E8462581242A4A8D00EA5286 /* CircleNumber.swift */,
 				E84FABFD2435E94B00C806D2 /* ClickWheel.swift */,
+				E897D6C52449B1C900FB214D /* ScoreCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -237,6 +240,7 @@
 				E86E719A242A325A0016D903 /* PointsCapture.swift in Sources */,
 				E828ADB2242370F40046BAF8 /* PlayerScore.swift in Sources */,
 				E88751B5241F9E000091853F /* CircleImage.swift in Sources */,
+				E897D6C62449B1C900FB214D /* ScoreCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,14 +9,29 @@
 import SwiftUI
 
 extension Color {
-    static let offWhite = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
     
+    static let purpleStart = Color(red: 84 / 255, green: 124 / 255, blue: 246 / 255)
+    static let purpleEnd = Color(red: 125 / 255, green: 84 / 255, blue: 245 / 255)
+    
+    static let orangeStart = Color(red: 242 / 255, green: 169 / 255, blue: 100 / 255)
+    static let orangeEnd = Color(red: 233 / 255, green: 107 / 255, blue: 157 / 255)
+    
+    static let blueStart = Color(red: 83 / 255, green: 181 / 255, blue: 242 / 255)
+    static let blueEnd = Color(red: 85 / 255, green: 159 / 255, blue: 245 / 255)
+    
+    //
+    
+//    static let offOrange = Color(red: 225 / 255, green: 195 / 255, blue: 0 / 255)
+//    static let orangeStart = Color(red: 245 / 255, green: 155 / 255, blue: 0 / 255)
+//    static let orangeEnd = Color(red: 235 / 255, green: 195 / 255, blue: 0 / 255)
+    
+    static let offWhite = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
     static let whiteStart = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
-    static let whiteEnd = Color(red: 225 / 255, green: 225 / 255, blue: 235 / 255)
-
+    static let whiteEnd = Color(red: 195 / 255, green: 195 / 255, blue: 205 / 255)
+    
     static let darkStart = Color(red: 50 / 255, green: 60 / 255, blue: 65 / 255)
     static let darkEnd = Color(red: 25 / 255, green: 25 / 255, blue: 30 / 255)
-
+    
     static let lightStart = Color(red: 60 / 255, green: 160 / 255, blue: 240 / 255)
     static let lightEnd = Color(red: 30 / 255, green: 80 / 255, blue: 120 / 255)
 }
@@ -43,14 +58,14 @@ struct SimpleButtonStyle: ButtonStyle {
                                     .blur(radius: 4)
                                     .offset(x: 2, y: 2)
                                     .mask(Circle().fill(LinearGradient(Color.black, Color.clear)))
-                            )
+                        )
                             .overlay(
                                 Circle()
                                     .stroke(Color.white, lineWidth: 8)
                                     .blur(radius: 4)
                                     .offset(x: -2, y: -2)
                                     .mask(Circle().fill(LinearGradient(Color.clear, Color.black)))
-                            )
+                        )
                     } else {
                         Circle()
                             .fill(Color.offWhite)
@@ -58,37 +73,53 @@ struct SimpleButtonStyle: ButtonStyle {
                             .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
                     }
                 }
-            )
+        )
     }
 }
 
-struct WhiteGradientBackground<S: Shape>: View {
+struct LightBackground<S: Shape>: View {
     var isHighlighted: Bool
     var shape: S
-
+    
     var body: some View {
         ZStack {
             if isHighlighted {
                 shape
-                    .fill(LinearGradient(Color.whiteEnd, Color.whiteStart))
-                    .overlay(shape.stroke(LinearGradient(Color.whiteStart, Color.whiteEnd), lineWidth: 4))
-                    .shadow(color: Color.darkStart, radius: 10, x: 5, y: 5)
-                    .shadow(color: Color.darkEnd, radius: 10, x: -5, y: -5)
+                    .fill(LinearGradient(Color.orangeStart, Color.orangeEnd))
+                    .overlay(shape.stroke(LinearGradient(Color.orangeEnd, Color.orangeStart), lineWidth: 4))
+                    .shadow(color: Color.whiteStart, radius: 10, x: 5, y: 5)
+                    .shadow(color: Color.whiteEnd, radius: 10, x: -5, y: -5)
             } else {
                 shape
-                    .fill(LinearGradient(Color.darkStart, Color.darkEnd))
-                    .overlay(shape.stroke(Color.darkEnd, lineWidth: 4))
-                    .shadow(color: Color.darkStart, radius: 10, x: -10, y: -10)
-                    .shadow(color: Color.darkEnd, radius: 10, x: 10, y: 10)
+//                    .fill(LinearGradient(Color.whiteStart, Color.whiteEnd))
+                    .fill(Color.offWhite)
+                    .overlay(shape.stroke(LinearGradient(Color.orangeStart, Color.orangeEnd), lineWidth: 4))
+//                    .shadow(color: Color.white.opacity(0.4), radius: 10, x: -5, y: -5)
+                    .shadow(color: Color.white, radius: 10, x: -10, y: -10)
+                    .shadow(color: Color.whiteEnd, radius: 10, x: 10, y: 10)
+//                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 10, y: 10)
+//                .shadow(color: Color.white.opacity(0.7), radius: 10, x: -5, y: -5)
             }
         }
+    }
+}
+
+struct LightButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .padding(30)
+            .contentShape(Circle())
+            .background(
+                LightBackground(isHighlighted: configuration.isPressed, shape: Circle())
+        )
+            .animation(nil)
     }
 }
 
 struct DarkBackground<S: Shape>: View {
     var isHighlighted: Bool
     var shape: S
-
+    
     var body: some View {
         ZStack {
             if isHighlighted {
@@ -108,28 +139,7 @@ struct DarkBackground<S: Shape>: View {
     }
 }
 
-struct ColorfulBackground<S: Shape>: View {
-    var isHighlighted: Bool
-    var shape: S
 
-    var body: some View {
-        ZStack {
-            if isHighlighted {
-                shape
-                    .fill(LinearGradient(Color.lightEnd, Color.lightStart))
-                    .overlay(shape.stroke(LinearGradient(Color.lightStart, Color.lightEnd), lineWidth: 4))
-                    .shadow(color: Color.darkStart, radius: 10, x: 5, y: 5)
-                    .shadow(color: Color.darkEnd, radius: 10, x: -5, y: -5)
-            } else {
-                shape
-                    .fill(LinearGradient(Color.darkStart, Color.darkEnd))
-                    .overlay(shape.stroke(LinearGradient(Color.lightStart, Color.lightEnd), lineWidth: 4))
-                    .shadow(color: Color.darkStart, radius: 10, x: -10, y: -10)
-                    .shadow(color: Color.darkEnd, radius: 10, x: 10, y: 10)
-            }
-        }
-    }
-}
 
 struct DarkButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
@@ -138,7 +148,7 @@ struct DarkButtonStyle: ButtonStyle {
             .contentShape(Circle())
             .background(
                 DarkBackground(isHighlighted: configuration.isPressed, shape: Circle())
-            )
+        )
             .animation(nil)
     }
 }
@@ -158,6 +168,29 @@ struct DarkToggleStyle: ToggleStyle {
     }
 }
 
+struct ColorfulBackground<S: Shape>: View {
+    var isHighlighted: Bool
+    var shape: S
+    
+    var body: some View {
+        ZStack {
+            if isHighlighted {
+                shape
+                    .fill(LinearGradient(Color.lightEnd, Color.lightStart))
+                    .overlay(shape.stroke(LinearGradient(Color.lightStart, Color.lightEnd), lineWidth: 4))
+                    .shadow(color: Color.darkStart, radius: 10, x: 5, y: 5)
+                    .shadow(color: Color.darkEnd, radius: 10, x: -5, y: -5)
+            } else {
+                shape
+                    .fill(LinearGradient(Color.darkStart, Color.darkEnd))
+                    .overlay(shape.stroke(LinearGradient(Color.lightStart, Color.lightEnd), lineWidth: 4))
+                    .shadow(color: Color.darkStart, radius: 10, x: -10, y: -10)
+                    .shadow(color: Color.darkEnd, radius: 10, x: 10, y: 10)
+            }
+        }
+    }
+}
+
 struct ColorfulButtonStyle: ButtonStyle {
     func makeBody(configuration: Self.Configuration) -> some View {
         configuration.label
@@ -165,7 +198,7 @@ struct ColorfulButtonStyle: ButtonStyle {
             .contentShape(Circle())
             .background(
                 ColorfulBackground(isHighlighted: configuration.isPressed, shape: Circle())
-            )
+        )
             .animation(nil)
     }
 }
@@ -186,17 +219,21 @@ struct ColorfulToggleStyle: ToggleStyle {
 }
 
 struct Neumorphism: View {
-    @State private var isToggled = false
-
+    @State private var isToggled = true
+    
     var body: some View {
         ZStack {
-            LinearGradient(Color.darkStart, Color.darkEnd)
-
+//            LinearGradient(Color.whiteStart, Color.whiteEnd)
+            Color.offWhite
+            
+            
             VStack(spacing: 40) {
                 
                 HStack {
+                    
+                    
                     Button(action: {
-
+                        
                     }) {
                         Image(systemName: "heart.fill")
                             .foregroundColor(.white)
@@ -208,32 +245,36 @@ struct Neumorphism: View {
                 
                 
                 Button(action: {
-
+                    
                 }) {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.white)
                 }
-                .buttonStyle(DarkButtonStyle())
+                .buttonStyle(LightButtonStyle())
+                
+                
+                
                 
                 Button(action: {
-
+                    
                 }) {
                     Image(systemName: "heart.fill")
                         .foregroundColor(.white)
                 }
                 .buttonStyle(ColorfulButtonStyle())
-
-                Toggle(isOn: $isToggled) {
-                    Image(systemName: "heart.fill")
-                        .foregroundColor(.white)
-                }
-                .toggleStyle(ColorfulToggleStyle())
-                
-                Toggle(isOn: $isToggled) {
-                    Image(systemName: "heart.fill")
-                        .foregroundColor(.white)
-                }
-                .toggleStyle(DarkToggleStyle())
+                .frame(maxWidth: .infinity, minHeight: 150).background(LinearGradient(Color.darkStart, Color.darkEnd))
+                //
+                //                Toggle(isOn: $isToggled) {
+                //                    Image(systemName: "heart.fill")
+                //                        .foregroundColor(.white)
+                //                }
+                //                .toggleStyle(ColorfulToggleStyle())
+                //
+                //                Toggle(isOn: $isToggled) {
+                //                    Image(systemName: "heart.fill")
+                //                        .foregroundColor(.white)
+                //                }
+                //                .toggleStyle(DarkToggleStyle())
             }
         }
         .edgesIgnoringSafeArea(.all)
