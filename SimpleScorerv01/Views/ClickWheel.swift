@@ -63,13 +63,7 @@ struct ClickWheel: View {
                             Circle()
                                 .fill(Color .white)
                             Circle().scale(1/5).offset(x: 0, y: -120)
-                            Circle().scale(1/10).foregroundColor(Color .red)//.position(CGPoint(x: geo.frame(in: .local).midX, y: geo.frame(in: .local).midY))
-                            //                            Circle().scale(1/50).offset(x: 0, y: -180)
-                            //                            Circle().scale(1/50).offset(x: 0, y: -180).rotationEffect(Angle(degrees: 90))
-                            //                            Circle().scale(1/50).offset(x: 0, y: -180).rotationEffect(Angle(degrees: 180))
-                            //                            Circle().scale(1/50).offset(x: 0, y: -180).rotationEffect(Angle(degrees: 270))
-                            //
-                            //                            Circle().scale(1/50).offset(x: 0, y: -180).rotationEffect(Angle(radians: 1)).foregroundColor(Color .red)
+                            Circle().scale(1/10).foregroundColor(Color .red)
                             
                         }
                         .rotationEffect(Angle(degrees: Double(self.wheelRotation)))
@@ -81,10 +75,7 @@ struct ClickWheel: View {
                         DragGesture(minimumDistance: 0, coordinateSpace: .global)
                             .onEnded({ (value) in
                                 self.isPresented = false
-                                //                                                        self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.points))!)
                                 self.game.addScore(pointsValue: Int(String(format: "%.0f",self.points))!, playerScoreID: self.playerScore.id)
-                                //                                                                print(self.game.playerScores[0].totalScore())
-                                //                                                                print(self.game.playerScores[self.scoreIndex].totalScore())
                             })
                             .onChanged { value in
                                 
@@ -105,14 +96,11 @@ struct ClickWheel: View {
                                     self.wheelRotation = (angle * radiansToDegrees) + 90
                                     
                                     // did angle flip from +π to -π, or -π to +π?
-                                    
                                     var speed = CGFloat(angle - previousAngle) / CGFloat(timeDifference)
                                     if angle - previousAngle > CGFloat.pi {
-                                        //                                    self.totalRotation += 2 * CGFloat.pi
                                         speed = CGFloat(angle - previousAngle - (2 * CGFloat.pi)) / CGFloat(timeDifference)
                                         
                                     } else if previousAngle - angle > CGFloat.pi {
-                                        //                                    self.totalRotation -= 2 * CGFloat.pi
                                         speed = CGFloat(angle - previousAngle + (2 * CGFloat.pi)) / CGFloat(timeDifference)
                                         
                                         

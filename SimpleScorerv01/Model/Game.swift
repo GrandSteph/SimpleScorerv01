@@ -24,8 +24,8 @@ class Game: ObservableObject {
         playerScores.append(PlayerScore(player: player, pointsList: [score]))
     }
     
-    private func indexOfPlayerInScores(player: Player) -> Int {
-        return  playerScores.firstIndex(where: {$0.player.id == player.id})!
+    private func indexOfPlayerInScores(player: Player) -> Int? {
+        return  playerScores.firstIndex(where: {$0.player.id == player.id})
     }
     
     func findScore(playerScoreId: PlayerScore.ID) -> PlayerScore {
@@ -54,7 +54,12 @@ class Game: ObservableObject {
     func ranking(for player:Player) -> Int {
         
         var ranking = 1
-        let playerScore = self.playerScores[self.indexOfPlayerInScores(player: player)].totalScore()
+        
+        guard let index = self.indexOfPlayerInScores(player: player)
+            else {
+                return 1000
+        }
+        let playerScore = self.playerScores[index].totalScore()
         
         for score in self.playerScores {
             if score.totalScore() > playerScore {
@@ -66,7 +71,7 @@ class Game: ObservableObject {
     
     init () {
 
-        self.addPlayer(player: Player())
+        self.addPlayer(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: Color(.sRGB, red: 189/255, green: 0/255, blue: 82/255), colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
         self.addPlayer(player: Player(name: "Sophie", shortName: "Sof", photoURL:"sof", color: Color(.sRGB, red: 189/255, green: 0/255, blue: 82/255), colorStart: Color.orangeStart, colorEnd: Color.orangeEnd))
         self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color(.sRGB,red: 251/255, green: 78/255, blue: 84/255), colorStart: Color.blueStart, colorEnd: Color.blueEnd))
         self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255), colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
