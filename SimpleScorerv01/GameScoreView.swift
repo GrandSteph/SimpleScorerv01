@@ -77,7 +77,7 @@ struct GameScoreView: View {
                     ScoreCardView(playerScore: playerScore)
                 }
             }
-        }
+        }.background(Color.offWhite)
     }
 }
 
