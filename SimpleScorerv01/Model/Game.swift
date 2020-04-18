@@ -51,12 +51,22 @@ class Game: ObservableObject {
         return maxScore
     }
     
+    func ranking(for player:Player) -> Int {
+        
+        var ranking = 1
+        let playerScore = self.playerScores[self.indexOfPlayerInScores(player: player)].totalScore()
+        
+        for score in self.playerScores {
+            if score.totalScore() > playerScore {
+                ranking += 1
+            }
+        }
+        return ranking
+    }
+    
     init () {
-//        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
-//        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
-//        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
-//        self.addPlayer(player: Player(name: "Gabriel2", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255)))
-        self.addPlayer(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: Color(.sRGB,red: 90/255, green: 197/255, blue: 191/255), colorStart: Color.cyan1, colorEnd: Color.cyan2))
+
+        self.addPlayer(player: Player())
         self.addPlayer(player: Player(name: "Sophie", shortName: "Sof", photoURL:"sof", color: Color(.sRGB, red: 189/255, green: 0/255, blue: 82/255), colorStart: Color.orangeStart, colorEnd: Color.orangeEnd))
         self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color(.sRGB,red: 251/255, green: 78/255, blue: 84/255), colorStart: Color.blueStart, colorEnd: Color.blueEnd))
         self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255), colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
