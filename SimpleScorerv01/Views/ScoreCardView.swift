@@ -31,8 +31,6 @@ struct ScoreCardView: View {
         ZStack {
             LinearGradient(playerScore.player.colorStart, playerScore.player.colorEnd)
             
-            
-            
             VStack (alignment: .leading, spacing: 0){
                 Spacer()
                 
@@ -43,18 +41,20 @@ struct ScoreCardView: View {
                         .scaledToFit()
                         .clipShape(Circle())
                         .padding(10.0)
-                    
+
                     VStack (alignment: .leading, spacing: 0) {
                         Text(self.playerScore.player.shortName)
                             .fontWeight(.semibold)
                             .font(.system(.largeTitle, design: .rounded))
                             .foregroundColor(Color .offWhite)
+                        
                         Text(String(self.game.ranking(for: self.playerScore.player)))
                             .fontWeight(.semibold)
                             .font(.system(.body, design: .rounded))
                             .foregroundColor(Color .offWhite)
+                        
                     }.offset(x: -12, y: 0)
-                    
+
                     Spacer()
 
                     Text("\(self.playerScore.totalScore())")
