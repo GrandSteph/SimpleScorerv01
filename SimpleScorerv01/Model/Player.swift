@@ -32,7 +32,8 @@ extension Player {
         self.shortName = "Def"
         self.photoURL = ""
         self.color = Color .orange
-        self.colorStart = Color .whiteStart
-        self.colorEnd = Color .whiteEnd
+        self.colorStart = Color(red: 241 / 255, green: 242 / 255, blue: 181 / 255)
+        self.colorEnd = Color(red: 18 / 255, green: 80 / 255, blue: 88 / 255)
     }
+
 }

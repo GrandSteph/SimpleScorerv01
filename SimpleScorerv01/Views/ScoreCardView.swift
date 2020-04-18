@@ -27,8 +27,6 @@ struct ScoreCardView: View {
     //    @Binding var playerScoreToEdit: PlayerScore?
     
     var body: some View {
-        ZStack{
-            //            Image("backgroundMockup").resizable().scaledToFit().edgesIgnoringSafeArea(.all)
             
             ZStack {
                 LinearGradient(playerScore.player.colorStart, playerScore.player.colorEnd)
@@ -93,6 +91,7 @@ struct ScoreCardView: View {
                         Button(action: {
                             self.editing = true
                             self.pointsScored -= 1
+                            print("\(self.scoreIndex)")
                         }) {
                             Image(systemName: "minus.rectangle")
                                 .foregroundColor(.purpleStart)
@@ -136,15 +135,15 @@ struct ScoreCardView: View {
             .padding(.horizontal, 25.0)
                 .padding(.bottom, 15)
             .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
-        }//.background(Color.green)
-    }
+        }
+
 }
 
 struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
-        ScoreCardView(playerScore: PlayerScore(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: .orange, colorStart: Color .cyan2, colorEnd: Color .cyan1),pointsList: [1,2])
+        ScoreCardView(playerScore: PlayerScore(player: Player(),pointsList: [1,2])
             
-        )
+        ).environmentObject(Game())
     }
 }
 
