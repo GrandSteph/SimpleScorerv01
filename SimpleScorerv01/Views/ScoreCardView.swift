@@ -18,13 +18,9 @@ struct ScoreCardView: View {
         game.playerScores.firstIndex(where: { $0.id == playerScore.id})!
     }
     
-    @State private var pointsScored = Int(0)
+    @State private var pointsScored = CGFloat(0)
     @State private var editing = false
-    
-    @State private var offSetNewPoints = CGFloat(70)
-    
-    //    @Binding var showPointsCapture: Bool
-    //    @Binding var playerScoreToEdit: PlayerScore?
+    @State private var showWheel = false
     
     var body: some View {
         
@@ -32,16 +28,16 @@ struct ScoreCardView: View {
             LinearGradient(playerScore.player.colorStart, playerScore.player.colorEnd)
             
             VStack (alignment: .leading, spacing: 0){
-                Spacer()
+                //                Spacer()
                 
-                HStack (alignment: .center) {
+                HStack (alignment: .center, spacing: 0) {
                     
                     Image(uiImage: UIImage(named: self.playerScore.player.photoURL) ?? UIImage(systemName: "person")!)
                         .resizable()
                         .scaledToFit()
                         .clipShape(Circle())
                         .padding(10.0)
-
+                    
                     VStack (alignment: .leading, spacing: 0) {
                         Text(self.playerScore.player.shortName)
                             .fontWeight(.semibold)
@@ -53,38 +49,47 @@ struct ScoreCardView: View {
                             .font(.system(.body, design: .rounded))
                             .foregroundColor(Color .offWhite)
                         
-                    }.offset(x: -12, y: 0)
-
-                    Spacer()
-
-                    Text("\(self.playerScore.totalScore())")
-                        .font(Font.system(size: 50, weight: .bold, design: .rounded))
-                        .foregroundColor(Color .offWhite)
-                        .padding(editing ? .leading : .trailing,40).animation(.linear(duration: 0.26))
-
-                    if editing {
-                        Spacer()
-                        
-                        VStack {
-                            Text("\(self.pointsScored >= 0 ? "+" : "-") \(abs(self.pointsScored))")
-                                .font(Font.system(size: 35, weight: .bold, design: .rounded))
-                                .foregroundColor(Color .offWhite)
-                                .padding(.trailing, 10)
-                            
-                            
-                            
-                            Text("= \(self.playerScore.totalScore() + self.pointsScored)")
-                                .font(Font.system(size: 10, weight: .bold, design: .rounded))
-                                .foregroundColor(Color .offWhite)
-                                .padding(.trailing, 20)
-                            
-                            }//.offset(x: 0, y: 4)
                     }
-                }
+                    
+                    Spacer()
+                    
+                    Group {
+                        Text("\(self.playerScore.totalScore())")
+                            .font(Font.system(size: 50, weight: .bold, design: .rounded))
+                            //                        .minimumScaleFactor(0.4)
+                            //                        .lineLimit(1)
+                            .foregroundColor(Color .offWhite)
+                            //                        .padding(editing ? .leading : .trailing,40)
+                            .offset(x: editing ? -10 : -25, y: 0)
+                        
+                        if editing {
+                            //                        Spacer()
+                            
+                            VStack {
+                                Text("\(self.pointsScored >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
+                                    .layoutPriority(1)
+                                    .font(Font.system(size: 35, weight: .bold, design: .rounded))
+                                    .foregroundColor(Color .offWhite)
+                                    .padding(.trailing, 10)
+                                
+                                
+                                Text("= \( String(format: "%.0f",CGFloat(self.playerScore.totalScore()) + self.pointsScored))")
+                                    .font(Font.system(size: 10, weight: .bold, design: .rounded))
+                                    .foregroundColor(Color .offWhite)
+                                    .padding(.trailing, 20)
+                                
+                            }//.offset(x: 0, y: 4)
+                        }
+                    }.layoutPriority(1)
+                    
+                    
+                }.frame(maxHeight: 100)
                 
-//                Spacer()
+                Spacer()
                 
                 HStack (spacing: 0) {
+                    //                    if !showWheel {
+                    
                     Button(action: {
                         self.editing = true
                         self.pointsScored -= 1
@@ -96,13 +101,14 @@ struct ScoreCardView: View {
                     
                     Button(action: {
                         self.editing = false
-                        self.game.playerScores[self.scoreIndex].addPoints(scoreValue: self.pointsScored)
+                        self.game.playerScores[self.scoreIndex].addPoints(scoreValue: Int(self.pointsScored))
                         self.pointsScored = 0
                     }) {
-                        Image(systemName: "smallcircle.fill.circle")
-                            .foregroundColor(.purpleStart)
+                        ClickWheel(isPresented: self.$editing, playerScore: self.playerScore, pointScored: self.$pointsScored, wheelColor: Color .purpleStart)
+                            .frame(maxWidth:.infinity, maxHeight: 47)
                     }
-                    .buttonStyle(SimpleRectButtonStyle())
+                    
+                    
                     
                     Button(action: {
                         self.editing = true
@@ -112,19 +118,23 @@ struct ScoreCardView: View {
                             .foregroundColor(.purpleStart)
                     }
                     .buttonStyle(SimpleRectButtonStyle())
-                    
+                    //                    } else {
+                    //
+                    //                        ClickWheel(isPresented: self.$showWheel, playerScore: self.playerScore, pointScored: self.$pointsScored, wheelColor: Color .purpleStart)
+                    //                        .padding()
+                    //                            .background(Color .white)
+                    //
+                    //                    }
                 }
-                    
-                .background(Color.blue)
+                
+                
+                //
+                
+                
                 
             }
-            
-            // copy layer
-            
-            
-            
         }
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 135, alignment: .center)
+        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: showWheel ? 400 : 135)
         .clipShape(Rectangle()).cornerRadius(14)
         .opacity(1)
             //            .offset(x: 0, y: -20)
@@ -158,7 +168,7 @@ struct SimpleRectButtonStyle: ButtonStyle {
 
 struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
-        ScoreCardView(playerScore: PlayerScore(player: Player(),pointsList: [1,2])).environmentObject(Game())
+        ScoreCardView(playerScore: PlayerScore(player: Player(),pointsList: [])).environmentObject(Game())
     }
 }
 

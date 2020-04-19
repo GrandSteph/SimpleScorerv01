@@ -133,8 +133,8 @@
 				E88751B4241F9E000091853F /* CircleImage.swift */,
 				E83131AF2428D3820056DC21 /* Points.swift */,
 				E8462581242A4A8D00EA5286 /* CircleNumber.swift */,
-				E84FABFD2435E94B00C806D2 /* ClickWheel.swift */,
 				E897D6C52449B1C900FB214D /* ScoreCardView.swift */,
+				E84FABFD2435E94B00C806D2 /* ClickWheel.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

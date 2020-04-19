@@ -65,19 +65,21 @@ struct GameScoreView: View {
 //            .edgesIgnoringSafeArea(.all)
 //        }
         
-        ScrollView(self.axes) {
-            VStack()  {
-                ForEach(self.game.playerScores) { playerScore in
-//                    ScoreCell(
-//                        playerScore: playerScore
-//                        ,showPointsCapture: self.$showPointsCapture
-//                        ,playerScoreToEdit: self.$playerScore
-//                    )
-//                        .frame(minWidth: 60, maxWidth: .infinity)
-                    ScoreCardView(playerScore: playerScore)
+        ZStack {
+            ScrollView(self.axes) {
+                VStack()  {
+                    ForEach(self.game.playerScores) { playerScore in
+    //                    ScoreCell(
+    //                        playerScore: playerScore
+    //                        ,showPointsCapture: self.$showPointsCapture
+    //                        ,playerScoreToEdit: self.$playerScore
+    //                    )
+    //                        .frame(minWidth: 60, maxWidth: .infinity)
+                        ScoreCardView(playerScore: playerScore)
+                    }
                 }
             }
-        }.background(Color.offWhite)
+        }.background(Color.offWhite).edgesIgnoringSafeArea(.all)
     }
 }
 
