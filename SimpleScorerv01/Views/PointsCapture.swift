@@ -14,7 +14,7 @@ struct PointsCapture: View {
     @Binding var isPresented: Bool
     @State private var displayValue = ""
     
-    var playerScoreID: PlayerScore.ID
+    var playerScore: PlayerScore
     
     let Numericalbuttons = [
         [7,8,9],
@@ -23,7 +23,7 @@ struct PointsCapture: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            CircleImage(name: game.findScore(playerScoreId: playerScoreID).player.photoURL).padding()
+            CircleImage(name: game.findScore(playerScore: playerScore).player.photoURL).padding()
 //            CircleImage(image: Image("steph")).padding()
             
             Button(action: {
@@ -72,7 +72,7 @@ struct PointsCapture: View {
                         self.displayValue = "0"
                     }
                     self.isPresented = false
-                    let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScoreID})
+                    let index = self.game.playerScores.firstIndex(where: {$0 == self.playerScore})
                     self.game.playerScores[index!].addPoints(scoreValue: Int(self.displayValue)!)
                 }) {
                     Image(systemName: "checkmark").font(.system(size: 25))
@@ -106,7 +106,7 @@ struct CircleButton: ButtonStyle {
 
 struct PointsCapture_Previews: PreviewProvider {
     static var previews: some View {
-        PointsCapture(isPresented: .constant(true), playerScoreID: Player.ID())
+        PointsCapture(isPresented: .constant(true), playerScore: PlayerScore(player: Player(), pointsList: []))
             .environmentObject(Game())
             .previewDevice("iPhone 7")
             //            .previewLayout(.fixed(width: 400, height: 500))

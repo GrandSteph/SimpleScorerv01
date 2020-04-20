@@ -44,7 +44,7 @@ struct ScoreCardView: View {
                             .font(.system(.largeTitle, design: .rounded))
                             .foregroundColor(Color .offWhite)
                         
-                        Text(String(self.game.ranking(for: self.playerScore.player)))
+                        Text(String(self.game.ranking(for: self.playerScore)))
                             .fontWeight(.semibold)
                             .font(.system(.body, design: .rounded))
                             .foregroundColor(Color .offWhite)

@@ -19,22 +19,13 @@ class Game: ObservableObject {
         playerScores.append(PlayerScore(player: player, pointsList: []))
     }
     
-    func addPlayer(player: Player, score: Int) {
+    func addPlayer(player: Player, with pointList: [Int]) {
         players.append(player)
-        playerScores.append(PlayerScore(player: player, pointsList: [score]))
+        playerScores.append(PlayerScore(player: player, pointsList: pointList))
     }
     
-    private func indexOfPlayerInScores(player: Player) -> Int? {
-        return  playerScores.firstIndex(where: {$0.player.id == player.id})
-    }
-    
-    func findScore(playerScoreId: PlayerScore.ID) -> PlayerScore {
-        if playerScores.firstIndex(where: {$0.id == playerScoreId}) != nil {
-            return playerScores[playerScores.firstIndex(where: {$0.id == playerScoreId})!]
-        } else {
-            return PlayerScore(player: Player(), pointsList: [1,2,3])
-        }
-        
+    func findScore(playerScore: PlayerScore) -> PlayerScore {
+        return playerScores[playerScores.firstIndex(where: {$0 == playerScore})!]
     }
     
     func addScore(pointsValue: Int, playerScoreID: PlayerScore.ID) {
@@ -51,15 +42,11 @@ class Game: ObservableObject {
         return maxScore
     }
     
-    func ranking(for player:Player) -> Int {
+    func ranking(for playerScore:PlayerScore) -> Int {
         
         var ranking = 1
         
-        guard let index = self.indexOfPlayerInScores(player: player)
-            else {
-                return 1000
-        }
-        let playerScore = self.playerScores[index].totalScore()
+        let playerScore = self.findScore(playerScore: playerScore).totalScore()
         
         for score in self.playerScores {
             if score.totalScore() > playerScore {
@@ -70,11 +57,13 @@ class Game: ObservableObject {
     }
     
     init () {
-
-        self.addPlayer(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: Color(.sRGB, red: 189/255, green: 0/255, blue: 82/255), colorStart: Color.cyan1, colorEnd: Color.cyan2))
-        self.addPlayer(player: Player(name: "Sophie", shortName: "Sof", photoURL:"sof", color: Color(.sRGB, red: 189/255, green: 0/255, blue: 82/255), colorStart: Color.orangeStart, colorEnd: Color.orangeEnd))
-        self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color(.sRGB,red: 251/255, green: 78/255, blue: 84/255), colorStart: Color.blueStart, colorEnd: Color.blueEnd))
-        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color(.sRGB,red: 255/255, green: 195/255, blue: 11/255), colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
+        // player for preview
+        self.addPlayer(player: Player(/*id: UUID(uuidString: "123-456")!,*/name: "Stephane", shortName: "Steph", photoURL:"steph", color: Color.blue, colorStart: Color.cyan1, colorEnd: Color.cyan2))
+        
+        // Other test players
+        self.addPlayer(player: Player(name: "Sophie", shortName: "Sof", photoURL:"sof", color: Color.orange,  colorStart: Color.orangeStart, colorEnd: Color.orangeEnd))
+        self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color.blue, colorStart: Color.blueStart, colorEnd: Color.blueEnd))
+        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color.purple, colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
         
 //        self.playerScores[0].addPoints(scoreValue: 13)
 //        
