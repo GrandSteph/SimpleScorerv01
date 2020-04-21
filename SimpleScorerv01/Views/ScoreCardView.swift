@@ -15,7 +15,7 @@ struct ScoreCardView: View {
     var playerScore: PlayerScore
     
     private var scoreIndex: Int {
-        game.playerScores.firstIndex(where: { $0.id == playerScore.id})!
+        game.playerScores.firstIndex(where: { $0 == playerScore})!
     }
     
     @State private var pointsScored = CGFloat(0)
@@ -101,7 +101,9 @@ struct ScoreCardView: View {
                     
                     Button(action: {
                         self.editing = false
-                        self.game.playerScores[self.scoreIndex].addPoints(scoreValue: Int(self.pointsScored))
+//                        self.game.playerScores[self.scoreIndex].addPoints(scoreValue: Int(self.pointsScored))
+//                        self.game.playerScores[self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!].addPoints(scoreValue: Int(self.pointsScored))
+                        playerScore.addPoints(scoreValue: Int(self.pointsScored))
                         self.pointsScored = 0
                     }) {
                         ClickWheel(isPresented: self.$editing, playerScore: self.playerScore, pointScored: self.$pointsScored, wheelColor: Color .purpleStart)
@@ -168,7 +170,8 @@ struct SimpleRectButtonStyle: ButtonStyle {
 
 struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
-        ScoreCardView(playerScore: PlayerScore(player: Player(),pointsList: [])).environmentObject(Game())
+        let score = PlayerScore(player: Player(), pointsList: [1, 2])
+        return ScoreCardView(playerScore: score).environmentObject(Game(scores: [score]))
     }
 }
 
