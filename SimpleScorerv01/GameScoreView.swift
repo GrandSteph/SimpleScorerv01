@@ -12,69 +12,20 @@ struct GameScoreView: View {
     
     @State private var game = Game()
     private var playerScore: PlayerScore?
-    @State private var shouldScroll = true
-//    @State private var showPointsCapture = false
-//    @State private var playerScore: PlayerScore?
+    @State private var shouldScroll = false
     
     private var axes: Axis.Set {
         return shouldScroll ? .vertical : []
     }
     
     var body: some View {
-//        GeometryReader { geometry in
-//            ZStack {
-//
-//                LinearGradient(Color.whiteStart, Color.whiteEnd)
-//
-//                ScrollView(self.axes) {
-//                    HStack(spacing: 0)  {
-//                        ForEach(self.game.playerScores) { playerScore in
-//                            ScoreCell(
-//                                playerScore: playerScore
-//                                ,showPointsCapture: self.$showPointsCapture
-//                                ,playerScoreToEdit: self.$playerScore
-//                            )
-//                                .frame(minWidth: 60, maxWidth: .infinity)
-//                        }
-//                    }
-//                    .edgesIgnoringSafeArea(.all)
-//                }
-//
-//
-//                .overlay(
-//                    Rectangle()
-//                        .opacity(self.showPointsCapture ? 0.4 : 0)
-//                ).blur(radius: self.showPointsCapture ? 10 : 0)
-//
-//
-//                if self.showPointsCapture {
-//                    //                    PointsCapture(isPresented: self.$showPointsCapture, playerScoreID:self.playerScoreToEdit)
-//                    //                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                    ////                        .background(Color .white.opacity(0.5))
-//                    //                        .shadow(radius: 35)
-//
-//                    //                    Neumorphism()
-//
-//                    ClickWheel(isPresented: self.$showPointsCapture, playerScore: self.playerScore!)
-//                        .frame(maxWidth: 500, maxHeight: 550)
-//
-//
-//                }
-//            }
-//            .background(Color .gray)
-//            .edgesIgnoringSafeArea(.all)
-//        }
+
         
         ZStack {
+            Color.offWhite.edgesIgnoringSafeArea(.all)
             ScrollView(self.axes) {
                 VStack()  {
                     ForEach(self.game.playerScores) { playerScore in
-    //                    ScoreCell(
-    //                        playerScore: playerScore
-    //                        ,showPointsCapture: self.$showPointsCapture
-    //                        ,playerScoreToEdit: self.$playerScore
-    //                    )
-    //                        .frame(minWidth: 60, maxWidth: .infinity)
 
                         ScoreCardView(game:self.$game, playerScore: playerScore)
                     }
@@ -87,7 +38,7 @@ struct GameScoreView: View {
 //                    }
                 }
             }
-        }.background(Color.offWhite).edgesIgnoringSafeArea(.all)
+        }
     }
 }
 
