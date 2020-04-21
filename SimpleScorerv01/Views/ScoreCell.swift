@@ -10,7 +10,7 @@ import SwiftUI
 
 struct ScoreCell: View {
     
-    @EnvironmentObject var game : Game
+    @State var game : Game
     
     var playerScore: PlayerScore
     
@@ -95,13 +95,14 @@ struct ScoreCell: View {
 
 struct ScoreCell_Previews: PreviewProvider {
     
+    
     static var previews: some View {
-        ScoreCell(
-            playerScore: PlayerScore(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: .orange, colorStart: Color .cyan2, colorEnd: Color .cyan1),pointsList: [1,2])
+        let game = Game()
+        
+        return ScoreCell(
+            game: game, playerScore: game.playerScores[0]
             ,showPointsCapture: .constant(false)
-            ,playerScoreToEdit: .constant(PlayerScore(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: .orange, colorStart: Color .cyan2, colorEnd: Color .cyan1),pointsList: [1,2,3,4,5,6,7,8,9,10,11,12,13,14]))
+            ,playerScoreToEdit: .constant(game.playerScores[0])
         )
-            .environmentObject(Game())
-        //            .previewLayout(.fixed(width: 100, height: 800))
     }
 }

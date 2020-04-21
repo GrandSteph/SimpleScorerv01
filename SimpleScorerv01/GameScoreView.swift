@@ -10,9 +10,9 @@ import SwiftUI
 
 struct GameScoreView: View {
     
-    @EnvironmentObject var game: Game
-    
-    @State private var shouldScroll = false
+    @State private var game = Game()
+    private var playerScore: PlayerScore?
+    @State private var shouldScroll = true
 //    @State private var showPointsCapture = false
 //    @State private var playerScore: PlayerScore?
     
@@ -75,8 +75,16 @@ struct GameScoreView: View {
     //                        ,playerScoreToEdit: self.$playerScore
     //                    )
     //                        .frame(minWidth: 60, maxWidth: .infinity)
-                        ScoreCardView(playerScore: playerScore)
+
+                        ScoreCardView(game:self.$game, playerScore: playerScore)
                     }
+                    
+//                    Button(action: {
+//                        self.game.addPlayer(player: Player())
+//                    }) {
+//                        Image(systemName: "plus.rectangle")
+//                            .foregroundColor(.purpleStart)
+//                    }
                 }
             }
         }.background(Color.offWhite).edgesIgnoringSafeArea(.all)
@@ -86,9 +94,8 @@ struct GameScoreView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            GameScoreView().environmentObject(Game())
-            GameScoreView().environmentObject(Game())
-                .previewDevice("iPad Air 2")
+            GameScoreView()
+            GameScoreView().previewDevice("iPad Air 2")
         }
         
     }

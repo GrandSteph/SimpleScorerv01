@@ -10,13 +10,8 @@ import SwiftUI
 
 struct ScoreCardView: View {
     
-    @EnvironmentObject var game : Game
-    
+    @Binding var game: Game
     var playerScore: PlayerScore
-    
-    private var scoreIndex: Int {
-        game.playerScores.firstIndex(where: { $0 == playerScore})!
-    }
     
     @State private var pointsScored = CGFloat(0)
     @State private var editing = false
@@ -101,13 +96,15 @@ struct ScoreCardView: View {
                     
                     Button(action: {
                         self.editing = false
-//                        self.game.playerScores[self.scoreIndex].addPoints(scoreValue: Int(self.pointsScored))
-//                        self.game.playerScores[self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!].addPoints(scoreValue: Int(self.pointsScored))
-                        playerScore.addPoints(scoreValue: Int(self.pointsScored))
+                        print(self.game.playerScores[0].pointsList)
+                        self.game.playerScores[self.game.playerScores.firstIndex(where: {$0 == self.playerScore})!].addPoints(scoreValue: Int(self.pointsScored))
                         self.pointsScored = 0
+                        print(self.game.playerScores[0].pointsList)
                     }) {
-                        ClickWheel(isPresented: self.$editing, playerScore: self.playerScore, pointScored: self.$pointsScored, wheelColor: Color .purpleStart)
+                        ClickWheel(isPresented: self.$editing, game: self.$game, playerScore: self.playerScore, pointScored: self.$pointsScored, wheelColor: Color .purpleStart)
                             .frame(maxWidth:.infinity, maxHeight: 47)
+                        //                        Image(systemName: "heart.fill")
+                        //
                     }
                     
                     
@@ -170,8 +167,8 @@ struct SimpleRectButtonStyle: ButtonStyle {
 
 struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
-        let score = PlayerScore(player: Player(), pointsList: [1, 2])
-        return ScoreCardView(playerScore: score).environmentObject(Game(scores: [score]))
+        let game = Game()
+        return ScoreCardView(game: .constant(game), playerScore: game.playerScores[0])
     }
 }
 

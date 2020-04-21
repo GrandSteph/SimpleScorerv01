@@ -50,7 +50,6 @@ struct VerticalSeparator: View {
 struct Points_Previews: PreviewProvider {
     static var previews: some View {
         Points(points: [1,2,3,4,5,6,7,8,9,10,11])
-            .environmentObject(Game())
             .background(Color .orange)
 //            .previewLayout(.fixed(width: 70, height: 300))
             

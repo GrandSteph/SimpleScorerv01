@@ -12,20 +12,14 @@ struct ClickWheel: View {
     
     @State private var dragLocation: DragGesture.Value?
     @State private var lastDragLocation: DragGesture.Value?
-    
-    
     @State private var wheelRotation = CGFloat(0)
     
-    @EnvironmentObject var game : Game
     
     @Binding var isPresented: Bool
+    @Binding var game: Game
     var playerScore: PlayerScore
     @Binding var pointScored: CGFloat
     var wheelColor: Color
-    
-    var scoreIndex: Int {
-        game.playerScores.firstIndex(where: { $0.id == playerScore.id})!
-    }
     
     var body: some View {
         
@@ -78,8 +72,7 @@ struct ClickWheel: View {
                                 
                             } else if previousAngle - angle > CGFloat.pi {
                                 speed = CGFloat(angle - previousAngle + (2 * CGFloat.pi)) / CGFloat(timeDifference)
-                                
-                                
+
                             }
                             
                             self.lastDragLocation = value
@@ -87,13 +80,10 @@ struct ClickWheel: View {
                             switch abs(speed) {
                             case 0..<8:
                                 self.pointScored += speed / 15
-                                print("1")
                             case 8..<15:
                                 self.pointScored += speed / 10
-                                print("2")
                             default:
                                 self.pointScored += speed / 5
-                                print("3")
                             }
                         }
                         self.lastDragLocation = value
@@ -106,10 +96,14 @@ struct ClickWheel: View {
 
 struct ClickWheel_Previews: PreviewProvider {
     static var previews: some View {
-        ClickWheel(
+        let game = Game()
+        
+        return ClickWheel(
             isPresented: .constant(true)
-            ,playerScore: PlayerScore(player: Player(),pointsList: [1,2])
-            ,pointScored: .constant(CGFloat(0)), wheelColor: Color .black
-        ).environmentObject(Game())
+            ,game: .constant(game)
+            ,playerScore: game.playerScores[0]
+            ,pointScored: .constant(CGFloat(0))
+            ,wheelColor: Color .black
+        )
     }
 }

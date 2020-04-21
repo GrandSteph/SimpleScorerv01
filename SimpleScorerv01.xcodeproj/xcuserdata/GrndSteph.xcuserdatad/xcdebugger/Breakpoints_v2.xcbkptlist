@@ -3,4 +3,150 @@
    uuid = "994F3636-107F-492C-B0EF-A7B68CF9A71E"
    type = "1"
    version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "78F1716C-F90C-4BC3-9633-633A2DD8F24F"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleScorerv01/Views/ScoreCardView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "FA167903-8E81-4055-BCE6-3ADF8161728C"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleScorerv01/Views/ScoreCardView.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "100"
+            endingLineNumber = "100"
+            landmarkName = "body"
+            landmarkType = "24">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AAA8B177-58C9-40E5-BD84-F266059B84FF"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleScorerv01/Model/Game.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
+            landmarkName = "addScore(pointsValue:playerScoreID:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AAA8B177-58C9-40E5-BD84-F266059B84FF - 838854c415cf87e1"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleScorerv01.Game.addScore(pointsValue: Swift.Int, playerScoreID: Foundation.UUID) -&gt; ()"
+                  moduleName = "SimpleScorerv01"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GrndSteph/Documents/code/SimpleScorer01/SimpleScorerv01/SimpleScorerv01/Model/Game.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "169">
+               </Location>
+               <Location
+                  uuid = "AAA8B177-58C9-40E5-BD84-F266059B84FF - 9a140717f24e686d"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (SimpleScorerv01.PlayerScore) -&gt; Swift.Bool in SimpleScorerv01.Game.addScore(pointsValue: Swift.Int, playerScoreID: Foundation.UUID) -&gt; ()"
+                  moduleName = "SimpleScorerv01"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GrndSteph/Documents/code/SimpleScorer01/SimpleScorerv01/SimpleScorerv01/Model/Game.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "31"
+                  endingLineNumber = "31"
+                  offsetFromSymbolStart = "85">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2629FABB-8024-48F0-902F-CE56F32B3F16"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleScorerv01/Model/Game.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "findScore(playerScore:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "2629FABB-8024-48F0-902F-CE56F32B3F16 - ddecbc87a0921b80"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "SimpleScorerv01.Game.findScore(playerScore: SimpleScorerv01.PlayerScore) -&gt; SimpleScorerv01.PlayerScore"
+                  moduleName = "SimpleScorerv01"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GrndSteph/Documents/code/SimpleScorer01/SimpleScorerv01/SimpleScorerv01/Model/Game.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "161">
+               </Location>
+               <Location
+                  uuid = "2629FABB-8024-48F0-902F-CE56F32B3F16 - 1eb1f355505c2ef0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (SimpleScorerv01.PlayerScore) -&gt; Swift.Bool in SimpleScorerv01.Game.findScore(playerScore: SimpleScorerv01.PlayerScore) -&gt; SimpleScorerv01.PlayerScore"
+                  moduleName = "SimpleScorerv01"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/GrndSteph/Documents/code/SimpleScorer01/SimpleScorerv01/SimpleScorerv01/Model/Game.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "27"
+                  endingLineNumber = "27"
+                  offsetFromSymbolStart = "32">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "5987E435-306F-42F2-AEB8-2DD4E1456D8A"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "SimpleScorerv01/Model/PlayerScore.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "23"
+            endingLineNumber = "23"
+            landmarkName = "addPoints(scoreValue:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
 </Bucket>

@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PointsCapture: View {
     
-    @EnvironmentObject var game : Game
+    @State var game : Game
     @Binding var isPresented: Bool
     @State private var displayValue = ""
     
@@ -106,8 +106,8 @@ struct CircleButton: ButtonStyle {
 
 struct PointsCapture_Previews: PreviewProvider {
     static var previews: some View {
-        PointsCapture(isPresented: .constant(true), playerScore: PlayerScore(player: Player(), pointsList: []))
-            .environmentObject(Game())
+        let game = Game()
+        return PointsCapture(game: game, isPresented: .constant(true), playerScore: game.playerScores[0])
             .previewDevice("iPhone 7")
             //            .previewLayout(.fixed(width: 400, height: 500))
             .background(Color .gray)

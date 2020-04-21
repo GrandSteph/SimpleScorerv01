@@ -7,19 +7,18 @@
 //
 
 import SwiftUI
-import Combine
 
-class Game: ObservableObject {
+struct Game {
     
     var players = [Player] ()
-    @Published var playerScores = [PlayerScore] ()
+    var playerScores = [PlayerScore] ()
     
-    func addPlayer(player: Player) {
+    mutating func addPlayer(player: Player) {
         players.append(player)
         playerScores.append(PlayerScore(player: player, pointsList: []))
     }
     
-    func addPlayer(player: Player, with pointList: [Int]) {
+    mutating func addPlayer(player: Player, with pointList: [Int]) {
         players.append(player)
         playerScores.append(PlayerScore(player: player, pointsList: pointList))
     }
@@ -28,7 +27,7 @@ class Game: ObservableObject {
         return playerScores[playerScores.firstIndex(where: {$0 == playerScore})!]
     }
     
-    func addScore(pointsValue: Int, playerScoreID: PlayerScore.ID) {
+    mutating func addScore(pointsValue: Int, playerScoreID: PlayerScore.ID) {
         playerScores[playerScores.firstIndex(where: {$0.id == playerScoreID})!].addPoints(scoreValue: pointsValue)
     }
     
