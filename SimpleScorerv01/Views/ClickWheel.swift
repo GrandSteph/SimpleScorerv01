@@ -18,7 +18,7 @@ struct ClickWheel: View {
     @Binding var isPresented: Bool
     @Binding var game: Game
     var playerScore: PlayerScore
-    @Binding var pointScored: CGFloat
+    @Binding var pointsScored: CGFloat
     var wheelColor: Color
     
     var body: some View {
@@ -41,54 +41,116 @@ struct ClickWheel: View {
             }
             .frame(maxWidth: .infinity).background(Color .white)
             .gesture(
-                DragGesture(minimumDistance: 0, coordinateSpace: .global)
-                    .onEnded({ (value) in
-                        self.isPresented = false
-                        self.game.addScore(pointsValue: Int(String(format: "%.0f",self.pointScored))!, playerScoreID: self.playerScore.id)
-                        self.pointScored = 0
-                    })
-                    .onChanged { value in
-                        self.isPresented = true
-                        let center = CGPoint(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).midY)
-                        
-                        
-                        if self.lastDragLocation != nil {
-                            
-                            self.dragLocation = value
-                            
-                            let timeDifference = value.time.timeIntervalSince(self.lastDragLocation!.time)
-                            
-                            let radiansToDegrees = 180 / CGFloat.pi
-                            
-                            let previousAngle = atan2(self.lastDragLocation!.location.y - center.y, self.lastDragLocation!.location.x - center.x)
-                            let angle = atan2(self.dragLocation!.location.y - center.y, self.dragLocation!.location.x - center.x)
-                            
-                            self.wheelRotation = (angle * radiansToDegrees) + 90
-                            
-                            // did angle flip from +π to -π, or -π to +π?
-                            var speed = CGFloat(angle - previousAngle) / CGFloat(timeDifference)
-                            if angle - previousAngle > CGFloat.pi {
-                                speed = CGFloat(angle - previousAngle - (2 * CGFloat.pi)) / CGFloat(timeDifference)
+//                DragGesture().sequenced(before:
+                    DragGesture(minimumDistance: 0, coordinateSpace: .global)
+                        .onEnded({ (value) in
+                            self.isPresented = false
+                            self.game.addScore(pointsValue: Int(String(format: "%.0f",self.pointsScored))!, playerScoreID: self.playerScore.id)
+                            self.pointsScored = 0
+                        })
+                            .onChanged { value in
+                                self.isPresented = true
+                                let center = CGPoint(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).midY)
                                 
-                            } else if previousAngle - angle > CGFloat.pi {
-                                speed = CGFloat(angle - previousAngle + (2 * CGFloat.pi)) / CGFloat(timeDifference)
-
-                            }
-                            
-                            self.lastDragLocation = value
-                            
-                            switch abs(speed) {
-                            case 0..<8:
-                                self.pointScored += speed / 15
-                            case 8..<15:
-                                self.pointScored += speed / 10
-                            default:
-                                self.pointScored += speed / 5
-                            }
+                                
+                                if self.lastDragLocation != nil {
+                                    
+                                    self.dragLocation = value
+                                    
+                                    let timeDifference = value.time.timeIntervalSince(self.lastDragLocation!.time)
+                                    
+                                    let radiansToDegrees = 180 / CGFloat.pi
+                                    
+                                    let previousAngle = atan2(self.lastDragLocation!.location.y - center.y, self.lastDragLocation!.location.x - center.x)
+                                    let angle = atan2(self.dragLocation!.location.y - center.y, self.dragLocation!.location.x - center.x)
+                                    
+                                    self.wheelRotation = (angle * radiansToDegrees) + 90
+                                    
+                                    // did angle flip from +π to -π, or -π to +π?
+                                    var speed = CGFloat(angle - previousAngle) / CGFloat(timeDifference)
+                                    if angle - previousAngle > CGFloat.pi {
+                                        speed = CGFloat(angle - previousAngle - (2 * CGFloat.pi)) / CGFloat(timeDifference)
+                                        
+                                    } else if previousAngle - angle > CGFloat.pi {
+                                        speed = CGFloat(angle - previousAngle + (2 * CGFloat.pi)) / CGFloat(timeDifference)
+                                        
+                                    }
+                                    
+                                    self.lastDragLocation = value
+                                    
+                                    switch abs(speed) {
+                                    case 0..<8:
+                                        self.pointsScored += speed / 15
+                                    case 8..<15:
+                                        self.pointsScored += speed / 10
+                                    default:
+                                        self.pointsScored += speed / 5
+                                    }
+                                }
+                                self.lastDragLocation = value
                         }
-                        self.lastDragLocation = value
-                }
+//                )
             )
+        
+            
+            //            .onTapGesture {
+            //                print(self.game.playerScores[0].pointsList)
+            //                self.game.playerScores[self.game.playerScores.firstIndex(where: {$0 == self.playerScore})!].addPoints(scoreValue: Int(self.pointsScored))
+            //                self.pointsScored = 0
+            //                }
+            
+            //            .gesture(
+            //                LongPressGesture(minimumDuration: 0.1, maximumDistance: 0)
+            //                    .sequenced(before:
+            //                        DragGesture(minimumDistance: 0, coordinateSpace: .global)
+            //                            .onEnded({ (value) in
+            //                                self.isPresented = false
+            //                                self.game.addScore(pointsValue: Int(String(format: "%.0f",self.pointsScored))!, playerScoreID: self.playerScore.id)
+            //                                self.pointsScored = 0
+            //                            })
+            //                            .onChanged { value in
+            //                                self.isPresented = true
+            //                                let center = CGPoint(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).midY)
+            //
+            //
+            //                                if self.lastDragLocation != nil {
+            //
+            //                                    self.dragLocation = value
+            //
+            //                                    let timeDifference = value.time.timeIntervalSince(self.lastDragLocation!.time)
+            //
+            //                                    let radiansToDegrees = 180 / CGFloat.pi
+            //
+            //                                    let previousAngle = atan2(self.lastDragLocation!.location.y - center.y, self.lastDragLocation!.location.x - center.x)
+            //                                    let angle = atan2(self.dragLocation!.location.y - center.y, self.dragLocation!.location.x - center.x)
+            //
+            //                                    self.wheelRotation = (angle * radiansToDegrees) + 90
+            //
+            //                                    // did angle flip from +π to -π, or -π to +π?
+            //                                    var speed = CGFloat(angle - previousAngle) / CGFloat(timeDifference)
+            //                                    if angle - previousAngle > CGFloat.pi {
+            //                                        speed = CGFloat(angle - previousAngle - (2 * CGFloat.pi)) / CGFloat(timeDifference)
+            //
+            //                                    } else if previousAngle - angle > CGFloat.pi {
+            //                                        speed = CGFloat(angle - previousAngle + (2 * CGFloat.pi)) / CGFloat(timeDifference)
+            //
+            //                                    }
+            //
+            //                                    self.lastDragLocation = value
+            //
+            //                                    switch abs(speed) {
+            //                                    case 0..<8:
+            //                                        self.pointsScored += speed / 15
+            //                                    case 8..<15:
+            //                                        self.pointsScored += speed / 10
+            //                                    default:
+            //                                        self.pointsScored += speed / 5
+            //                                    }
+            //                                }
+            //                                self.lastDragLocation = value
+            //                        }
+            //                    )
+            //            )
         }
     }
 }
@@ -102,7 +164,7 @@ struct ClickWheel_Previews: PreviewProvider {
             isPresented: .constant(true)
             ,game: .constant(game)
             ,playerScore: game.playerScores[0]
-            ,pointScored: .constant(CGFloat(0))
+            ,pointsScored: .constant(CGFloat(0))
             ,wheelColor: Color .black
         )
     }

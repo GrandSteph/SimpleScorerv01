@@ -24,6 +24,5 @@ struct PlayerScore: Identifiable, Hashable {
     }
     
     func modifyScore(modification: Int, andRound: Int) {
-    }
-    
+    }    
 }

@@ -94,18 +94,14 @@ struct ScoreCardView: View {
                     }
                     .buttonStyle(SimpleRectButtonStyle())
                     
-                    Button(action: {
-                        self.editing = false
-                        print(self.game.playerScores[0].pointsList)
-                        self.game.playerScores[self.game.playerScores.firstIndex(where: {$0 == self.playerScore})!].addPoints(scoreValue: Int(self.pointsScored))
-                        self.pointsScored = 0
-                        print(self.game.playerScores[0].pointsList)
-                    }) {
-                        ClickWheel(isPresented: self.$editing, game: self.$game, playerScore: self.playerScore, pointScored: self.$pointsScored, wheelColor: Color .purpleStart)
+//                    Button(action: {
+//
+//                    }) {
+                        ClickWheel(isPresented: self.$editing, game: self.$game, playerScore: self.playerScore, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
                             .frame(maxWidth:.infinity, maxHeight: 47)
-                        //                        Image(systemName: "heart.fill")
-                        //
-                    }
+//                        //                        Image(systemName: "heart.fill")
+//                        //
+//                    }
                     
                     
                     
@@ -141,7 +137,6 @@ struct ScoreCardView: View {
             .padding(.bottom, 15)
             .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
     }
-    
 }
 
 struct SimpleRectButtonStyle: ButtonStyle {
@@ -171,5 +166,6 @@ struct ScoreCardView_Previews: PreviewProvider {
         return ScoreCardView(game: .constant(game), playerScore: game.playerScores[0])
     }
 }
+
 
 
