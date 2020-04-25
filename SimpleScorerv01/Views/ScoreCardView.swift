@@ -94,14 +94,14 @@ struct ScoreCardView: View {
                     }
                     .buttonStyle(SimpleRectButtonStyle())
                     
-//                    Button(action: {
-//
-//                    }) {
-                        ClickWheel(isPresented: self.$editing, game: self.$game, playerScore: self.playerScore, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
-                            .frame(maxWidth:.infinity, maxHeight: 47)
-//                        //                        Image(systemName: "heart.fill")
-//                        //
-//                    }
+                    //                    Button(action: {
+                    //
+                    //                    }) {
+                    ClickWheel(isPresented: self.$editing, game: self.$game, playerScore: self.playerScore, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
+                        .frame(maxWidth:.infinity, maxHeight: 47)
+                    //                        //                        Image(systemName: "heart.fill")
+                    //                        //
+                    //                    }
                     
                     
                     
@@ -132,10 +132,10 @@ struct ScoreCardView: View {
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: showWheel ? 400 : 135)
         .clipShape(Rectangle()).cornerRadius(14)
         .opacity(1)
-            //            .offset(x: 0, y: -20)
-            .padding(.horizontal, 25.0)
-            .padding(.bottom, 15)
-            .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+            
+//        .padding(.horizontal, 25.0)
+//        .padding(.bottom, 15)
+        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
     }
 }
 
