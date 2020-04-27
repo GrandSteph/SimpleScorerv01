@@ -36,10 +36,10 @@ struct ScoreCardView: View {
                             .font(.system(.largeTitle, design: .rounded))
                             .foregroundColor(Color .offWhite)
                         
-//                        Text(String(self.game.ranking(for: self.playerScore)))
-//                            .fontWeight(.semibold)
-//                            .font(.system(.body, design: .rounded))
-//                            .foregroundColor(Color .offWhite)
+                        //                        Text(String(self.game.ranking(for: self.playerScore)))
+                        //                            .fontWeight(.semibold)
+                        //                            .font(.system(.body, design: .rounded))
+                        //                            .foregroundColor(Color .offWhite)
                         
                     }
                     
@@ -75,7 +75,7 @@ struct ScoreCardView: View {
                 
                 Spacer()
                 
-                ScoreEntryRow(editing: self.$editing, playerScore: self.$playerScore, pointsScored: self.$pointsScored)
+                ScoreEntryRow(clickWheel:  ClickWheel(editing: self.$editing, playerScore: self.$playerScore, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart))
                 
             }
         }
@@ -88,29 +88,29 @@ struct ScoreCardView: View {
 
 struct ScoreEntryRow: View {
     
-    @Binding var editing : Bool
-    @Binding var playerScore: PlayerScore
-    @Binding var pointsScored : CGFloat
+    var clickWheel : ClickWheel
+    //    @Binding var editing : Bool
+    //    @Binding var playerScore: PlayerScore
+    //    @Binding var pointsScored : CGFloat
     
     
     var body: some View {
         HStack (spacing: 0) {
             
             Button(action: {
-                self.editing = true
-                self.pointsScored -= 1
+                self.clickWheel.editing = true
+                self.clickWheel.pointsScored -= 1
             }) {
                 Image(systemName: "minus.rectangle")
                     .foregroundColor(.purpleStart)
             }
             .buttonStyle(SimpleRectButtonStyle())
             
-            ClickWheel(editing: self.$editing, playerScore: self.$playerScore, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
-                .frame(maxWidth:.infinity, maxHeight: 47)
+            self.clickWheel.frame(maxWidth:.infinity, maxHeight: 47)
             
             Button(action: {
-                self.editing = true
-                self.pointsScored += 1
+                self.clickWheel.editing = true
+                self.clickWheel.pointsScored += 1
             }) {
                 Image(systemName: "plus.rectangle")
                     .foregroundColor(.purpleStart)
@@ -121,10 +121,10 @@ struct ScoreEntryRow: View {
 }
 
 struct ScoreCardView_Previews: PreviewProvider {
-
+    
     static var previews: some View {
-           return BindingProvider(Game()) { binding in
+        return BindingProvider(Game()) { binding in
             ScoreCardView(playerScore: binding.playerScores[0])
-           }
-       }
+        }
+    }
 }
