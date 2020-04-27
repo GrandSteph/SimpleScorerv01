@@ -121,7 +121,7 @@ struct ScoreCardsGridView: View {
                     ForEach(1 ... self.columns, id: \.self) { column in
                         Group {
                             if ((row*self.columns+column-1) < self.game.playerScores.count) {
-                                ScoreCardView(game:self.$game, playerScore: self.game.playerScores[row*self.columns+column-1])
+                                ScoreCardView(playerScore:self.$game.playerScores[row*self.columns+column-1])
                             } else {
                                 EmptyView()
                             }

@@ -15,9 +15,8 @@ struct ClickWheel: View {
     @State private var wheelRotation = CGFloat(0)
     
     
-    @Binding var isPresented: Bool
-    @Binding var game: Game
-    var playerScore: PlayerScore
+    @Binding var editing: Bool
+    @Binding var playerScore: PlayerScore
     @Binding var pointsScored: CGFloat
     var wheelColor: Color
     
@@ -30,26 +29,26 @@ struct ClickWheel: View {
                     Circle()
                         .fill(Color .white)
                     Circle()
-                        .stroke(self.wheelColor, lineWidth: self.isPresented ? 2 : 2)
+                        .stroke(self.wheelColor, lineWidth: self.editing ? 2 : 2)
                     
                     Circle().scale(1/10).foregroundColor(self.wheelColor)
                     
                     Circle().scale(1/5).foregroundColor(self.wheelColor).offset(x: 0, y: max(-geo.size.width, -geo.size.height)/3)
                 }
                 .rotationEffect(Angle(degrees: Double(self.wheelRotation)))
-                .scaleEffect(self.isPresented ? 0.5 : 0.5)
+                .scaleEffect(self.editing ? 0.5 : 0.5)
             }
             .frame(maxWidth: .infinity).background(Color .white)
             .gesture(
 //                DragGesture().sequenced(before:
                     DragGesture(minimumDistance: 0, coordinateSpace: .global)
                         .onEnded({ (value) in
-                            self.isPresented = false
-                            self.game.addScore(pointsValue: Int(String(format: "%.0f",self.pointsScored))!, playerScoreID: self.playerScore.id)
+                            self.editing = false
+                            self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
                             self.pointsScored = 0
                         })
                             .onChanged { value in
-                                self.isPresented = true
+                                self.editing = true
                                 let center = CGPoint(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).midY)
                                 
                                 
@@ -161,9 +160,8 @@ struct ClickWheel_Previews: PreviewProvider {
         let game = Game()
         
         return ClickWheel(
-            isPresented: .constant(true)
-            ,game: .constant(game)
-            ,playerScore: game.playerScores[0]
+            editing: .constant(true)
+            ,playerScore: .constant(game.playerScores[0])
             ,pointsScored: .constant(CGFloat(0))
             ,wheelColor: Color .black
         )
