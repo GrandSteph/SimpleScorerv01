@@ -15,6 +15,8 @@ struct GameScoreView: View {
     
     @State private var rotatedCube = false
     
+    @GestureState private var dragOffset = CGSize.zero
+    
     
     private var axes: Axis.Set {
         return shouldScroll ? .vertical : []
@@ -25,40 +27,43 @@ struct GameScoreView: View {
         return Int(screenWidth) / 325
     }
     
+    func dragToRotation(translation : CGSize) -> Angle {
+        
+        return Angle(degrees: Double(translation.width/4.16))
+    }
+    
     var body: some View {
         
         GeometryReader { geometry in
             ZStack {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
-                VStack {
-                    Spacer()
-                    Button(action: {
-                        self.rotatedCube.toggle()
-                    }) {
-                        Image(systemName: "hand.point.right")
-                            .foregroundColor(.purpleStart)
-                    }
-                    Spacer()
-                }
-                
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(Color.orange)
-                .rotation3DEffect(Angle(degrees: self.rotatedCube ? 0 : 90), axis: (x: 0, y:1 , z:0))
-                .edgesIgnoringSafeArea(.all)
-                .offset(x: self.rotatedCube ? 0 : geometry.size.width/2, y: 0)
-                .animation(.default)
+//                VStack {
+//                    Spacer()
+//                    Button(action: {
+//                        self.rotatedCube.toggle()
+//                    }) {
+//                        Image(systemName: "hand.point.left")
+//                            .font(.system(size: 60, weight: .thin))
+//                            .foregroundColor(.white)
+//                    }
+//                    Spacer()
+//                }
+//                .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                .background(self.rotatedCube ? Color.darkGray : Color.gray)
+//                .rotation3DEffect( Angle(degrees: 90) + self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0),anchor: .leading)
+//                .edgesIgnoringSafeArea(.all)
+//                .offset(x: self.dragOffset.width + geometry.size.width, y: 0)
+//                .animation(.linear)
                 
                 Group {
-                    
-                    
                     ScrollView(self.axes) {
                         VStack()  {
                             ScoreCardsGridView(columns: self.numberOfColumns(for: geometry.size.width), game: self.$game)
                             
                             Button(action: {
-//                                self.game.addPlayer(player: Player())
-                                self.rotatedCube.toggle()
+                                self.game.addPlayer(player: Player())
+//                                self.rotatedCube.toggle()
                             }) {
                                 Image(systemName: "plus.rectangle")
                                     .foregroundColor(.purpleStart)
@@ -66,12 +71,24 @@ struct GameScoreView: View {
                         }
                     }
                 }
-                .rotation3DEffect(Angle(degrees: self.rotatedCube ? 90 : 0), axis: (x: 0, y:-1 , z:0))
-                .offset(x: self.rotatedCube ? -geometry.size.width/2 : 0, y: 0)
-                .animation(.default)
-                
+//                .background(self.rotatedCube ? Color.white : Color.offWhite)
+//                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
+//                .offset(x: self.dragOffset.width, y: 0)
+//                .animation(.linear)
             }
-            
+//            .gesture(
+//                DragGesture()
+//                    .updating(self.$dragOffset, body: { (value, state, transaction) in
+//                        if value.startLocation.x > (geometry.size.width - 25) {
+//                            state = value.translation
+//                        }
+//                    })
+//                    .onEnded({ (value) in
+//                        if abs(value.translation.width) > geometry.size.width / 3 {
+//                            print("\(value.translation.width) - \(geometry.size.width / 4)")
+//                        }
+//                    })
+//            )
         }
     }
 }
