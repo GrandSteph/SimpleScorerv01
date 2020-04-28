@@ -97,7 +97,7 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             GameScoreView()
-            //            GameScoreView().previewDevice("iPad Air 2")
+//            GameScoreView().previewDevice("iPad Air 2")
         }
         
     }

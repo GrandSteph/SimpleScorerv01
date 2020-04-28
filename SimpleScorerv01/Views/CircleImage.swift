@@ -10,32 +10,45 @@ import SwiftUI
 
 struct CircleImage: View {
     
-    var name: String
+    var player: Player
     
+    @ViewBuilder
     var body: some View {
-                Image(uiImage: UIImage(named: self.name) ?? UIImage(systemName: "person")!)
-                    .resizable()
-                    .scaledToFit()
-                    .clipShape(Circle())
-                    .overlay(Circle().stroke(Color.white, lineWidth: 4))
         
-//        Button(action: {
-//
-//        }) {
-//            Image(systemName: "heart.fill")
-//                .foregroundColor(.white)
-//        }
-//        .buttonStyle(LightButtonStyle())
-//        .padding()
+        if UIImage(named: self.player.photoURL) != nil {
+
+            Image(self.player.photoURL)
+                .resizable()
+                .scaledToFit()
+                .clipShape(Circle())
+
+            //                .overlay(Circle().strokeBorder(Color.white, lineWidth: 4))
+        } else {
+            Button(action: {
+                
+            }) {
+
+                    Text(String(self.player.name.uppercased().prefix(1)))
+                        .fontWeight(.regular)
+                        .font(.system(.largeTitle, design: .rounded))
+                        .foregroundColor(Color.white)
+                        .padding()
+                        .contentShape(Circle())
+                        .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
+
+            }
+            
+            
+        }
         
     }
 }
 
 struct CircleImage_Previews: PreviewProvider {
     static var previews: some View {
-        CircleImage(name : "steph")
-            .background(Color.offWhite)
-//            .previewLayout(.fixed(width: 120, height: 120))
+        CircleImage(player: Player(name: "Steph", shortName: "Steph", photoURL: "s teph", color: Color.orange, colorStart: Color.orangeEnd, colorEnd: Color.orangeStart))
+            .background(Color.orangeEnd)
+            .previewLayout(.fixed(width: 200, height: 300))
         
     }
 }

@@ -37,26 +37,7 @@ extension LinearGradient {
 
 }
 
-struct SimpleRectButtonStyle: ButtonStyle {
-    func makeBody(configuration: Self.Configuration) -> some View {
-        configuration.label
-            .padding(30)
-            .contentShape(Rectangle())
-            .frame(maxWidth:.infinity, maxHeight: 47)
-            .border(Color.offWhite, width: 1)
-            .background(
-                Group {
-                    if configuration.isPressed {
-                        Rectangle()
-                            .fill(Color.gray)
-                    } else {
-                        Rectangle()
-                            .fill(Color.white)
-                    }
-                }
-        )
-    }
-}
+
 
 struct BindingProvider<StateT, Content: View>: View {
 

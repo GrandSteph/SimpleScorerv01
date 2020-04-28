@@ -38,7 +38,9 @@ struct ClickWheel: View {
                 .rotationEffect(Angle(degrees: Double(self.wheelRotation)))
                 .scaleEffect(self.editing ? 0.5 : 0.5)
             }
-            .frame(maxWidth: .infinity).background(Color .white)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .border(Color.offWhite, width: 1)
+            .background(Color .white)
             .gesture(
 //                DragGesture().sequenced(before:
                     DragGesture(minimumDistance: 0, coordinateSpace: .global)

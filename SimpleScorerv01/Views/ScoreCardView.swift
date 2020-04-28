@@ -24,23 +24,13 @@ struct ScoreCardView: View {
                 
                 HStack (alignment: .center, spacing: 0) {
                     
-                    Image(uiImage: UIImage(named: self.playerScore.player.photoURL) ?? UIImage(systemName: "person")!)
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .padding(10.0)
+                    CircleImage(player: playerScore.player).padding(10)
                     
                     VStack (alignment: .leading, spacing: 0) {
                         Text(self.playerScore.player.shortName)
                             .fontWeight(.semibold)
                             .font(.system(.largeTitle, design: .rounded))
                             .foregroundColor(Color .offWhite)
-                        
-                        //                        Text(String(self.game.ranking(for: self.playerScore)))
-                        //                            .fontWeight(.semibold)
-                        //                            .font(.system(.body, design: .rounded))
-                        //                            .foregroundColor(Color .offWhite)
-                        
                     }
                     
                     Spacer()
@@ -71,9 +61,7 @@ struct ScoreCardView: View {
                     }.layoutPriority(1)
                     
                     
-                }.frame(maxHeight: 100)
-                
-                Spacer()
+                }
                 
                 ScoreEntryRow(clickWheel:  ClickWheel(editing: self.$editing, playerScore: self.$playerScore, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart))
                 
@@ -106,7 +94,7 @@ struct ScoreEntryRow: View {
             }
             .buttonStyle(SimpleRectButtonStyle())
             
-            self.clickWheel.frame(maxWidth:.infinity, maxHeight: 47)
+            self.clickWheel
             
             Button(action: {
                 self.clickWheel.editing = true
@@ -120,11 +108,31 @@ struct ScoreEntryRow: View {
     }
 }
 
+struct SimpleRectButtonStyle: ButtonStyle {
+    func makeBody(configuration: Self.Configuration) -> some View {
+        configuration.label
+            .frame(maxWidth:.infinity, maxHeight: .infinity)
+            .contentShape(Rectangle())
+            .border(Color.offWhite, width: 1)
+            .background(
+                Group {
+                    if configuration.isPressed {
+                        Rectangle()
+                            .fill(Color.gray)
+                    } else {
+                        Rectangle()
+                            .fill(Color.white)
+                    }
+                }
+        )
+    }
+}
+
 struct ScoreCardView_Previews: PreviewProvider {
     
     static var previews: some View {
-        return BindingProvider(Game()) { binding in
-            ScoreCardView(playerScore: binding.playerScores[0])
+        return BindingProvider(PlayerScore(player: Player(name: "Steph", shortName: "Stephs", photoURL: "steph", color: Color.black, colorStart: .orangeStart, colorEnd: .orangeEnd), pointsList: [])) { binding in
+            ScoreCardView(playerScore: binding)
         }
     }
 }
