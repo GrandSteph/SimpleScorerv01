@@ -15,6 +15,8 @@ struct ScoreCardView: View {
     @State private var pointsScored = CGFloat(0)
     @State private var editing = false
     
+    let frameHeight = CGFloat(135)
+    
     var body: some View {
         
         ZStack {
@@ -24,7 +26,9 @@ struct ScoreCardView: View {
                 
                 HStack (alignment: .center, spacing: 0) {
                     
-                    CircleImage(player: playerScore.player).padding(10)
+                    AvatarView(imageURL: playerScore.player.photoURL, name: playerScore.player.name)
+                        .padding(10)
+                        .frame(width: frameHeight*2/3, height: frameHeight*2/3)
                     
                     VStack (alignment: .leading, spacing: 0) {
                         Text(self.playerScore.player.shortName)
@@ -64,10 +68,12 @@ struct ScoreCardView: View {
                 }
                 
                 ScoreEntryRow(clickWheel:  ClickWheel(editing: self.$editing, playerScore: self.$playerScore, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart))
+                    .frame(height: frameHeight/3)
+                    
                 
             }
         }
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 135)
+        .frame(height: frameHeight)
         .clipShape(Rectangle()).cornerRadius(14)
         .opacity(1)
         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
@@ -77,9 +83,6 @@ struct ScoreCardView: View {
 struct ScoreEntryRow: View {
     
     var clickWheel : ClickWheel
-    //    @Binding var editing : Bool
-    //    @Binding var playerScore: PlayerScore
-    //    @Binding var pointsScored : CGFloat
     
     
     var body: some View {
@@ -131,8 +134,20 @@ struct SimpleRectButtonStyle: ButtonStyle {
 struct ScoreCardView_Previews: PreviewProvider {
     
     static var previews: some View {
-        return BindingProvider(PlayerScore(player: Player(name: "Steph", shortName: "Stephs", photoURL: "steph", color: Color.black, colorStart: .orangeStart, colorEnd: .orangeEnd), pointsList: [])) { binding in
-            ScoreCardView(playerScore: binding)
+        Group {
+            BindingProvider(PlayerScore(player: Player(name: "Steph", shortName: "Stephs", photoURL: "steph", color: Color.black, colorStart: .orangeStart, colorEnd: .orangeEnd), pointsList: [])) { binding in
+                ScoreCardView(playerScore: binding)
+                    .previewLayout(.fixed(width: 375, height: 300))
+                    .padding(.horizontal, 15)
+                    .padding(.bottom,15)
+            }
+//            BindingProvider(PlayerScore(player: Player(name: "Steph", shortName: "Step", photoURL: "st eph", color: Color.black, colorStart: .orangeStart, colorEnd: .orangeEnd), pointsList: [])) { binding in
+//                ScoreCardView(playerScore: binding)
+//                    .previewLayout(.fixed(width: 375, height: 300))
+//                    .padding(.horizontal, 15)
+//                    .padding(.bottom,15)
+//            }
         }
+        
     }
 }

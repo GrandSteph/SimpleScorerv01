@@ -8,48 +8,72 @@
 
 import SwiftUI
 
+
+
 struct AddPlayerView: View {
+    
+    @Binding var game : Game
+    
+    enum Stage {
+        case
+        collapsed ,
+        atNameEntry ,
+        atPictureChoice ,
+        done
+    }
+    
+    @State private var stage = Stage.collapsed
+    @State private var username: String = "Steph"
+    
+    let frameHeight = CGFloat(135)
+    
     var body: some View {
         ZStack {
-            LinearGradient(Color.purpleStart, Color.purpleEnd)
-            
-            VStack (alignment: .leading, spacing: 0){
-                
-                HStack (alignment: .center, spacing: 0) {
+
+                if stage == .collapsed {
+                    Button(action: {
+                        self.stage = .atNameEntry
+                    }) {
+                        Image(systemName: "plus")
+                            .font(.system(size: 30))
+                            .foregroundColor(Color.white)
+                            .padding(15)
+                            .contentShape(Rectangle())
+                            .background(Color.orangeStart)
+                            .clipShape(Rectangle()).cornerRadius(14)
+                            .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
+                    }
+                } else if stage == .atNameEntry {
                     
-                    Image(uiImage: UIImage(systemName: "person")!)
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .padding(10.0)
+                    LinearGradient(Color.orangeStart, Color.orangeEnd)
                     
-                    VStack (alignment: .leading, spacing: 0) {
-                        Text("Player name")
+                    TextField("name", text: $username, onCommit: {self.stage = .atPictureChoice})
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .keyboardType(.default)
+                    
+                    
+                } else if stage == .atPictureChoice {
+                    
+                    LinearGradient(Color.orangeStart, Color.orangeEnd)
+                    
+                    HStack () {
+                        Button(action: {
+                            self.game.addPlayer(player: Player(name: self.username, shortName: self.username, photoURL: "steph", color: .orange, colorStart: .orangeStart, colorEnd: .orangeEnd))
+                            self.stage = .collapsed
+                        }) {
+                            AvatarView(imageURL: "steph", name: "steph")
+                                                       .padding(10)
+                                                       .frame(width: frameHeight, height: frameHeight/2)
+                        }
+                        Text(self.username)
                             .fontWeight(.semibold)
                             .font(.system(.largeTitle, design: .rounded))
                             .foregroundColor(Color .offWhite)
                         
-                        //                        Text(String(self.game.ranking(for: self.playerScore)))
-                        //                            .fontWeight(.semibold)
-                        //                            .font(.system(.body, design: .rounded))
-                        //                            .foregroundColor(Color .offWhite)
-                        
+                        Spacer()
                     }
                     
-                    Spacer()
-                    
-                    Group {
-                        Text("0")
-                            .font(Font.system(size: 50, weight: .bold, design: .rounded))
-                            .foregroundColor(Color .offWhite)
-                            .offset(x: -25, y: 0)
-                        
-                       
-                    }.layoutPriority(1)
-                    
-                    
-                }.frame(maxHeight: 100)
-            }
+                }
         }
         .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 135)
         .clipShape(Rectangle()).cornerRadius(14)
@@ -60,6 +84,6 @@ struct AddPlayerView: View {
 
 struct AddPlayerView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPlayerView()
+        AddPlayerView(game: .constant(Game()))
     }
 }

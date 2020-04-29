@@ -61,13 +61,8 @@ struct GameScoreView: View {
                         VStack()  {
                             ScoreCardsGridView(columns: self.numberOfColumns(for: geometry.size.width), game: self.$game)
                             
-                            Button(action: {
-                                self.game.addPlayer(player: Player())
-//                                self.rotatedCube.toggle()
-                            }) {
-                                Image(systemName: "plus.rectangle")
-                                    .foregroundColor(.purpleStart)
-                            }
+                            AddPlayerView(game: self.$game)
+
                         }
                     }
                 }
