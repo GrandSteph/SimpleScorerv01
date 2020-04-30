@@ -55,7 +55,6 @@ struct GameScoreView: View {
 //                .edgesIgnoringSafeArea(.all)
 //                .offset(x: self.dragOffset.width + geometry.size.width, y: 0)
 //                .animation(.linear)
-                
                 Group {
                     ScrollView(self.axes) {
                         VStack()  {
@@ -63,6 +62,10 @@ struct GameScoreView: View {
                             
                             AddPlayerView(game: self.$game)
                                 .padding(.horizontal, 20)
+                            
+                            Text("\(geometry.frame(in: .global).height)")
+                            Text("\(geometry.frame(in: .named("Custom")).height)")
+                            Text("\(geometry.frame(in: .local).height)")
 
                         }
                     }
@@ -128,5 +131,22 @@ struct ScoreCardsGridView: View {
                 .padding(.bottom,15)
             }
         }
+    }
+}
+
+struct mesureView: View {
+    var body: some View {
+        
+//        GeometryReader { geometry in
+            
+            HStack {
+//                Spacer()
+                VStack {
+                    Text("ICI").coordinateSpace(name: "Custom")
+                }
+                Spacer()
+            }
+//        }
+        
     }
 }

@@ -10,7 +10,6 @@ import SwiftUI
 
 struct AvatarView: View {
     
-    var imageURL : String?
     var name : String?
     var image : UIImage?
     
@@ -38,20 +37,11 @@ struct AvatarView: View {
                     .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
             }
             
-            if imageURL != nil {
-                if UIImage(named: imageURL!) != nil {
-                    Image(imageURL!).renderingMode(.original)
-                        .resizable()
-                        .scaledToFit()
-                        .clipShape(Circle())
-                        .overlay(Circle().strokeBorder(Color.offWhite, lineWidth: 1))
-                }
-            }
-            
             if image?.imageAsset != nil {
                 Image(uiImage: image!).renderingMode(.original)
                 .resizable()
-                .scaledToFit()
+                    .aspectRatio(1, contentMode: .fit)
+//                .scaledToFill()
                 .clipShape(Circle())
                 .overlay(Circle().strokeBorder(Color.offWhite, lineWidth: 1))
             }
@@ -65,7 +55,7 @@ struct CircleImage_Previews: PreviewProvider {
     static var previews: some View {
         
         Group {
-            AvatarView(imageURL: "steph", name: "steph")
+            AvatarView(name: "steph", image: UIImage(named: "steph"))
                 .background(Color.orangeEnd)
                 .previewLayout(.fixed(width: 200, height: 300))
             

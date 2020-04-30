@@ -16,97 +16,119 @@ struct AddPlayerView: View {
     
     enum Stage {
         case
-            collapsed ,
-            atNameEntry ,
-            atPictureChoice
+        collapsed ,
+        atNameEntry ,
+        atPictureChoice
     }
     
     @State private var stage = Stage.atNameEntry
-    @State private var username: String = "Steph"
+    @State private var username: String = ""
     
     @State private var showImagePicker = false
     @State private var imagePicked = UIImage()
+    @ObservedObject private var keyboard = KeyboardResponder()
     
     
     let frameHeight = CGFloat(135)
     
     var body: some View {
+        
+        
+        
         ZStack {
 
-                if stage == .collapsed {
-                    Button(action: {
-                        self.stage = .atNameEntry
-                    }) {
-                        Image(systemName: "plus")
-                            .font(.system(size: 30))
-                            .foregroundColor(Color.white)
-                            .padding(15)
-                            .contentShape(Rectangle())
-                            .background(Color.orangeStart)
-                            .clipShape(Rectangle()).cornerRadius(14)
-                            .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
-                    }
-                } else if stage == .atNameEntry {
-                    
-                    LinearGradient(Color.orangeStart, Color.orangeEnd)
-                    
-                    TextField("name", text: $username, onCommit: {self.stage = .atPictureChoice})
+            if stage == .collapsed {
+                Button(action: {
+                    self.stage = .atNameEntry
+                }) {
+                    Image(systemName: "plus")
                         .font(.system(size: 30))
-                        .font(.system(.largeTitle, design: .rounded))
-                        .foregroundColor(Color.white).opacity(1)
-                        .background(Color.offWhite).opacity(0.5)
-                        .cornerRadius(5.0)
-                        .padding(.horizontal)
-                        .keyboardType(.default)
+                        .foregroundColor(Color.white)
+                        .padding(15)
+                        .contentShape(Rectangle())
+                        .background(Color.orangeStart)
+                        .clipShape(Rectangle()).cornerRadius(14)
+                        .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
+                }
+            } else if stage == .atNameEntry {
+                
+                LinearGradient(Color.orangeStart, Color.orangeEnd)
+                
+               
+                GeometryReader { geometry in
                     
-
-                    
-                    
-                } else if stage == .atPictureChoice {
-                    
-                    LinearGradient(Color.orangeStart, Color.orangeEnd)
-                    
-                    HStack () {
-                        Button(action: {
-                            self.showImagePicker.toggle()
-                        }) {
-                            AvatarView(image: self.imagePicked)
-                                .padding(10)
-                                .frame(width: frameHeight, height: frameHeight*2/3)
-                        }
-                        .sheet(isPresented: self.$showImagePicker, content: {
-                            ImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked)
-                        })
-                        
-                        
-
-                        Text(self.username)
-                            .fontWeight(.semibold)
+                    VStack (alignment: .center) {
+                        TextField("Enter name", text: self.$username, onCommit: {self.stage = .atPictureChoice})
+                            .font(.system(size: 30))
                             .font(.system(.largeTitle, design: .rounded))
-                            .foregroundColor(Color .offWhite)
+                            .padding()
+                            .foregroundColor(Color.white)
+                            .background(Color.offWhite).opacity(0.8)
+                            .cornerRadius(10.0)
+                            .padding(.horizontal, self.frameHeight/2)
+                            .keyboardType(.default)
+                            .offset(x: 0, y: -self.keyboard.currentHeight)
+                            .edgesIgnoringSafeArea(.bottom)
+                            .animation(.easeOut(duration: 0.16))
                         
-                        Spacer()
-                        
-                        Button(action: {
-                            self.game.addPlayer(player: Player(name: self.username, photoImage: Image(uiImage: self.imagePicked), colorStart: .orangeStart, colorEnd: .orangeEnd))
-                            self.stage = .collapsed
-                        }) {
-                            Image(systemName: "checkmark")
+                        Text("\(geometry.frame(in: .global).origin.y + geometry.frame(in: .global).height)")
+                        Text("\(geometry.frame(in: .named("Custom")).height)")
+                    }
+                }
+                
+                
+                
+                
+            } else if stage == .atPictureChoice {
+                
+                LinearGradient(Color.orangeStart, Color.orangeEnd)
+                
+                HStack () {
+                    Button(action: {
+                        self.showImagePicker.toggle()
+                    }) {
+                        AvatarView(image: self.imagePicked)
+                            .padding(10)
+                            .frame(width: frameHeight, height: frameHeight*2/3)
+                    }
+                    .sheet(isPresented: self.$showImagePicker, content: {
+                        ImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked)
+                    })
+                    
+                    
+                    
+                    Text(self.username)
+                        .fontWeight(.semibold)
+                        .font(.system(.largeTitle, design: .rounded))
+                        .foregroundColor(Color .offWhite)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        self.game.addPlayer(player: Player(name: self.username, photoImage: self.imagePicked, colorStart: .orangeStart, colorEnd: .orangeEnd))
+                        self.stage = .collapsed
+                        self.username = ""
+                        self.imagePicked = UIImage()
+                    }) {
+                        Image(systemName: "checkmark")
                             .font(.system(size: 30, weight: .light, design: .default))
                             .foregroundColor(Color.white)
                             .padding()
                             .contentShape(Circle())
                             //                        .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
                             .padding()
-                        }
-                        
-                        
-                      
                     }
                     
-                }
-        }
-        .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 135)
+                    
+                    
+                } // End of HStack
+                
+            }
+            
+            
+        } // End of ZStack
+        .frame(height: stage == .collapsed ? 70 : frameHeight)
+        .frame(maxWidth: .infinity)
         .clipShape(Rectangle()).cornerRadius(14)
         .opacity(1)
         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
@@ -151,3 +173,5 @@ struct ImagePickerView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: ImagePickerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ImagePickerView>) {
     }
 }
+
+

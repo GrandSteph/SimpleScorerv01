@@ -13,8 +13,8 @@ struct Player: Identifiable {
     
     var id = UUID()
     var name: String
-    var photoURL: String?
-    var photoImage: Image?
+//    var photoURL: String?
+    var photoImage: UIImage?
     var colorStart: Color
     var colorEnd: Color
     

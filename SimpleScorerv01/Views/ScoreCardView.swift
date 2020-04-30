@@ -26,7 +26,7 @@ struct ScoreCardView: View {
                 
                 HStack (alignment: .center, spacing: 0) {
                     
-                    AvatarView(imageURL: playerScore.player.photoURL, name: playerScore.player.name)
+                    AvatarView(name: playerScore.player.name, image: playerScore.player.photoImage)
                         .padding(10)
                         .frame(width: frameHeight*2/3, height: frameHeight*2/3)
                     
@@ -135,7 +135,7 @@ struct ScoreCardView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            BindingProvider(PlayerScore(player: Player(name: "Steph", photoURL: "steph", colorStart: .orangeStart, colorEnd: .orangeEnd), pointsList: [])) { binding in
+            BindingProvider(PlayerScore(player: Player(name: "Steph", colorStart: .orangeStart, colorEnd: .orangeEnd), pointsList: [])) { binding in
                 ScoreCardView(playerScore: binding)
                     .previewLayout(.fixed(width: 375, height: 300))
                     .padding(.horizontal, 15)
