@@ -31,7 +31,7 @@ struct ScoreCardView: View {
                         .frame(width: frameHeight*2/3, height: frameHeight*2/3)
                     
                     VStack (alignment: .leading, spacing: 0) {
-                        Text(self.playerScore.player.shortName)
+                        Text(self.playerScore.player.name)
                             .fontWeight(.semibold)
                             .font(.system(.largeTitle, design: .rounded))
                             .foregroundColor(Color .offWhite)
@@ -135,7 +135,7 @@ struct ScoreCardView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            BindingProvider(PlayerScore(player: Player(name: "Steph", shortName: "Stephs", photoURL: "steph", color: Color.black, colorStart: .orangeStart, colorEnd: .orangeEnd), pointsList: [])) { binding in
+            BindingProvider(PlayerScore(player: Player(name: "Steph", photoURL: "steph", colorStart: .orangeStart, colorEnd: .orangeEnd), pointsList: [])) { binding in
                 ScoreCardView(playerScore: binding)
                     .previewLayout(.fixed(width: 375, height: 300))
                     .padding(.horizontal, 15)

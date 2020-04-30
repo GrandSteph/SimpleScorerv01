@@ -12,7 +12,7 @@ struct AvatarView: View {
     
     var imageURL : String?
     var name : String?
-    var image : Image?
+    var image : UIImage?
     
     
     @ViewBuilder
@@ -48,8 +48,8 @@ struct AvatarView: View {
                 }
             }
             
-            if image != nil {
-                image!.renderingMode(.original)
+            if image?.imageAsset != nil {
+                Image(uiImage: image!).renderingMode(.original)
                 .resizable()
                 .scaledToFit()
                 .clipShape(Circle())

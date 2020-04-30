@@ -9,13 +9,12 @@
 import SwiftUI
 import Combine
 
-struct Player: Identifiable, Hashable {
+struct Player: Identifiable {
     
     var id = UUID()
     var name: String
-    var shortName: String
-    var photoURL: String
-    var color: Color
+    var photoURL: String?
+    var photoImage: Image?
     var colorStart: Color
     var colorEnd: Color
     
@@ -29,9 +28,6 @@ struct Player: Identifiable, Hashable {
 extension Player {
     init() {
         self.name = "Default Name"
-        self.shortName = "Def"
-        self.photoURL = ""
-        self.color = Color .orange
         self.colorStart = Color(red: 241 / 255, green: 242 / 255, blue: 181 / 255)
         self.colorEnd = Color(red: 18 / 255, green: 80 / 255, blue: 88 / 255)
     }

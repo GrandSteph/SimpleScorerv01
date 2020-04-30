@@ -21,7 +21,7 @@ struct AddPlayerView: View {
             atPictureChoice
     }
     
-    @State private var stage = Stage.atPictureChoice
+    @State private var stage = Stage.atNameEntry
     @State private var username: String = "Steph"
     
     @State private var showImagePicker = false
@@ -51,8 +51,15 @@ struct AddPlayerView: View {
                     LinearGradient(Color.orangeStart, Color.orangeEnd)
                     
                     TextField("name", text: $username, onCommit: {self.stage = .atPictureChoice})
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .font(.system(size: 30))
+                        .font(.system(.largeTitle, design: .rounded))
+                        .foregroundColor(Color.white).opacity(1)
+                        .background(Color.offWhite).opacity(0.5)
+                        .cornerRadius(5.0)
+                        .padding(.horizontal)
                         .keyboardType(.default)
+                    
+
                     
                     
                 } else if stage == .atPictureChoice {
@@ -62,10 +69,8 @@ struct AddPlayerView: View {
                     HStack () {
                         Button(action: {
                             self.showImagePicker.toggle()
-//                            self.game.addPlayer(player: Player(name: self.username, shortName: self.username, photoURL: "steph", color: .orange, colorStart: .orangeStart, colorEnd: .orangeEnd))
-//                            self.stage = .collapsed
                         }) {
-                            AvatarView(image: Image(uiImage: self.imagePicked))
+                            AvatarView(image: self.imagePicked)
                                 .padding(10)
                                 .frame(width: frameHeight, height: frameHeight*2/3)
                         }
@@ -83,8 +88,8 @@ struct AddPlayerView: View {
                         Spacer()
                         
                         Button(action: {
-                            //                            self.game.addPlayer(player: Player(name: self.username, shortName: self.username, photoURL: "steph", color: .orange, colorStart: .orangeStart, colorEnd: .orangeEnd))
-                            //                            self.stage = .collapsed
+                            self.game.addPlayer(player: Player(name: self.username, photoImage: Image(uiImage: self.imagePicked), colorStart: .orangeStart, colorEnd: .orangeEnd))
+                            self.stage = .collapsed
                         }) {
                             Image(systemName: "checkmark")
                             .font(.system(size: 30, weight: .light, design: .default))
@@ -144,20 +149,5 @@ struct ImagePickerView: UIViewControllerRepresentable {
     }
     
     func updateUIViewController(_ uiViewController: ImagePickerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ImagePickerView>) {
-        
-    }
-}
-
-struct DummyView : UIViewRepresentable {
-    
-    func makeUIView(context: UIViewRepresentableContext<DummyView>) -> UIButton {
-        let button = UIButton()
-        button.setTitle("DUMMY", for: .normal)
-        button.backgroundColor = .red
-        return button
-    }
-    
-    func  updateUIView(_ uiView: DummyView.UIViewType, context: UIViewRepresentableContext<DummyView>) {
-        
     }
 }

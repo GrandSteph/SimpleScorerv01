@@ -23,9 +23,9 @@ struct Game {
         playerScores.append(PlayerScore(player: player, pointsList: pointList))
     }
     
-    func findScore(playerScore: PlayerScore) -> PlayerScore {
-        return playerScores[playerScores.firstIndex(where: {$0 == playerScore})!]
-    }
+//    func findScore(playerScore: PlayerScore) -> PlayerScore {
+//        return playerScores[playerScores.firstIndex(where: {$0 == playerScore})!]
+//    }
     
     mutating func addScore(pointsValue: Int, playerScoreID: PlayerScore.ID) {
         playerScores[playerScores.firstIndex(where: {$0.id == playerScoreID})!].addPoints(scoreValue: pointsValue)
@@ -41,19 +41,19 @@ struct Game {
         return maxScore
     }
     
-    func ranking(for playerScore:PlayerScore) -> Int {
-        
-        var ranking = 1
-        
-        let playerScore = self.findScore(playerScore: playerScore).totalScore()
-        
-        for score in self.playerScores {
-            if score.totalScore() > playerScore {
-                ranking += 1
-            }
-        }
-        return ranking
-    }
+//    func ranking(for playerScore:PlayerScore) -> Int {
+//
+//        var ranking = 1
+//
+//        let playerScore = self.findScore(playerScore: playerScore).totalScore()
+//
+//        for score in self.playerScores {
+//            if score.totalScore() > playerScore {
+//                ranking += 1
+//            }
+//        }
+//        return ranking
+//    }
     
     init(players: [Player] = [], scores: [PlayerScore] = []) {
         self.players = players
@@ -61,7 +61,7 @@ struct Game {
     }
     
     init () {
-        self.addPlayer(player: Player(name: "Stephane", shortName: "Steph", photoURL:"steph", color: Color.blue, colorStart: Color.cyan1, colorEnd: Color.cyan2))
+        self.addPlayer(player: Player(name: "Stephane", photoURL:"steph", colorStart: Color.cyan1, colorEnd: Color.cyan2))
 //        self.addPlayer(player: Player(name: "Sophie", shortName: "Sof", photoURL:"sof", color: Color.orange,  colorStart: Color.orangeStart, colorEnd: Color.orangeEnd))
 //        self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color.blue, colorStart: Color.blueStart, colorEnd: Color.blueEnd))
 //        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color.purple, colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))

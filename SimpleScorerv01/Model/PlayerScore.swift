@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct PlayerScore: Identifiable, Hashable {
+struct PlayerScore: Identifiable {
     
     var id = UUID()
     let player: Player

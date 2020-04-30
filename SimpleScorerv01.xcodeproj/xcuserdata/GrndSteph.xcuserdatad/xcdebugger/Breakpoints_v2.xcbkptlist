@@ -80,8 +80,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "27"
             endingLineNumber = "27"
-            landmarkName = "findScore(playerScore:)"
-            landmarkType = "7">
+            landmarkName = "Game"
+            landmarkType = "14">
             <Locations>
                <Location
                   uuid = "2629FABB-8024-48F0-902F-CE56F32B3F16 - ddecbc87a0921b80"
@@ -144,8 +144,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "84"
             endingLineNumber = "84"
-            landmarkName = "unknown"
-            landmarkType = "0">
+            landmarkName = "body"
+            landmarkType = "24">
             <Locations>
                <Location
                   uuid = "BAE38AC9-7C9C-4A86-AB76-28CFE42445DD - b330cbbd07c0999d"
