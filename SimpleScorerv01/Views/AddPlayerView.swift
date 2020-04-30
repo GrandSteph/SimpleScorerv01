@@ -16,14 +16,17 @@ struct AddPlayerView: View {
     
     enum Stage {
         case
-        collapsed ,
-        atNameEntry ,
-        atPictureChoice ,
-        done
+            collapsed ,
+            atNameEntry ,
+            atPictureChoice
     }
     
-    @State private var stage = Stage.collapsed
+    @State private var stage = Stage.atPictureChoice
     @State private var username: String = "Steph"
+    
+    @State private var showImagePicker = false
+    @State private var imagePicked = UIImage()
+    
     
     let frameHeight = CGFloat(135)
     
@@ -58,19 +61,42 @@ struct AddPlayerView: View {
                     
                     HStack () {
                         Button(action: {
-                            self.game.addPlayer(player: Player(name: self.username, shortName: self.username, photoURL: "steph", color: .orange, colorStart: .orangeStart, colorEnd: .orangeEnd))
-                            self.stage = .collapsed
+                            self.showImagePicker.toggle()
+//                            self.game.addPlayer(player: Player(name: self.username, shortName: self.username, photoURL: "steph", color: .orange, colorStart: .orangeStart, colorEnd: .orangeEnd))
+//                            self.stage = .collapsed
                         }) {
-                            AvatarView(imageURL: "steph", name: "steph")
-                                                       .padding(10)
-                                                       .frame(width: frameHeight, height: frameHeight/2)
+                            AvatarView(image: Image(uiImage: self.imagePicked))
+                                .padding(10)
+                                .frame(width: frameHeight, height: frameHeight*2/3)
                         }
+                        .sheet(isPresented: self.$showImagePicker, content: {
+                            ImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked)
+                        })
+                        
+                        
+
                         Text(self.username)
                             .fontWeight(.semibold)
                             .font(.system(.largeTitle, design: .rounded))
                             .foregroundColor(Color .offWhite)
                         
                         Spacer()
+                        
+                        Button(action: {
+                            //                            self.game.addPlayer(player: Player(name: self.username, shortName: self.username, photoURL: "steph", color: .orange, colorStart: .orangeStart, colorEnd: .orangeEnd))
+                            //                            self.stage = .collapsed
+                        }) {
+                            Image(systemName: "checkmark")
+                            .font(.system(size: 30, weight: .light, design: .default))
+                            .foregroundColor(Color.white)
+                            .padding()
+                            .contentShape(Circle())
+                            //                        .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
+                            .padding()
+                        }
+                        
+                        
+                      
                     }
                     
                 }
@@ -85,5 +111,53 @@ struct AddPlayerView: View {
 struct AddPlayerView_Previews: PreviewProvider {
     static var previews: some View {
         AddPlayerView(game: .constant(Game()))
+    }
+}
+
+struct ImagePickerView: UIViewControllerRepresentable {
+    
+    @Binding var isPresented : Bool
+    @Binding var selectedImage: UIImage
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerView>) -> UIViewController {
+        let controller = UIImagePickerController()
+        controller.delegate = context.coordinator
+        return controller
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(parent: self)
+    }
+    
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let parent: ImagePickerView
+        init(parent: ImagePickerView) {
+            self.parent = parent
+        }
+        
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let selectedImageFromPicker = info[.originalImage] as? UIImage {
+                self.parent.selectedImage = selectedImageFromPicker
+            }
+            self.parent.isPresented = false
+        }
+    }
+    
+    func updateUIViewController(_ uiViewController: ImagePickerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ImagePickerView>) {
+        
+    }
+}
+
+struct DummyView : UIViewRepresentable {
+    
+    func makeUIView(context: UIViewRepresentableContext<DummyView>) -> UIButton {
+        let button = UIButton()
+        button.setTitle("DUMMY", for: .normal)
+        button.backgroundColor = .red
+        return button
+    }
+    
+    func  updateUIView(_ uiView: DummyView.UIViewType, context: UIViewRepresentableContext<DummyView>) {
+        
     }
 }

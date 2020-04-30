@@ -62,6 +62,7 @@ struct GameScoreView: View {
                             ScoreCardsGridView(columns: self.numberOfColumns(for: geometry.size.width), game: self.$game)
                             
                             AddPlayerView(game: self.$game)
+                                .padding(.horizontal, 20)
 
                         }
                     }
