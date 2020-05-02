@@ -67,8 +67,29 @@ struct ScoreCardView: View {
                     
                 }
                 
-                ScoreEntryRow(clickWheel:  ClickWheel(editing: self.$editing, playerScore: self.$playerScore, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart))
-                    .frame(height: frameHeight/3)
+                HStack (spacing: 0) {
+                    
+                    Button(action: {
+                        self.playerScore.addPoints(scoreValue: -1)
+                    }) {
+                        Image(systemName: "minus.rectangle")
+                            .foregroundColor(.purpleStart)
+                    }
+                    .buttonStyle(SimpleRectButtonStyle())
+                    
+                    ClickWheel(editing: self.$editing, playerScore: self.$playerScore, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
+                    
+                    Button(action: {
+                        self.playerScore.addPoints(scoreValue: 1)
+                    }) {
+                        Image(systemName: "plus.rectangle")
+                            .foregroundColor(.purpleStart)
+                    }
+                    .buttonStyle(SimpleRectButtonStyle())
+                }
+                .frame(height: frameHeight/3)
+
+                    
                     
                 
             }
@@ -77,37 +98,6 @@ struct ScoreCardView: View {
         .clipShape(Rectangle()).cornerRadius(14)
         .opacity(1)
         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
-    }
-}
-
-struct ScoreEntryRow: View {
-    
-    var clickWheel : ClickWheel
-    
-    
-    var body: some View {
-        HStack (spacing: 0) {
-            
-            Button(action: {
-                self.clickWheel.editing = true
-                self.clickWheel.pointsScored -= 1
-            }) {
-                Image(systemName: "minus.rectangle")
-                    .foregroundColor(.purpleStart)
-            }
-            .buttonStyle(SimpleRectButtonStyle())
-            
-            self.clickWheel
-            
-            Button(action: {
-                self.clickWheel.editing = true
-                self.clickWheel.pointsScored += 1
-            }) {
-                Image(systemName: "plus.rectangle")
-                    .foregroundColor(.purpleStart)
-            }
-            .buttonStyle(SimpleRectButtonStyle())
-        }
     }
 }
 

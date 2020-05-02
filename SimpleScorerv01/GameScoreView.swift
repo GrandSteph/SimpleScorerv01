@@ -16,7 +16,11 @@ struct GameScoreView: View {
     @State private var rotatedCube = false
     
     @GestureState private var dragOffset = CGSize.zero
+    @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 1)
     
+    @State private var imagePicked = UIImage()
+    @State private var showImagePicker = false
+    @State private var pickerSource = UIImagePickerController.SourceType.camera
     
     private var axes: Axis.Set {
         return shouldScroll ? .vertical : []
@@ -59,21 +63,25 @@ struct GameScoreView: View {
                     ScrollView(self.axes) {
                         VStack()  {
                             ScoreCardsGridView(columns: self.numberOfColumns(for: geometry.size.width), game: self.$game)
-                            
-                            AddPlayerView(game: self.$game)
+                            Spacer()
+                            AddPlayerView(game: self.$game, kGuardian: self.kGuardian,showImagePicker: self.$showImagePicker, pickerSource: self.$pickerSource , imagePicked: self.$imagePicked)
                                 .padding(.horizontal, 20)
+                                .background(GeometryGetter(rect: self.$kGuardian.rects[0]))
+                                .onAppear { self.kGuardian.addObserver() }
+                                .onDisappear { self.kGuardian.removeObserver() }
                             
-                            Text("\(geometry.frame(in: .global).height)")
-                            Text("\(geometry.frame(in: .named("Custom")).height)")
-                            Text("\(geometry.frame(in: .local).height)")
-
-                        }
+                        }.offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
                     }
                 }
 //                .background(self.rotatedCube ? Color.white : Color.offWhite)
 //                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
 //                .offset(x: self.dragOffset.width, y: 0)
 //                .animation(.linear)
+                
+                if self.showImagePicker {
+                    ImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
+                        .edgesIgnoringSafeArea(.all)
+                } 
             }
 //            .gesture(
 //                DragGesture()
@@ -134,19 +142,3 @@ struct ScoreCardsGridView: View {
     }
 }
 
-struct mesureView: View {
-    var body: some View {
-        
-//        GeometryReader { geometry in
-            
-            HStack {
-//                Spacer()
-                VStack {
-                    Text("ICI").coordinateSpace(name: "Custom")
-                }
-                Spacer()
-            }
-//        }
-        
-    }
-}

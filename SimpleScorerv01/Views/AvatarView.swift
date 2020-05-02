@@ -39,9 +39,10 @@ struct AvatarView: View {
             
             if image?.imageAsset != nil {
                 Image(uiImage: image!).renderingMode(.original)
+                    
                 .resizable()
-                    .aspectRatio(1, contentMode: .fit)
-//                .scaledToFill()
+                   
+                .scaledToFill()
                 .clipShape(Circle())
                 .overlay(Circle().strokeBorder(Color.offWhite, lineWidth: 1))
             }

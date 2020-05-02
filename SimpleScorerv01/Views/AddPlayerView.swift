@@ -7,12 +7,13 @@
 //
 
 import SwiftUI
-
+import Combine
 
 
 struct AddPlayerView: View {
     
     @Binding var game : Game
+    @ObservedObject var kGuardian : KeyboardGuardian
     
     enum Stage {
         case
@@ -21,13 +22,14 @@ struct AddPlayerView: View {
         atPictureChoice
     }
     
-    @State private var stage = Stage.atNameEntry
+    @State private var stage = Stage.collapsed
     @State private var username: String = ""
     
-    @State private var showImagePicker = false
-    @State private var imagePicked = UIImage()
-    @ObservedObject private var keyboard = KeyboardResponder()
-    
+    @State private var showActionSheet = false
+
+    @Binding var showImagePicker: Bool
+    @Binding var pickerSource: UIImagePickerController.SourceType
+    @Binding var imagePicked: UIImage
     
     let frameHeight = CGFloat(135)
     
@@ -54,11 +56,9 @@ struct AddPlayerView: View {
                 
                 LinearGradient(Color.orangeStart, Color.orangeEnd)
                 
-               
-                GeometryReader { geometry in
                     
                     VStack (alignment: .center) {
-                        TextField("Enter name", text: self.$username, onCommit: {self.stage = .atPictureChoice})
+                        TextField("Enter name", text: self.$username,onEditingChanged: { if $0 { self.kGuardian.showField = 0 } }, onCommit: {self.stage = .atPictureChoice})
                             .font(.system(size: 30))
                             .font(.system(.largeTitle, design: .rounded))
                             .padding()
@@ -67,15 +67,10 @@ struct AddPlayerView: View {
                             .cornerRadius(10.0)
                             .padding(.horizontal, self.frameHeight/2)
                             .keyboardType(.default)
-                            .offset(x: 0, y: -self.keyboard.currentHeight)
                             .edgesIgnoringSafeArea(.bottom)
-                            .animation(.easeOut(duration: 0.16))
-                        
-                        Text("\(geometry.frame(in: .global).origin.y + geometry.frame(in: .global).height)")
-                        Text("\(geometry.frame(in: .named("Custom")).height)")
                     }
-                }
-                
+                   
+
                 
                 
                 
@@ -84,18 +79,35 @@ struct AddPlayerView: View {
                 LinearGradient(Color.orangeStart, Color.orangeEnd)
                 
                 HStack () {
+                    
+                    
                     Button(action: {
-                        self.showImagePicker.toggle()
+                        self.showActionSheet.toggle()
                     }) {
                         AvatarView(image: self.imagePicked)
                             .padding(10)
-                            .frame(width: frameHeight, height: frameHeight*2/3)
+                            .frame(width: frameHeight*2/3, height: frameHeight*2/3)
                     }
-                    .sheet(isPresented: self.$showImagePicker, content: {
-                        ImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked)
+                    .actionSheet(isPresented: $showActionSheet, content: {
+                        ActionSheet(title: Text("Picture source"), buttons: [
+                            .default(Text("Camera"), action: {
+                                self.pickerSource = .camera
+                                self.showImagePicker.toggle()
+                                
+                            }),
+                            .default(Text("Photo Library"), action: {
+                                self.pickerSource = .photoLibrary
+                                self.showImagePicker.toggle()
+                                
+                            }),
+                            .destructive(Text("Cancel"))
+                        ])
                     })
-                    
-                    
+                        
+//                    .sheet(isPresented: self.$showImagePicker, content: {
+//                        ImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
+//                            .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
+//                    })
                     
                     Text(self.username)
                         .fontWeight(.semibold)
@@ -125,6 +137,9 @@ struct AddPlayerView: View {
                 
             }
             
+//            if self.showImagePicker {
+//                ImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
+//            }
             
         } // End of ZStack
         .frame(height: stage == .collapsed ? 70 : frameHeight)
@@ -135,43 +150,13 @@ struct AddPlayerView: View {
     }
 }
 
-struct AddPlayerView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddPlayerView(game: .constant(Game()))
-    }
-}
+//struct AddPlayerView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddPlayerView(game: .constant(Game()), kGuardian: KeyboardGuardian(textFieldCount: 1))
+//    }
+//}
 
-struct ImagePickerView: UIViewControllerRepresentable {
-    
-    @Binding var isPresented : Bool
-    @Binding var selectedImage: UIImage
-    
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerView>) -> UIViewController {
-        let controller = UIImagePickerController()
-        controller.delegate = context.coordinator
-        return controller
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(parent: self)
-    }
-    
-    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        let parent: ImagePickerView
-        init(parent: ImagePickerView) {
-            self.parent = parent
-        }
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            if let selectedImageFromPicker = info[.originalImage] as? UIImage {
-                self.parent.selectedImage = selectedImageFromPicker
-            }
-            self.parent.isPresented = false
-        }
-    }
-    
-    func updateUIViewController(_ uiViewController: ImagePickerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ImagePickerView>) {
-    }
-}
+
+
 
 

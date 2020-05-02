@@ -46,8 +46,8 @@
             filePath = "SimpleScorerv01/GameScoreView.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "87"
-            endingLineNumber = "87"
+            startingLineNumber = "95"
+            endingLineNumber = "95"
             landmarkName = "body"
             landmarkType = "24">
             <Locations>
@@ -80,70 +80,6 @@
                   startingLineNumber = "89"
                   endingLineNumber = "89"
                   offsetFromSymbolStart = "241">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "BD4B873E-4807-4A72-B93B-6B25EC5F781C"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SimpleScorerv01/Views/AddPlayerView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "95"
-            endingLineNumber = "95"
-            landmarkName = "body"
-            landmarkType = "24">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "CF0E9F72-DBD7-427C-9740-E35EC477CD30"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "SimpleScorerv01/Views/AddPlayerView.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "167"
-            endingLineNumber = "167"
-            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  uuid = "CF0E9F72-DBD7-427C-9740-E35EC477CD30 - 8c891a6afc3c0266"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "SimpleScorerv01.ImagePickerView.Coordinator.imagePickerController(_: __C.UIImagePickerController, didFinishPickingMediaWithInfo: Swift.Dictionary&lt;__C.UIImagePickerControllerInfoKey, Any&gt;) -&gt; ()"
-                  moduleName = "SimpleScorerv01"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/GrndSteph/Documents/code/SimpleScorer01/SimpleScorerv01/SimpleScorerv01/Views/AddPlayerView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "597">
-               </Location>
-               <Location
-                  uuid = "CF0E9F72-DBD7-427C-9740-E35EC477CD30 - eed3b7abb7edb4e1"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "(extension in SimpleScorerv01_PreviewReplacement_AddPlayerView_7):SimpleScorerv01.ImagePickerView.Coordinator.(__preview__imagePickerController in _9E271147AD40B4CD0C4BC4D49E1A3045)(_: __C.UIImagePickerController, didFinishPickingMediaWithInfo: Swift.Dictionary&lt;__C.UIImagePickerControllerInfoKey, Any&gt;) -&gt; ()"
-                  moduleName = "AddPlayerView.7.preview-thunk.dylib"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/GrndSteph/Documents/code/SimpleScorer01/SimpleScorerv01/SimpleScorerv01/Views/AddPlayerView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "150"
-                  endingLineNumber = "150"
-                  offsetFromSymbolStart = "604">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -210,6 +146,22 @@
                   offsetFromSymbolStart = "610">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "922BC4DC-E616-4AF4-910B-37046FEDEFF5"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Helpers.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "127"
+            endingLineNumber = "127"
+            landmarkName = "imagePickerController(_:didFinishPickingMediaWithInfo:)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
