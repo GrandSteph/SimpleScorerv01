@@ -8,6 +8,22 @@
 
 import SwiftUI
 
+struct BindingProvider<StateT, Content: View>: View {
+
+    @State private var state: StateT
+    private var content: (_ binding: Binding<StateT>) -> Content
+
+    init(_ initialState: StateT, @ViewBuilder content: @escaping (_ binding: Binding<StateT>) -> Content) {
+        self.content = content
+        self._state = State(initialValue: initialState)
+    }
+
+    var body: some View {
+        self.content($state)
+    }
+}
+
+
 // Keyboard slide
 // Courtesy of https://stackoverflow.com/questions/56491881/move-textfield-up-when-thekeyboard-has-appeared-by-using-swiftui-ios
 struct GeometryGetter: View {
@@ -91,55 +107,5 @@ final class KeyboardGuardian: ObservableObject {
             }
             
         }
-    }
-}
-
-struct ImagePickerView: UIViewControllerRepresentable {
-    
-    @Binding var isPresented : Bool
-    @Binding var selectedImage: UIImage
-    var source : UIImagePickerController.SourceType
-    
-    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerView>) -> UIViewController {
-        let controller = UIImagePickerController()
-        controller.delegate = context.coordinator
-        controller.allowsEditing = true
-        controller.sourceType = self.source
-        controller.modalPresentationStyle = .fullScreen
-        return controller
-    }
-    
-    func makeCoordinator() -> Coordinator {
-        return Coordinator(parent: self)
-    }
-    
-    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-        let parent: ImagePickerView
-        init(parent: ImagePickerView) {
-            self.parent = parent
-        }
-        
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-            
-            if let selectedImageFromPicker = info[.editedImage] as? UIImage {
-                self.parent.selectedImage = selectedImageFromPicker
-            }
-            self.parent.isPresented = false
-        }
-        
-        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
-            self.parent.isPresented = false
-        }
-    }
-    
-    
-    func updateUIViewController(_ uiViewController: ImagePickerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ImagePickerView>) {
-    }
-}
-
-
-extension UIImagePickerController {
-    override open var shouldAutorotate: Bool {
-        return false
     }
 }

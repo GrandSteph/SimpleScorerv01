@@ -20,7 +20,7 @@ struct GameScoreView: View {
     
     @State private var imagePicked = UIImage()
     @State private var showImagePicker = false
-    @State private var pickerSource = UIImagePickerController.SourceType.camera
+    @State private var pickerSource = UIImagePickerController.SourceType.photoLibrary
     
     private var axes: Axis.Set {
         return shouldScroll ? .vertical : []
@@ -79,7 +79,7 @@ struct GameScoreView: View {
 //                .animation(.linear)
                 
                 if self.showImagePicker {
-                    ImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
+                    CircleImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
                         .edgesIgnoringSafeArea(.all)
                 } 
             }

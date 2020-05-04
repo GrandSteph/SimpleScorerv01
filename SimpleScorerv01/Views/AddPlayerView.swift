@@ -22,7 +22,7 @@ struct AddPlayerView: View {
         atPictureChoice
     }
     
-    @State private var stage = Stage.collapsed
+    @State private var stage = Stage.atPictureChoice
     @State private var username: String = ""
     
     @State private var showActionSheet = false
@@ -93,11 +93,12 @@ struct AddPlayerView: View {
                             .default(Text("Camera"), action: {
                                 self.pickerSource = .camera
                                 self.showImagePicker.toggle()
-                                
+                                self.imagePicked = UIImage()
                             }),
                             .default(Text("Photo Library"), action: {
                                 self.pickerSource = .photoLibrary
                                 self.showImagePicker.toggle()
+                                self.imagePicked = UIImage()
                                 
                             }),
                             .destructive(Text("Cancel"))
