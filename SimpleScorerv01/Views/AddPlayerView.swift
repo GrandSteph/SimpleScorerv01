@@ -22,7 +22,7 @@ struct AddPlayerView: View {
         atPictureChoice
     }
     
-    @State private var stage = Stage.atPictureChoice
+    @State private var stage = Stage.collapsed
     @State private var username: String = ""
     
     @State private var showActionSheet = false

@@ -15,24 +15,44 @@ struct CircleImagePickerView: View {
     @Binding var selectedImage: UIImage
     var source : UIImagePickerController.SourceType
     
-
+    @State private var showPicker = true
     
     var body: some View {
         Group {
-            if selectedImage == UIImage() {
-                ImagePickerView(isPresented: self.$isPresented, selectedImage: self.$selectedImage, source: self.source)
+            if selectedImage == UIImage() && self.showPicker {
+                ImagePickerView(isPresented: self.$showPicker, selectedImage: self.$selectedImage, source: self.source)
             } else {
-                ImageResizerView(image: self.$selectedImage)
+                ZStack {
+                    GeometryReader { geo in
+                    ImageResizerView(isPresented:self.$isPresented, image: self.$selectedImage)
+                    .overlay(
+                        Rectangle()
+                            .fill(Color.black)
+                            .mask(self.HoleShapeMask(in: geo.frame(in: .local)).fill(style: FillStyle(eoFill: true)))
+                            .opacity(0.5)
+                        .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
+                        )
+                    }
+                }
+                .background(Color.black)
+                .edgesIgnoringSafeArea(.all)
             }
         }
         
         
     }
     
+    func HoleShapeMask(in rect: CGRect) -> Path {
+        var shape = Rectangle().path(in: rect)
+        shape.addPath(Circle().path(in: rect))
+        return shape
+    }
+    
 }
 
 struct ImageResizerView: View {
     
+    @Binding var isPresented: Bool
     @Binding var image: UIImage
     
     let minScale: CGFloat = 1.0
@@ -43,6 +63,10 @@ struct ImageResizerView: View {
     @State var prevDraged: CGSize = .zero
     @State var tapPoint: CGPoint = .zero
     @State var isTapped: Bool = false
+    
+    @State private var rectToCapture: CGRect = .zero
+    
+    let rect = CGRect(x: 0, y: 0, width: 300, height: 100)
     
     var body: some View {
         
@@ -65,70 +89,94 @@ struct ImageResizerView: View {
                                          height: value.translation.height + self.prevDraged.height)
             }
             
-            return
-                ZStack {
-                    GeometryReader { geo in
-                        Image(uiImage: self.image)
-                            .resizable().scaledToFit().animation(.default)
-                            .offset(self.draged)
-                            .scaleEffect(self.scale)
-                            .gesture(
-                                TapGesture(count: 2).onEnded({
-                                    self.isTapped.toggle()
-                                    if self.scale > 1 {
-                                        self.scale = 1
-                                    } else {
-                                        self.scale = maxScale
-                                    }
-                                    let parent = geo.frame(in: .local)
-                                    self.postArranging(translation: CGSize.zero, in: parent)
-                                })
-                                    .simultaneously(with: gestureDrag.onEnded({ (value) in
-                                        let parent = geo.frame(in: .local)
-                                        self.postArranging(translation: value.translation, in: parent)
-                                    })
-                            ))
-                            .gesture(magnify.onEnded { value in
-                                // without this the next gesture will be broken
-                                self.lastValue = 1.0
+        return GeometryReader { geo in
+            ZStack {
+                Image(uiImage: self.image.fixedOrientation)
+                    .resizable()
+                    .scaledToFit()
+                    .animation(.default)
+                    .offset(self.draged)
+                    .scaleEffect(self.scale)
+                    .gesture(
+                        TapGesture(count: 2).onEnded({
+                            self.isTapped.toggle()
+                            if self.scale > 1 {
+                                self.scale = 1
+                            } else {
+                                self.scale = maxScale
+                            }
+                            let parent = geo.frame(in: .local)
+                            self.postArranging(translation: CGSize.zero, in: parent)
+                        })
+                            .simultaneously(with: gestureDrag.onEnded({ (value) in
                                 let parent = geo.frame(in: .local)
-                                self.postArranging(translation: CGSize.zero, in: parent)
+                                self.postArranging(translation: value.translation, in: parent)
                             })
-                    }
-                    .background(Color.black)
-                    .edgesIgnoringSafeArea(.all)
+                    ))
+                    .gesture(magnify.onEnded { value in
+                        // without this the next gesture will be broken
+                        self.lastValue = 1.0
+                        let parent = geo.frame(in: .local)
+                        self.postArranging(translation: CGSize.zero, in: parent)
+                    })
                     .animation(.spring())
-            }
+                
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            self.image = self.rectToCapture.uiImage!
+                            self.isPresented = false
+                        }) {
+                            Image(systemName: "checkmark")
+                            .font(.system(size: 30, weight: .light, design: .default))
+                            .foregroundColor(Color.white)
+                            .padding()
+                            .contentShape(Circle())
+                            //                        .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
+                            .padding()
+                        }
+                    }.padding()
+                    
+                }
+            }.getRect(self.$rectToCapture)
         }
         
-        private func postArranging(translation: CGSize, in parent: CGRect) {
-            let scaled = self.scale
-            let parentWidth = parent.maxX
-            let parentHeight = parent.maxY
-            let offset = CGSize(width: (parentWidth * scaled - parentWidth) / 2,
-                                height: (parentHeight * scaled - parentHeight) / 2)
-            
-            print(offset)
-            var resolved = CGSize()
-            let newDraged = CGSize(width: self.draged.width * scaled,
-                                   height: self.draged.height * scaled)
-            if newDraged.width > offset.width {
-                resolved.width = offset.width / scaled
-            } else if newDraged.width < -offset.width {
-                resolved.width = -offset.width / scaled
-            } else {
-                resolved.width = translation.width + self.prevDraged.width
-            }
-            if newDraged.height > offset.height {
-                resolved.height = offset.height / scaled
-            } else if newDraged.height < -offset.height {
-                resolved.height = -offset.height / scaled
-            } else {
-                resolved.height = translation.height + self.prevDraged.height
-            }
-            self.draged = resolved
-            self.prevDraged = resolved
+        
+        
     }
+        
+    private func postArranging(translation: CGSize, in parent: CGRect) {
+        let scaled = self.scale
+        let parentWidth = parent.maxX
+        let parentHeight = parent.maxY
+        let offset = CGSize(width: (parentWidth * scaled - parentWidth) / 2,
+                            height: (parentHeight * scaled - parentHeight) / 2)
+        
+        print(offset)
+        var resolved = CGSize()
+        let newDraged = CGSize(width: self.draged.width * scaled,
+                               height: self.draged.height * scaled)
+        if newDraged.width > offset.width {
+            resolved.width = offset.width / scaled
+        } else if newDraged.width < -offset.width {
+            resolved.width = -offset.width / scaled
+        } else {
+            resolved.width = translation.width + self.prevDraged.width
+        }
+        if newDraged.height > offset.height {
+            resolved.height = offset.height / scaled
+        } else if newDraged.height < -offset.height {
+            resolved.height = -offset.height / scaled
+        } else {
+            resolved.height = translation.height + self.prevDraged.height
+        }
+        self.draged = resolved
+        self.prevDraged = resolved
+    }
+    
+    
 }
 
 struct ImagePickerView: UIViewControllerRepresentable {
@@ -179,11 +227,11 @@ struct ImagePickerView: UIViewControllerRepresentable {
 }
 
 
-extension UIImagePickerController {
-    override open var shouldAutorotate: Bool {
-        return false
-    }
-}
+//extension UIImagePickerController {
+//    override open var shouldAutorotate: Bool {
+//        return false
+//    }
+//}
 
 struct ImagePickerView_Previews: PreviewProvider {
     static var previews: some View {
@@ -192,6 +240,62 @@ struct ImagePickerView_Previews: PreviewProvider {
 //        }
         
         
-                CircleImagePickerView(isPresented: .constant(false), selectedImage: .constant(UIImage(named: "utah")!), source: .photoLibrary)
+        CircleImagePickerView(isPresented: .constant(false), selectedImage: .constant(UIImage(named: "utah")!), source: .photoLibrary)
+    }
+}
+
+
+extension UIView {
+    func asImage(rect: CGRect) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: rect)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
+    }
+}
+
+extension UIImage {
+    var fixedOrientation: UIImage {
+        guard imageOrientation != .up else { return self }
+
+        var transform: CGAffineTransform = .identity
+        switch imageOrientation {
+        case .down, .downMirrored:
+            transform = transform
+                .translatedBy(x: size.width, y: size.height).rotated(by: .pi)
+        case .left, .leftMirrored:
+            transform = transform
+                .translatedBy(x: size.width, y: 0).rotated(by: .pi)
+        case .right, .rightMirrored:
+            transform = transform
+                .translatedBy(x: 0, y: size.height).rotated(by: -.pi/2)
+        case .upMirrored:
+            transform = transform
+                .translatedBy(x: size.width, y: 0).scaledBy(x: -1, y: 1)
+        default:
+            break
+        }
+
+        guard
+            let cgImage = cgImage,
+            let colorSpace = cgImage.colorSpace,
+            let context = CGContext(
+                data: nil, width: Int(size.width), height: Int(size.height),
+                bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: 0,
+                space: colorSpace, bitmapInfo: cgImage.bitmapInfo.rawValue
+            )
+        else { return self }
+        context.concatenate(transform)
+
+        var rect: CGRect
+        switch imageOrientation {
+        case .left, .leftMirrored, .right, .rightMirrored:
+            rect = CGRect(x: 0, y: 0, width: size.height, height: size.width)
+        default:
+            rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        }
+
+        context.draw(cgImage, in: rect)
+        return context.makeImage().map { UIImage(cgImage: $0) } ?? self
     }
 }

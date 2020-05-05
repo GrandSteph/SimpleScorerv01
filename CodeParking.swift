@@ -8,20 +8,45 @@
 
 import SwiftUI
 
-struct CodeParking: View {
+struct ContentView2: View {
+    @State private var uiImage: UIImage? = nil
+    @State private var rect1: CGRect = .zero
+    @State private var rect2: CGRect = .zero
+
     var body: some View {
         VStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/).padding(.top,UIApplication.shared.windows.filter{$0.isKeyWindow}.first?.safeAreaInsets.top)
-            Spacer()
+            HStack {
+                VStack {
+                    Text("LEFT")
+                    Text("VIEW")
+                }
+            }
         }
     }
 }
 
-struct CodeParking_Previews: PreviewProvider {
+struct ContentView2_Previews: PreviewProvider {
     static var previews: some View {
-        CodeParking()
+        ContentView2()
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // below is from https://github.com/paololeonardi/WaterfallGrid
 // Nice exemple of declaration with restriction for more generic use
