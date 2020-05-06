@@ -13,6 +13,13 @@ struct Game {
     var players = [Player] ()
     var playerScores = [PlayerScore] ()
     
+    let gradiants =
+        [LinearGradient.grad1,LinearGradient.grad2,LinearGradient.grad3
+            ,LinearGradient.grad4,LinearGradient.grad5,LinearGradient.grad6
+            ,LinearGradient.grad7,LinearGradient.grad8,LinearGradient.grad9
+            ,LinearGradient.grad10,LinearGradient.grad11,LinearGradient.grad12]
+    
+    
     mutating func addPlayer(player: Player) {
         players.append(player)
         playerScores.append(PlayerScore(player: player, pointsList: []))
@@ -61,8 +68,8 @@ struct Game {
     }
     
     init () {
-//        self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph"), colorStart: Color.cyan1, colorEnd: Color.cyan2))
-//        self.addPlayer(player: Player(name: "Sophie",   colorStart: Color.orangeStart, colorEnd: Color.orangeEnd))
+        self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph"), colorGradient: gradiants[Int.random(in: 0..<13)]))
+        self.addPlayer(player: Player(name: "Sophie", colorGradient: gradiants[Int.random(in: 0..<13)]))
 //        self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color.blue, colorStart: Color.blueStart, colorEnd: Color.blueEnd))
 //        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color.purple, colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
         

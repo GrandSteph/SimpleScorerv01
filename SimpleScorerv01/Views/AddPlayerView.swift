@@ -118,7 +118,7 @@ struct AddPlayerView: View {
                     Spacer()
                     
                     Button(action: {
-                        self.game.addPlayer(player: Player(name: self.username, photoImage: self.imagePicked, colorStart: .orangeStart, colorEnd: .orangeEnd))
+                        self.game.addPlayer(player: Player(name: self.username, photoImage: self.imagePicked, colorGradient: LinearGradient.grad2))
                         self.stage = .collapsed
                         self.username = ""
                         self.imagePicked = UIImage()

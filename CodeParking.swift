@@ -15,11 +15,23 @@ struct ContentView2: View {
 
     var body: some View {
         VStack {
-            HStack {
-                VStack {
-                    Text("LEFT")
-                    Text("VIEW")
-                }
+            Group {
+                LinearGradient.grad1.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                LinearGradient.grad2.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                LinearGradient.grad3.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                LinearGradient.grad4.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+            }
+            Group {
+                LinearGradient.grad5.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                LinearGradient.grad6.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                LinearGradient.grad7.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                LinearGradient.grad8.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+            }
+            Group{
+                LinearGradient.grad9.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                LinearGradient.grad10.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                LinearGradient.grad11.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                LinearGradient.grad12.clipShape(Rectangle()).cornerRadius(14).shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
             }
         }
     }

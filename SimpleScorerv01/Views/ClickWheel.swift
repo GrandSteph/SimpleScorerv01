@@ -16,7 +16,7 @@ struct ClickWheel: View {
     
     
     @Binding var editing: Bool
-    @Binding var playerScore: PlayerScore
+//    @Binding var playerScore: PlayerScore
     @Binding var pointsScored: CGFloat
     var wheelColor: Color
     
@@ -45,9 +45,9 @@ struct ClickWheel: View {
 //                DragGesture().sequenced(before:
                     DragGesture(minimumDistance: 0, coordinateSpace: .global)
                         .onEnded({ (value) in
-                            self.editing = false
-                            self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
-                            self.pointsScored = 0
+//                            self.editing = false
+//                            self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
+//                            self.pointsScored = 0
                         })
                             .onChanged { value in
                                 self.editing = true
@@ -159,11 +159,9 @@ struct ClickWheel: View {
 
 struct ClickWheel_Previews: PreviewProvider {
     static var previews: some View {
-        let game = Game()
-        
         return ClickWheel(
             editing: .constant(true)
-            ,playerScore: .constant(game.playerScores[0])
+//            ,playerScore: .constant(game.playerScores[0])
             ,pointsScored: .constant(CGFloat(0))
             ,wheelColor: Color .black
         )

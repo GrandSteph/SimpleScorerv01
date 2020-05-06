@@ -25,7 +25,6 @@ struct AvatarView: View {
                     .foregroundColor(Color.white)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
-                    .contentShape(Circle())
                     .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
             } else {
                 Image(systemName: "camera")
@@ -40,7 +39,7 @@ struct AvatarView: View {
             if image?.imageAsset != nil {
                 Image(uiImage: image!).renderingMode(.original)
                 .resizable()
-                .scaledToFill()
+                .scaledToFit()
                 .clipShape(Circle())
                 .overlay(Circle().strokeBorder(Color.offWhite, lineWidth: 1))
             }
@@ -57,6 +56,10 @@ struct CircleImage_Previews: PreviewProvider {
             AvatarView(name: "steph", image: UIImage(named: "steph"))
                 .background(Color.orangeEnd)
                 .previewLayout(.fixed(width: 200, height: 300))
+            
+            AvatarView(name: "steph")
+            .background(Color.orangeEnd)
+            .previewLayout(.fixed(width: 80*2/3, height: 80*2/3))
             
             AvatarView()
             .background(Color.orangeEnd)

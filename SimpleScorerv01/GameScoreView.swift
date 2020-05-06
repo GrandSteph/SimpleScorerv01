@@ -12,9 +12,9 @@ struct GameScoreView: View {
     
     @State private var game = Game()
     @State private var shouldScroll = true
+    @State private var ScoreCardSize = CardSize.normal
     
     @State private var rotatedCube = false
-    
     @GestureState private var dragOffset = CGSize.zero
     @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 1)
     
@@ -62,7 +62,7 @@ struct GameScoreView: View {
                 Group {
                     ScrollView(self.axes) {
                         VStack()  {
-                            ScoreCardsGridView(columns: self.numberOfColumns(for: geometry.size.width), game: self.$game)
+                            ScoreCardsGridView(columns: self.numberOfColumns(for: geometry.size.width), game: self.$game, scoreCardSize: self.ScoreCardSize)
                             Spacer()
                             AddPlayerView(game: self.$game, kGuardian: self.kGuardian,showImagePicker: self.$showImagePicker, pickerSource: self.$pickerSource , imagePicked: self.$imagePicked)
                                 .padding(.horizontal, 20)
@@ -116,6 +116,7 @@ struct ScoreCardsGridView: View {
     let columns: Int
     
     @Binding var game: Game
+    var scoreCardSize: CardSize
     
     var rows : Int {
         (game.playerScores.count / columns) + 1
@@ -128,7 +129,7 @@ struct ScoreCardsGridView: View {
                     ForEach(1 ... self.columns, id: \.self) { column in
                         Group {
                             if ((row*self.columns+column-1) < self.game.playerScores.count) {
-                                ScoreCardView(playerScore:self.$game.playerScores[row*self.columns+column-1])
+                                ScoreCardView(playerScore:self.$game.playerScores[row*self.columns+column-1], size: self.scoreCardSize)
                             } else {
                                 EmptyView()
                             }
