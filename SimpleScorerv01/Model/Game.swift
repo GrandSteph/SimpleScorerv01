@@ -68,8 +68,8 @@ struct Game {
     }
     
     init () {
-        self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph"), colorGradient: gradiants[Int.random(in: 0..<13)]))
-        self.addPlayer(player: Player(name: "Sophie", colorGradient: gradiants[Int.random(in: 0..<13)]))
+        self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph"), colorGradient: gradiants[0]))
+        self.addPlayer(player: Player(name: "Sof", colorGradient: gradiants[1]))
 //        self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color.blue, colorStart: Color.blueStart, colorEnd: Color.blueEnd))
 //        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color.purple, colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
         

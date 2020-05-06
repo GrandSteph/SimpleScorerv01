@@ -50,7 +50,9 @@ struct ClickWheel: View {
 //                            self.pointsScored = 0
                         })
                             .onChanged { value in
-                                self.editing = true
+                                withAnimation {
+                                    self.editing = true
+                                }
                                 let center = CGPoint(x: geo.frame(in: .global).midX, y: geo.frame(in: .global).midY)
                                 
                                 

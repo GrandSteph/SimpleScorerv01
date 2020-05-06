@@ -84,7 +84,7 @@ struct ScoreCardView: View {
                                         
                                     }
                                 }.transition(.scale(scale: 0, anchor: .bottom))
-                            } else {Spacer()}
+                            } //else {Spacer()}
                         }
                         
                         

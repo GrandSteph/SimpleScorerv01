@@ -38,7 +38,7 @@ extension LinearGradient {
         self.init(gradient: Gradient(colors: colors), startPoint: .topLeading, endPoint: .bottomTrailing)
     }
 
-    static let grad1 =  LinearGradient(Color(hex: 0x0f2027),Color(hex: 0x203a43),Color(hex: 0x2c5364))
+    static let grad1 =  LinearGradient(Color(hex: 0x544a7d),Color(hex: 0xffd452))
     static let grad2 =  LinearGradient(Color(hex: 0x7f7fd5),Color(hex: 0x86a8e7),Color(hex: 0x91eae4))
     static let grad3 =  LinearGradient(Color(hex: 0xa770ef),Color(hex: 0xcf8bf3),Color(hex: 0xfdb99b))
     static let grad4 =  LinearGradient(Color(hex: 0x3a7bd5),Color(hex: 0x3a6073))

@@ -11,7 +11,7 @@ import SwiftUI
 struct GameScoreView: View {
     
     @State private var game = Game()
-    @State private var shouldScroll = true
+    @State private var shouldScroll = false
     @State private var ScoreCardSize = CardSize.normal
     
     @State private var rotatedCube = false
@@ -63,12 +63,12 @@ struct GameScoreView: View {
                     ScrollView(self.axes) {
                         VStack()  {
                             ScoreCardsGridView(columns: self.numberOfColumns(for: geometry.size.width), game: self.$game, scoreCardSize: self.ScoreCardSize)
-                            Spacer()
-                            AddPlayerView(game: self.$game, kGuardian: self.kGuardian,showImagePicker: self.$showImagePicker, pickerSource: self.$pickerSource , imagePicked: self.$imagePicked)
-                                .padding(.horizontal, 20)
-                                .background(GeometryGetter(rect: self.$kGuardian.rects[0]))
-                                .onAppear { self.kGuardian.addObserver() }
-                                .onDisappear { self.kGuardian.removeObserver() }
+//                            Spacer()
+//                            AddPlayerView(game: self.$game, kGuardian: self.kGuardian,showImagePicker: self.$showImagePicker, pickerSource: self.$pickerSource , imagePicked: self.$imagePicked)
+//                                .padding(.horizontal, 20)
+//                                .background(GeometryGetter(rect: self.$kGuardian.rects[0]))
+//                                .onAppear { self.kGuardian.addObserver() }
+//                                .onDisappear { self.kGuardian.removeObserver() }
                             
                         }.offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
                     }
