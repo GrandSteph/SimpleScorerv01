@@ -26,6 +26,7 @@
 		E897D6C62449B1C900FB214D /* ScoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897D6C52449B1C900FB214D /* ScoreCardView.swift */; };
 		E8AE91A8245C405B00CA7F55 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8AE91A7245C405B00CA7F55 /* Helpers.swift */; };
 		E8B42DA52456DFBB001AE7C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B42DA42456DFBB001AE7C2 /* Constants.swift */; };
+		E8F648382464014E00F59B7C /* GameSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F648372464014E00F59B7C /* GameSetupView.swift */; };
 		E8FB1A342451B97A009A4846 /* CodeParking.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8FB1A332451B97A009A4846 /* CodeParking.swift */; };
 /* End PBXBuildFile section */
 
@@ -51,6 +52,7 @@
 		E897D6C52449B1C900FB214D /* ScoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCardView.swift; sourceTree = "<group>"; };
 		E8AE91A7245C405B00CA7F55 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		E8B42DA42456DFBB001AE7C2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		E8F648372464014E00F59B7C /* GameSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupView.swift; sourceTree = "<group>"; };
 		E8FB1A332451B97A009A4846 /* CodeParking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeParking.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -133,11 +135,12 @@
 		E88751B3241F9DE90091853F /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				E88751B4241F9E000091853F /* AvatarView.swift */,
-				E84FABFD2435E94B00C806D2 /* ClickWheel.swift */,
-				E897D6C52449B1C900FB214D /* ScoreCardView.swift */,
 				E88839412457108500893730 /* AddPlayerView.swift */,
+				E88751B4241F9E000091853F /* AvatarView.swift */,
 				E8245A6B24600FE40057FB45 /* CircleImagePickerView.swift */,
+				E84FABFD2435E94B00C806D2 /* ClickWheel.swift */,
+				E8F648372464014E00F59B7C /* GameSetupView.swift */,
+				E897D6C52449B1C900FB214D /* ScoreCardView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -232,6 +235,7 @@
 				E84FABFE2435E94B00C806D2 /* ClickWheel.swift in Sources */,
 				E88751B1241F9B9A0091853F /* Player.swift in Sources */,
 				E828ADB4242387500046BAF8 /* Game.swift in Sources */,
+				E8F648382464014E00F59B7C /* GameSetupView.swift in Sources */,
 				E8875198241F99DB0091853F /* AppDelegate.swift in Sources */,
 				E8B42DA52456DFBB001AE7C2 /* Constants.swift in Sources */,
 				E8FB1A342451B97A009A4846 /* CodeParking.swift in Sources */,

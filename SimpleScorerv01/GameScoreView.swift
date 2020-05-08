@@ -42,23 +42,26 @@ struct GameScoreView: View {
             ZStack {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
-//                VStack {
-//                    Spacer()
-//                    Button(action: {
-//                        self.rotatedCube.toggle()
-//                    }) {
-//                        Image(systemName: "hand.point.left")
-//                            .font(.system(size: 60, weight: .thin))
-//                            .foregroundColor(.white)
-//                    }
-//                    Spacer()
-//                }
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                .background(self.rotatedCube ? Color.darkGray : Color.gray)
+                VStack {
+                    Spacer()
+                    Button(action: {
+                        self.rotatedCube.toggle()
+                    }) {
+                        Image(systemName: "hand.point.right")
+                            .font(.system(size: 60, weight: .thin))
+                            .foregroundColor(.white)
+                    }
+                    Spacer()
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(self.rotatedCube ? Color.darkGray : Color.gray)
 //                .rotation3DEffect( Angle(degrees: 90) + self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0),anchor: .leading)
-//                .edgesIgnoringSafeArea(.all)
 //                .offset(x: self.dragOffset.width + geometry.size.width, y: 0)
-//                .animation(.linear)
+                .rotation3DEffect(Angle(degrees: self.rotatedCube ? 0 : 90), axis: (x: 0, y:1 , z:0),anchor: .leading)
+                .offset(x: self.rotatedCube ? 0 : geometry.size.width, y: 0)
+                .edgesIgnoringSafeArea(.all)
+                .animation(.linear)
+                
                 Group {
                     ScrollView(self.axes) {
                         VStack()  {
@@ -70,20 +73,27 @@ struct GameScoreView: View {
 //                                .onAppear { self.kGuardian.addObserver() }
 //                                .onDisappear { self.kGuardian.removeObserver() }
                             
-                        }.offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
+                        }
+//                            .offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
                     }
                 }
-//                .background(self.rotatedCube ? Color.white : Color.offWhite)
+                .background(self.rotatedCube ? Color.white : Color.offWhite)
 //                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
 //                .offset(x: self.dragOffset.width, y: 0)
-//                .animation(.linear)
+                .rotation3DEffect(Angle(degrees: self.rotatedCube ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
+                .offset(x: self.rotatedCube ? -geometry.size.width : 0, y: 0)
+                    .edgesIgnoringSafeArea(.all)
+                .animation(.linear)
                 
                 if self.showImagePicker {
                     CircleImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
                         .edgesIgnoringSafeArea(.all)
                 } 
             }
-//            .gesture(
+            .gesture(
+                TapGesture().onEnded({
+                    self.rotatedCube.toggle()
+                })
 //                DragGesture()
 //                    .updating(self.$dragOffset, body: { (value, state, transaction) in
 //                        if value.startLocation.x > (geometry.size.width - 25) {
@@ -91,11 +101,9 @@ struct GameScoreView: View {
 //                        }
 //                    })
 //                    .onEnded({ (value) in
-//                        if abs(value.translation.width) > geometry.size.width / 3 {
-//                            print("\(value.translation.width) - \(geometry.size.width / 4)")
-//                        }
+//                        self.rotatedCube = true
 //                    })
-//            )
+            )
         }
     }
 }

@@ -11,7 +11,7 @@ import Foundation
 struct Round {
     //Game
     var date: Date
-    var Players: [Player]
+    var game: Game
     
     
 }
