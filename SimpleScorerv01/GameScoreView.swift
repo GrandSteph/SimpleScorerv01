@@ -11,10 +11,10 @@ import SwiftUI
 struct GameScoreView: View {
     
     @State private var game = Game()
-    @State private var shouldScroll = false
+    @State private var shouldScroll = true
     @State private var ScoreCardSize = CardSize.normal
     
-    @State private var rotatedCube = false
+    @State private var rotatedCube = true
     @GestureState private var dragOffset = CGSize.zero
     @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 1)
     
@@ -26,9 +26,11 @@ struct GameScoreView: View {
         return shouldScroll ? .vertical : []
     }
     
-    func numberOfColumns(for screenWidth: CGFloat) -> Int {
+    func nbrRowsColumns(screenWidth: CGFloat, playerCount: Int) -> (rows : Int, columns : Int) {
         
-        return Int(screenWidth) / 325
+        let nbrColumns = Int(screenWidth) / 325
+        let nbrRows = playerCount / nbrColumns
+        return (nbrRows,nbrColumns)
     }
     
     func dragToRotation(translation : CGSize) -> Angle {
@@ -42,17 +44,7 @@ struct GameScoreView: View {
             ZStack {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
-                VStack {
-                    Spacer()
-                    Button(action: {
-                        self.rotatedCube.toggle()
-                    }) {
-                        Image(systemName: "hand.point.right")
-                            .font(.system(size: 60, weight: .thin))
-                            .foregroundColor(.white)
-                    }
-                    Spacer()
-                }
+                GameSetupView(isDisplayed: self.$rotatedCube, game: self.$game)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(self.rotatedCube ? Color.darkGray : Color.gray)
 //                .rotation3DEffect( Angle(degrees: 90) + self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0),anchor: .leading)
@@ -61,39 +53,59 @@ struct GameScoreView: View {
                 .offset(x: self.rotatedCube ? 0 : geometry.size.width, y: 0)
                 .edgesIgnoringSafeArea(.all)
                 .animation(.linear)
-                
+//
                 Group {
-                    ScrollView(self.axes) {
-                        VStack()  {
-                            ScoreCardsGridView(columns: self.numberOfColumns(for: geometry.size.width), game: self.$game, scoreCardSize: self.ScoreCardSize)
-//                            Spacer()
-//                            AddPlayerView(game: self.$game, kGuardian: self.kGuardian,showImagePicker: self.$showImagePicker, pickerSource: self.$pickerSource , imagePicked: self.$imagePicked)
-//                                .padding(.horizontal, 20)
-//                                .background(GeometryGetter(rect: self.$kGuardian.rects[0]))
-//                                .onAppear { self.kGuardian.addObserver() }
-//                                .onDisappear { self.kGuardian.removeObserver() }
-                            
+                    if self.game.playerScores.count > 0 {
+                        ScrollView(self.axes) {
+                            VStack()  {
+                                ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
+                                                    columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
+                                                    game: self.$game,
+                                                    scoreCardSize: self.ScoreCardSize)
+    //                            Spacer()
+    //                            AddPlayerView(game: self.$game, kGuardian: self.kGuardian,showImagePicker: self.$showImagePicker, pickerSource: self.$pickerSource , imagePicked: self.$imagePicked)
+    //                                .padding(.horizontal, 20)
+    //                                .background(GeometryGetter(rect: self.$kGuardian.rects[0]))
+    //                                .onAppear { self.kGuardian.addObserver() }
+    //                                .onDisappear { self.kGuardian.removeObserver() }
+
+                            }.animation(.none)
+    //                            .offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
                         }
-//                            .offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
+                    } else {
+                        /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
                     }
                 }
                 .background(self.rotatedCube ? Color.white : Color.offWhite)
-//                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
-//                .offset(x: self.dragOffset.width, y: 0)
+                    //                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
+                    //                .offset(x: self.dragOffset.width, y: 0)
+                    .rotation3DEffect(Angle(degrees: self.rotatedCube ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
+                    .offset(x: self.rotatedCube ? -geometry.size.width : 0, y: 0)
+//                    .edgesIgnoringSafeArea(.all)
+                    .animation(.linear)
+                
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Image(systemName: "chevron.left.square.fill")
+                            .font(.system(.largeTitle, design: .rounded))
+                            .foregroundColor(Color.gray)
+                            .padding([.trailing,.bottom])
+                            .onTapGesture {
+                                self.rotatedCube.toggle()
+//                                self.game.removePlayer()
+                            }
+                    }
+                }
                 .rotation3DEffect(Angle(degrees: self.rotatedCube ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
                 .offset(x: self.rotatedCube ? -geometry.size.width : 0, y: 0)
-                    .edgesIgnoringSafeArea(.all)
-                .animation(.linear)
-                
+
                 if self.showImagePicker {
                     CircleImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
                         .edgesIgnoringSafeArea(.all)
-                } 
+                }
             }
-            .gesture(
-                TapGesture().onEnded({
-                    self.rotatedCube.toggle()
-                })
 //                DragGesture()
 //                    .updating(self.$dragOffset, body: { (value, state, transaction) in
 //                        if value.startLocation.x > (geometry.size.width - 25) {
@@ -103,7 +115,6 @@ struct GameScoreView: View {
 //                    .onEnded({ (value) in
 //                        self.rotatedCube = true
 //                    })
-            )
         }
     }
 }
@@ -121,14 +132,12 @@ struct ContentView_Previews: PreviewProvider {
 
 
 struct ScoreCardsGridView: View {
+    let rows : Int
     let columns: Int
     
     @Binding var game: Game
     var scoreCardSize: CardSize
     
-    var rows : Int {
-        (game.playerScores.count / columns) + 1
-    }
     
     var body: some View {
         VStack {
@@ -137,7 +146,10 @@ struct ScoreCardsGridView: View {
                     ForEach(1 ... self.columns, id: \.self) { column in
                         Group {
                             if ((row*self.columns+column-1) < self.game.playerScores.count) {
-                                ScoreCardView(playerScore:self.$game.playerScores[row*self.columns+column-1], size: self.scoreCardSize)
+//                                ScoreCardView(playerScore:self.$game.playerScores[row*self.columns+column-1], size: self.scoreCardSize)
+                                ScoreCardView(playerScore:Binding(   // << use proxy binding !!
+                                                    get: { self.game.playerScores[row*self.columns+column-1] },
+                                                    set: { self.game.playerScores[row*self.columns+column-1] = $0 }), size: self.scoreCardSize)
                             } else {
                                 EmptyView()
                             }
@@ -148,6 +160,18 @@ struct ScoreCardsGridView: View {
                 .padding(.bottom,15)
             }
         }
+        
+//        ForEach(Array(game.playerScores.enumerated()), id: \.element) { (index, playerScore) in
+//            // do with `index` anything needed here
+//
+//            VStack {
+//                ScoreCardView(playerScore: Binding(   // << use proxy binding !!
+//                    get: { self.game.playerScores[index] },
+//                    set: { self.game.playerScores[index] = $0 }), size: self.scoreCardSize)
+//            }
+//            .padding(.horizontal, 15)
+//            .padding(.bottom,15)
+//        }
     }
 }
 

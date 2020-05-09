@@ -10,15 +10,14 @@ import SwiftUI
 
 struct GameSetupView: View {
     
-    @State private var buttonSwitch = true
+    @Binding var isDisplayed : Bool
+    @Binding var game : Game
+    
+    @State private var showingActionSheet = false
     
     let gradient = LinearGradient(gradient: Gradient(colors: [.blue, .green, .purple, .red]),
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
-    
-    let borderGradient = LinearGradient(gradient: Gradient(colors: [.offWhite, .white]),
-                                        startPoint: .top,
-                                        endPoint: .bottom)
     
     var body: some View {
         
@@ -34,11 +33,9 @@ struct GameSetupView: View {
                     
                     Rectangle().cornerRadius(14).frame(height: 100).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
                     
-                    if self.buttonSwitch {
-                        Rectangle().cornerRadius(14).frame(height: 100).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
-                    } else {
-                        Rectangle().cornerRadius(14).frame(height: 100).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
-                    }
+                    
+                    Rectangle().cornerRadius(14).frame(height: 100).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
+                    
                     Spacer()
                 }
                 Spacer()
@@ -56,17 +53,14 @@ struct GameSetupView: View {
                             
                             Rectangle().cornerRadius(14).frame(height: 100)
                             
-                            if self.buttonSwitch {
-                                Rectangle().cornerRadius(14).frame(height: 100)
-                            } else {
-                                Rectangle().cornerRadius(14).frame(height: 100)
-                            }
+                            Rectangle().cornerRadius(14).frame(height: 100)
+                            
                             Spacer()
                         }
                         Spacer()
                     }
                     .padding()
-                )
+            )
             
             HStack {
                 Spacer()
@@ -78,22 +72,28 @@ struct GameSetupView: View {
                         .cornerRadius(14)
                         .frame(height: 100)
                         .contentShape(Rectangle())
-                        .onTapGesture {
-                            withAnimation{
-                                self.buttonSwitch.toggle()
-                            }
-                        }
+                        
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Color.offWhite, lineWidth: 1)
+                    )
                         .overlay(
-                            RoundedRectangle(cornerRadius: 14)
-                                .stroke(Color.offWhite, lineWidth: 1)
-                        )
-                        .overlay(
-                                Text("NEW GAME")
-                                    .fontWeight(.semibold)
-                                    .font(.system(.largeTitle, design: .rounded))
-                                    .modifier(ScalableLabelFont())
-                                    .padding()
-                        )
+                            Text("RESET SCORES")
+                                .fontWeight(.semibold)
+                                .font(.system(.largeTitle, design: .rounded))
+                                .foregroundColor(Color .offWhite)
+                                .padding()
+                    ).onTapGesture {
+                        self.showingActionSheet = true
+                    }.actionSheet(isPresented: $showingActionSheet) {
+                        ActionSheet(title: Text("ARE YOU SURE ?").font(.system(.headline, design: .rounded)), buttons: [
+                            .default(Text("OK")) {
+                                self.game.resetScores()
+                                self.isDisplayed = false
+                            },
+                            .cancel()
+                        ])
+                    }
                     
                     
                     Rectangle()
@@ -102,66 +102,73 @@ struct GameSetupView: View {
                         .frame(height: 100)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            withAnimation{
-                                self.buttonSwitch.toggle()
-                            }
+                            
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 14)
                             .stroke(Color.offWhite, lineWidth: 1)
                     )
-                    .overlay(
-                        Text("RESUME PREVIOUS GAME")
-                            .font(.system(.title, design: .rounded))
-                            .modifier(ScalableLabelFont())
-                            .padding()
+                        .overlay(
+                            HStack {
+                                Rectangle().fill(Color.clear).border(width: 1, edge: .trailing, color: .offWhite)
+                                    .contentShape(Rectangle())
+                                    .overlay(Image(systemName: "minus").font(.system(.largeTitle, design: .rounded)).foregroundColor(Color.offWhite))
+                                    .padding(.trailing)
+                                    .onTapGesture {
+                                        self.game.removePlayer()
+                                }
+                                
+                                
+                                VStack {
+                                    Text("\(self.game.playerScores.count)")
+                                        .font(.system(.title, design: .rounded))
+                                        
+                                        .foregroundColor(Color .offWhite)
+                                    
+                                    if self.game.playerScores.count > 1 {
+                                        Text("PLAYERS")
+                                            .font(.system(.body, design: .rounded))
+                                            .foregroundColor(Color .offWhite)
+                                    } else {
+                                        Text(" PLAYER ")
+                                            .font(.system(.body, design: .rounded))
+                                            .foregroundColor(Color .offWhite)
+                                    }
+                                }
+                                
+                                Rectangle().fill(Color.clear).border(width: 1, edge: .leading, color: .offWhite)
+                                    .contentShape(Rectangle())
+                                    .overlay(Image(systemName: "plus").font(.system(.largeTitle, design: .rounded)).foregroundColor(Color.offWhite))
+                                    .padding(.leading)
+                                    .onTapGesture {
+                                        self.game.addEmptyPlayer()
+                                }
+                            }
                     )
                     
-                    if self.buttonSwitch {
-                        Rectangle()
-                            .stroke(lineWidth: 0)
-                            .cornerRadius(14)
-                            .frame(height: 100)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                withAnimation {
-                                    self.buttonSwitch.toggle()
-                                }
-                            }
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .stroke(Color.offWhite, lineWidth: 1)
-                            )
-                            .overlay(
-                                Text("CHANGE PLAYERS")
-                                    .font(.system(.title, design: .rounded))
-                                    .modifier(ScalableLabelFont())
-                                    .padding()
-                            )
-
-                    } else {
-                        Rectangle()
-                            .stroke(lineWidth: 0)
-                            .cornerRadius(14)
-                            .frame(height: 100)
-                            .contentShape(Rectangle())
-                            .onTapGesture {
-                                withAnimation {
-                                    self.buttonSwitch.toggle()
-                                }
-                            }
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 14)
-                                    .stroke(Color.offWhite, lineWidth: 1)
-                            )
-                            .overlay(
-                                Text("CANCEL")
-                                    .font(.system(.title, design: .rounded))
-                                    .modifier(ScalableLabelFont())
-                                    .padding()
-                            )
-
+                    
+                    Rectangle()
+                        .stroke(lineWidth: 0)
+                        .cornerRadius(14)
+                        .frame(height: 100)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            self.isDisplayed = false
                     }
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 14)
+                            .stroke(Color.offWhite, lineWidth: 1)
+                    )
+                        .overlay(
+                            Image(systemName: "checkmark")
+                                .font(.system(.largeTitle, design: .rounded))
+                                
+                                .foregroundColor(Color .offWhite)
+                                .padding()
+                    )
+                    
+                    
+                    
                     
                     Spacer()
                 }
@@ -177,7 +184,9 @@ struct GameSetupView: View {
 
 struct GameSetupView_Previews: PreviewProvider {
     static var previews: some View {
-        GameSetupView()
+        BindingProvider(Game()) { binding in
+            GameSetupView(isDisplayed: .constant(true), game: binding)
+        }
     }
 }
 

@@ -15,6 +15,12 @@ enum CardSize {
     normal
 }
 
+let gradiants =
+[LinearGradient.grad1,LinearGradient.grad2,LinearGradient.grad3
+    ,LinearGradient.grad4,LinearGradient.grad5,LinearGradient.grad6
+    ,LinearGradient.grad7,LinearGradient.grad8,LinearGradient.grad9
+    ,LinearGradient.grad10,LinearGradient.grad11,LinearGradient.grad12]
+
 extension Color {
     
     static let purpleStart = Color(red: 84 / 255, green: 124 / 255, blue: 246 / 255)
@@ -37,6 +43,8 @@ extension LinearGradient {
     init(_ colors: Color...) {
         self.init(gradient: Gradient(colors: colors), startPoint: .topLeading, endPoint: .bottomTrailing)
     }
+    
+    static let gradDefault = LinearGradient(Color(hex: 0x283048),Color(hex: 0x859398))
 
     static let grad1 =  LinearGradient(Color(hex: 0x544a7d),Color(hex: 0xffd452))
     static let grad2 =  LinearGradient(Color(hex: 0x7f7fd5),Color(hex: 0x86a8e7),Color(hex: 0x91eae4))

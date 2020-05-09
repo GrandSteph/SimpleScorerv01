@@ -45,21 +45,6 @@ struct ContentView2_Previews: PreviewProvider {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // below is from https://github.com/paololeonardi/WaterfallGrid
 // Nice exemple of declaration with restriction for more generic use
 

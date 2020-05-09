@@ -58,7 +58,7 @@ struct AddPlayerView: View {
                 
                     
                     VStack (alignment: .center) {
-                        TextField("Enter name", text: self.$username,onEditingChanged: { if $0 { self.kGuardian.showField = 0 } }, onCommit: {self.stage = .atPictureChoice})
+                        TextField("Enter name", text: self.$username,onEditingChanged: { if $0 { /*self.kGuardian.showField = 0 */} }, onCommit: {self.stage = .atPictureChoice})
                             .font(.system(size: 30))
                             .font(.system(.largeTitle, design: .rounded))
                             .padding()

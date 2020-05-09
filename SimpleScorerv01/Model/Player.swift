@@ -26,8 +26,7 @@ struct Player: Identifiable {
 
 extension Player {
     init() {
-        self.name = "Default Name"
-        self.colorGradient = LinearGradient.grad1
+        self.name = "Name ?"
+        self.colorGradient = LinearGradient.gradDefault
     }
-
 }

@@ -10,23 +10,16 @@ import SwiftUI
 
 struct Game {
     
-    var players = [Player] ()
     var playerScores = [PlayerScore] ()
     
-    let gradiants =
-        [LinearGradient.grad1,LinearGradient.grad2,LinearGradient.grad3
-            ,LinearGradient.grad4,LinearGradient.grad5,LinearGradient.grad6
-            ,LinearGradient.grad7,LinearGradient.grad8,LinearGradient.grad9
-            ,LinearGradient.grad10,LinearGradient.grad11,LinearGradient.grad12]
+    
     
     
     mutating func addPlayer(player: Player) {
-        players.append(player)
         playerScores.append(PlayerScore(player: player, pointsList: []))
     }
     
     mutating func addPlayer(player: Player, with pointList: [Int]) {
-        players.append(player)
         playerScores.append(PlayerScore(player: player, pointsList: pointList))
     }
     
@@ -48,6 +41,23 @@ struct Game {
         return maxScore
     }
     
+    mutating func addEmptyPlayer() {
+        playerScores.append(PlayerScore(player: Player(), pointsList: []))
+    }
+    
+    mutating func removePlayer() {
+        if playerScores.count > 0 {
+            playerScores.removeLast()
+        }
+    }
+    
+    mutating func resetScores () {
+        for (index, _) in playerScores.enumerated() {
+            playerScores[index].resetScore()
+        }
+        
+    }
+    
 //    func ranking(for playerScore:PlayerScore) -> Int {
 //
 //        var ranking = 1
@@ -62,40 +72,40 @@ struct Game {
 //        return ranking
 //    }
     
-    init(players: [Player] = [], scores: [PlayerScore] = []) {
-        self.players = players
-        self.playerScores = scores
-    }
-    
     init () {
-        self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph"), colorGradient: gradiants[0]))
-        self.addPlayer(player: Player(name: "Sof", colorGradient: gradiants[1]))
-//        self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color.blue, colorStart: Color.blueStart, colorEnd: Color.blueEnd))
-//        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color.purple, colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
-        
-//        self.playerScores[0].addPoints(scoreValue: 13)
-//        
-//        self.playerScores[1].addPoints(scoreValue: 18)
-//        self.playerScores[1].addPoints(scoreValue: 2)
-//        self.playerScores[1].addPoints(scoreValue: 3)
-//        
-//        self.playerScores[2].addPoints(scoreValue: 24)
-//        self.playerScores[2].addPoints(scoreValue: 2)
-//        self.playerScores[2].addPoints(scoreValue: 3)
-//        self.playerScores[2].addPoints(scoreValue: 4)
-//        self.playerScores[2].addPoints(scoreValue: 5)
-//        self.playerScores[2].addPoints(scoreValue: 6)
-//        
-//        self.playerScores[3].addPoints(scoreValue: 1)
-//        self.playerScores[3].addPoints(scoreValue: 2)
-//        self.playerScores[3].addPoints(scoreValue: 3)
-//        self.playerScores[3].addPoints(scoreValue: 4)
-//        self.playerScores[3].addPoints(scoreValue: 5)
-//        self.playerScores[3].addPoints(scoreValue: 6)
-//        self.playerScores[3].addPoints(scoreValue: 7)
-//        self.playerScores[3].addPoints(scoreValue: 8)
-//        self.playerScores[3].addPoints(scoreValue: 9)
-    }
+//            self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph"), colorGradient: gradiants[0]))
+//            self.addPlayer(player: Player(name: "Sof", colorGradient: gradiants[1]))
+    //        self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color.blue, colorStart: Color.blueStart, colorEnd: Color.blueEnd))
+    //        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color.purple, colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
+            
+    //        self.playerScores[0].addPoints(scoreValue: 13)
+    //
+    //        self.playerScores[1].addPoints(scoreValue: 18)
+    //        self.playerScores[1].addPoints(scoreValue: 2)
+    //        self.playerScores[1].addPoints(scoreValue: 3)
+    //
+    //        self.playerScores[2].addPoints(scoreValue: 24)
+    //        self.playerScores[2].addPoints(scoreValue: 2)
+    //        self.playerScores[2].addPoints(scoreValue: 3)
+    //        self.playerScores[2].addPoints(scoreValue: 4)
+    //        self.playerScores[2].addPoints(scoreValue: 5)
+    //        self.playerScores[2].addPoints(scoreValue: 6)
+    //
+    //        self.playerScores[3].addPoints(scoreValue: 1)
+    //        self.playerScores[3].addPoints(scoreValue: 2)
+    //        self.playerScores[3].addPoints(scoreValue: 3)
+    //        self.playerScores[3].addPoints(scoreValue: 4)
+    //        self.playerScores[3].addPoints(scoreValue: 5)
+    //        self.playerScores[3].addPoints(scoreValue: 6)
+    //        self.playerScores[3].addPoints(scoreValue: 7)
+    //        self.playerScores[3].addPoints(scoreValue: 8)
+    //        self.playerScores[3].addPoints(scoreValue: 9)
+        }
     
+}
 
+extension Game {
+    init(players: [Player] = [], scores: [PlayerScore] = []) {
+            self.playerScores = scores
+        }  
 }

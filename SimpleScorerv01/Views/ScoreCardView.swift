@@ -16,6 +16,9 @@ struct ScoreCardView: View {
     @State private var pointsScored = CGFloat(0)
     @State private var editing = false
     
+    @State private var nameEditing = true
+    @State private var username = ""
+    
     var body: some View {
         
         var frameHeight : CGFloat {
@@ -34,21 +37,42 @@ struct ScoreCardView: View {
                         AvatarView(name: playerScore.player.name, image: playerScore.player.photoImage).padding(10).frame(maxWidth: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
                         if !editing {
-                            VStack (alignment: .leading, spacing: 0) {
+                            if !self.nameEditing {
                                 Text(self.playerScore.player.name)
                                     .fontWeight(.semibold)
                                     .font(.system(.largeTitle, design: .rounded))
-                                    .modifier(ScalableLabelFont())
+                                    .lineLimit(1)
+                                    .foregroundColor(Color .offWhite)
+                                    .onTapGesture {
+                                        self.nameEditing = true
+                                }
+                            } else {
+                                TextField("Name?", text: self.$username,
+                                     onEditingChanged: {
+                                       if $0 { /*self.kGuardian.showField = 0 */} },
+                                     onCommit: {
+                                        self.nameEditing = false
+                                        self.playerScore.player.name = self.username
+                                        self.playerScore.player.colorGradient = gradiants[Int.random(in: 0 ..< 12)]
+                                       })
+                                    .font(.system(.largeTitle, design: .rounded))
+                                    .background(Color.offWhite.opacity(0.6))
+                                    .foregroundColor(Color.offWhite)
+                                .foregroundColor(Color .offWhite)
                             }
                         }
+                        
                         
                         Spacer()
                         
                         Group {
                             Text("\(self.playerScore.totalScore())")
                                 .font(Font.system(size: 50, weight: .bold, design: .rounded))
-                                .modifier(ScalableLabelFont())
+                                .minimumScaleFactor(0.5)
+                                .lineLimit(1)
+                                .foregroundColor(Color .offWhite)
                                 .padding(.horizontal)
+                                .layoutPriority(1)
                             
                             if editing {
                                 
@@ -56,12 +80,12 @@ struct ScoreCardView: View {
                                     VStack {
                                         Text("\(self.pointsScored >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
                                             .font(Font.system(size: 25, weight: .bold, design: .rounded))
-                                            .modifier(ScalableLabelFont())
+                                            .foregroundColor(Color .offWhite)
                                         
                                         
                                         Text("= \( String(format: "%.0f",CGFloat(self.playerScore.totalScore()) + self.pointsScored))")
                                             .font(Font.system(size: 10, weight: .bold, design: .rounded))
-                                            .modifier(ScalableLabelFont())
+                                            .foregroundColor(Color .offWhite)
                                         
                                     }
                                     
@@ -78,9 +102,9 @@ struct ScoreCardView: View {
                                     .onTapGesture {
                                         self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
                                         self.pointsScored = 0
-                                        withAnimation {
-                                            self.editing = false
-                                        }
+                                        //                                        withAnimation {
+                                        self.editing = false
+                                        //                                        }
                                         
                                     }
                                 }.transition(.scale(scale: 0, anchor: .bottom))
@@ -94,9 +118,9 @@ struct ScoreCardView: View {
                         HStack (spacing: 0) {
                             
                             Button(action: {
-                                withAnimation {
-                                    self.editing = true
-                                }
+                                //                                withAnimation {
+                                self.editing = true
+                                //                                }
                                 self.pointsScored -= 1
                             }) {
                                 Image(systemName: "minus.rectangle")
@@ -107,9 +131,9 @@ struct ScoreCardView: View {
                             ClickWheel(editing: self.$editing, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
                             
                             Button(action: {
-                                withAnimation {
-                                    self.editing = true
-                                }
+                                //                                withAnimation {
+                                self.editing = true
+                                //                                }
                                 self.pointsScored += 1
                             }) {
                                 Image(systemName: "plus.rectangle")
@@ -199,14 +223,7 @@ extension View {
     }
 }
 
-struct ScalableLabelFont: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .minimumScaleFactor(0.5)
-            .lineLimit(1)
-            .foregroundColor(Color .offWhite)
-    }
-}
+
 
 struct ScoreCardView_Previews: PreviewProvider {
     

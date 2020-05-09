@@ -11,7 +11,7 @@ import Foundation
 struct PlayerScore: Identifiable {
     
     var id = UUID()
-    let player: Player
+    var player: Player
     var pointsList: [Int]     
 
     
@@ -23,6 +23,11 @@ struct PlayerScore: Identifiable {
         pointsList.append(scoreValue)
     }
     
-    func modifyScore(modification: Int, andRound: Int) {
-    }    
+    mutating func modifyScore(modification: Int, forRound: Int) {
+    }
+    
+    mutating func resetScore () {
+        pointsList = []
+    }
+    
 }
