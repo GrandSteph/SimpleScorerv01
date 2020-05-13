@@ -12,11 +12,12 @@ struct ScoreCardView: View {
     
     @Binding var playerScore: PlayerScore
     var size: CardSize
+    var backGroundGradient: LinearGradient
     
     @State private var pointsScored = CGFloat(0)
     @State private var editing = false
     
-    @State private var nameEditing = true
+    @State private var nameEditing = false
     @State private var username = ""
     
     var body: some View {
@@ -37,7 +38,7 @@ struct ScoreCardView: View {
                         AvatarView(name: playerScore.player.name, image: playerScore.player.photoImage).padding(10).frame(maxWidth: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
                         if !editing {
-                            if !self.nameEditing {
+                            if !self.nameEditing || self.playerScore.player.name == "name ?" {
                                 Text(self.playerScore.player.name)
                                     .fontWeight(.semibold)
                                     .font(.system(.largeTitle, design: .rounded))
@@ -53,8 +54,8 @@ struct ScoreCardView: View {
                                      onCommit: {
                                         self.nameEditing = false
                                         self.playerScore.player.name = self.username
-                                        self.playerScore.player.colorGradient = gradiants[Int.random(in: 0 ..< 12)]
-                                       })
+                                        self.playerScore.player.colorGradient = self.backGroundGradient
+                                    })
                                     .font(.system(.largeTitle, design: .rounded))
                                     .background(Color.offWhite.opacity(0.6))
                                     .foregroundColor(Color.offWhite)
@@ -68,7 +69,6 @@ struct ScoreCardView: View {
                         Group {
                             Text("\(self.playerScore.totalScore())")
                                 .font(Font.system(size: 50, weight: .bold, design: .rounded))
-                                .minimumScaleFactor(0.5)
                                 .lineLimit(1)
                                 .foregroundColor(Color .offWhite)
                                 .padding(.horizontal)
@@ -230,13 +230,13 @@ struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             BindingProvider(Game()) { binding in
-                ScoreCardView(playerScore: binding.playerScores[0], size: .normal)
+                ScoreCardView(playerScore: binding.playerScores[0], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
                     .previewLayout(.fixed(width: 375, height: 300))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
             }
             BindingProvider(Game()) { binding in
-                ScoreCardView(playerScore: binding.playerScores[1], size: .compact)
+                ScoreCardView(playerScore: binding.playerScores[1], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
                     .previewLayout(.fixed(width: 375, height: 300))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)

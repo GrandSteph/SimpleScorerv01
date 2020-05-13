@@ -38,7 +38,7 @@
 		E84FABFB2435E68500C806D2 /* Neumorphism.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Neumorphism.swift; sourceTree = "<group>"; };
 		E84FABFD2435E94B00C806D2 /* ClickWheel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickWheel.swift; sourceTree = "<group>"; };
 		E8694439245B278E00B2CA95 /* GeoExperiment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoExperiment.swift; sourceTree = "<group>"; };
-		E8875194241F99DB0091853F /* SimpleScorerv01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleScorerv01.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E8875194241F99DB0091853F /* SimpleScorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SimpleScorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E8875197241F99DB0091853F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		E8875199241F99DB0091853F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E887519B241F99DB0091853F /* GameScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScoreView.swift; sourceTree = "<group>"; };
@@ -83,7 +83,7 @@
 		E8875195241F99DB0091853F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E8875194241F99DB0091853F /* SimpleScorerv01.app */,
+				E8875194241F99DB0091853F /* SimpleScorer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -177,7 +177,7 @@
 			);
 			name = SimpleScorerv01;
 			productName = SimpleScorerv01;
-			productReference = E8875194241F99DB0091853F /* SimpleScorerv01.app */;
+			productReference = E8875194241F99DB0091853F /* SimpleScorer.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -386,15 +386,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleScorerv01/Preview Content\"";
-				DEVELOPMENT_TEAM = G529KL94KN;
+				DEVELOPMENT_TEAM = 3CP7Y3H8F6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SimpleScorerv01/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.StephDev.SimpleScorerv01;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.StephDev.SimpleScorer;
+				PRODUCT_NAME = SimpleScorer;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -406,15 +406,15 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleScorerv01/Preview Content\"";
-				DEVELOPMENT_TEAM = G529KL94KN;
+				DEVELOPMENT_TEAM = 3CP7Y3H8F6;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SimpleScorerv01/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.StephDev.SimpleScorerv01;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.StephDev.SimpleScorer;
+				PRODUCT_NAME = SimpleScorer;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

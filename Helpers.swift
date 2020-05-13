@@ -8,8 +8,6 @@
 
 import SwiftUI
 
-
-
 struct BindingProvider<StateT, Content: View>: View {
 
     @State private var state: StateT

@@ -14,10 +14,14 @@ struct GameScoreView: View {
     @State private var shouldScroll = true
     @State private var ScoreCardSize = CardSize.normal
     
-    @State private var rotatedCube = true
+    let gradients = gradiants.shuffled()
+    
+    // cube display
+    @State private var rotatedCube = false
     @GestureState private var dragOffset = CGSize.zero
     @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 1)
     
+    // image picker
     @State private var imagePicked = UIImage()
     @State private var showImagePicker = false
     @State private var pickerSource = UIImagePickerController.SourceType.photoLibrary
@@ -28,9 +32,9 @@ struct GameScoreView: View {
     
     func nbrRowsColumns(screenWidth: CGFloat, playerCount: Int) -> (rows : Int, columns : Int) {
         
-        let nbrColumns = Int(screenWidth) / 325
-        let nbrRows = playerCount / nbrColumns
-        return (nbrRows,nbrColumns)
+        let nbrColumns = Double((screenWidth) / 325).rounded(.down)
+        let nbrRows = Double(Double(playerCount) / nbrColumns).rounded(.up)
+        return (Int(nbrRows),Int(nbrColumns))
     }
     
     func dragToRotation(translation : CGSize) -> Angle {
@@ -41,6 +45,7 @@ struct GameScoreView: View {
     var body: some View {
         
         GeometryReader { geometry in
+            Spacer()
             ZStack {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
@@ -61,14 +66,8 @@ struct GameScoreView: View {
                                 ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
                                                     columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
                                                     game: self.$game,
-                                                    scoreCardSize: self.ScoreCardSize)
-    //                            Spacer()
-    //                            AddPlayerView(game: self.$game, kGuardian: self.kGuardian,showImagePicker: self.$showImagePicker, pickerSource: self.$pickerSource , imagePicked: self.$imagePicked)
-    //                                .padding(.horizontal, 20)
-    //                                .background(GeometryGetter(rect: self.$kGuardian.rects[0]))
-    //                                .onAppear { self.kGuardian.addObserver() }
-    //                                .onDisappear { self.kGuardian.removeObserver() }
-
+                                                    scoreCardSize: self.ScoreCardSize,
+                                                    gradients: self.gradients)
                             }.animation(.none)
     //                            .offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
                         }
@@ -81,7 +80,6 @@ struct GameScoreView: View {
                     //                .offset(x: self.dragOffset.width, y: 0)
                     .rotation3DEffect(Angle(degrees: self.rotatedCube ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
                     .offset(x: self.rotatedCube ? -geometry.size.width : 0, y: 0)
-//                    .edgesIgnoringSafeArea(.all)
                     .animation(.linear)
                 
                 VStack {
@@ -94,7 +92,6 @@ struct GameScoreView: View {
                             .padding([.trailing,.bottom])
                             .onTapGesture {
                                 self.rotatedCube.toggle()
-//                                self.game.removePlayer()
                             }
                     }
                 }
@@ -123,7 +120,9 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             GameScoreView()
-//            GameScoreView().previewDevice("iPad Air 2")
+             .previewLayout(.fixed(width: 650, height: 320))
+            GameScoreView()
+//                .previewDevice("iPad Air 2")
         }
         
     }
@@ -137,7 +136,7 @@ struct ScoreCardsGridView: View {
     
     @Binding var game: Game
     var scoreCardSize: CardSize
-    
+    var gradients: [LinearGradient]
     
     var body: some View {
         VStack {
@@ -147,11 +146,14 @@ struct ScoreCardsGridView: View {
                         Group {
                             if ((row*self.columns+column-1) < self.game.playerScores.count) {
 //                                ScoreCardView(playerScore:self.$game.playerScores[row*self.columns+column-1], size: self.scoreCardSize)
-                                ScoreCardView(playerScore:Binding(   // << use proxy binding !!
+                                ScoreCardView(
+                                    playerScore:Binding(   // << use proxy binding !!
                                                     get: { self.game.playerScores[row*self.columns+column-1] },
-                                                    set: { self.game.playerScores[row*self.columns+column-1] = $0 }), size: self.scoreCardSize)
+                                                    set: { self.game.playerScores[row*self.columns+column-1] = $0 }),
+                                    size: self.scoreCardSize,
+                                    backGroundGradient: self.gradients[row*self.columns+column-1])
                             } else {
-                                EmptyView()
+                                Rectangle().opacity(0)
                             }
                         }.padding(.horizontal, 5)
                     }
@@ -160,18 +162,6 @@ struct ScoreCardsGridView: View {
                 .padding(.bottom,15)
             }
         }
-        
-//        ForEach(Array(game.playerScores.enumerated()), id: \.element) { (index, playerScore) in
-//            // do with `index` anything needed here
-//
-//            VStack {
-//                ScoreCardView(playerScore: Binding(   // << use proxy binding !!
-//                    get: { self.game.playerScores[index] },
-//                    set: { self.game.playerScores[index] = $0 }), size: self.scoreCardSize)
-//            }
-//            .padding(.horizontal, 15)
-//            .padding(.bottom,15)
-//        }
     }
 }
 
