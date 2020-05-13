@@ -45,7 +45,6 @@ struct GameScoreView: View {
     var body: some View {
         
         GeometryReader { geometry in
-            Spacer()
             ZStack {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
@@ -76,11 +75,11 @@ struct GameScoreView: View {
                     }
                 }
                 .background(self.rotatedCube ? Color.white : Color.offWhite)
-                    //                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
-                    //                .offset(x: self.dragOffset.width, y: 0)
-                    .rotation3DEffect(Angle(degrees: self.rotatedCube ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
-                    .offset(x: self.rotatedCube ? -geometry.size.width : 0, y: 0)
-                    .animation(.linear)
+//                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
+//                .offset(x: self.dragOffset.width, y: 0)
+                .rotation3DEffect(Angle(degrees: self.rotatedCube ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
+                .offset(x: self.rotatedCube ? -geometry.size.width : 0, y: 0)
+                .animation(.linear)
                 
                 VStack {
                     Spacer()
@@ -95,6 +94,8 @@ struct GameScoreView: View {
                             }
                     }
                 }
+//                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
+//                .offset(x: self.dragOffset.width, y: 0)
                 .rotation3DEffect(Angle(degrees: self.rotatedCube ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
                 .offset(x: self.rotatedCube ? -geometry.size.width : 0, y: 0)
 
@@ -103,6 +104,7 @@ struct GameScoreView: View {
                         .edgesIgnoringSafeArea(.all)
                 }
             }
+//            .gesture(
 //                DragGesture()
 //                    .updating(self.$dragOffset, body: { (value, state, transaction) in
 //                        if value.startLocation.x > (geometry.size.width - 25) {
@@ -112,6 +114,8 @@ struct GameScoreView: View {
 //                    .onEnded({ (value) in
 //                        self.rotatedCube = true
 //                    })
+//            )
+
         }
     }
 }

@@ -19,6 +19,9 @@ struct GameSetupView: View {
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
     
+    let maxHeight = CGFloat(100)
+    let maxWidth = CGFloat(300)
+    
     var body: some View {
         
         ZStack {
@@ -29,19 +32,19 @@ struct GameSetupView: View {
                 VStack (spacing : 20) {
                     Spacer()
                     
-                    Rectangle().cornerRadius(14).frame(height: 100).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
+                    Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
                     
-                    Rectangle().cornerRadius(14).frame(height: 100).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
+                    Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
                     
                     
-                    Rectangle().cornerRadius(14).frame(height: 100).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
+                    Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
                     
                     Spacer()
                 }
                 Spacer()
             }
             .padding()
-            
+
             gradient
                 .mask(
                     HStack {
@@ -49,11 +52,11 @@ struct GameSetupView: View {
                         VStack (spacing : 20) {
                             Spacer()
                             
-                            Rectangle().cornerRadius(14).frame(height: 100)
+                            Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight)
                             
-                            Rectangle().cornerRadius(14).frame(height: 100)
+                            Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight)
                             
-                            Rectangle().cornerRadius(14).frame(height: 100)
+                            Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight)
                             
                             Spacer()
                         }
@@ -70,7 +73,7 @@ struct GameSetupView: View {
                     Rectangle()
                         .stroke(lineWidth: 0)
                         .cornerRadius(14)
-                        .frame(height: 100)
+                        .frame(maxWidth: maxWidth, maxHeight: maxHeight)
                         .contentShape(Rectangle())
                         
                     .overlay(
@@ -99,7 +102,7 @@ struct GameSetupView: View {
                     Rectangle()
                         .stroke(lineWidth: 0)
                         .cornerRadius(14)
-                        .frame(height: 100)
+                        .frame(maxWidth: maxWidth, maxHeight: maxHeight)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             
@@ -150,7 +153,7 @@ struct GameSetupView: View {
                     Rectangle()
                         .stroke(lineWidth: 0)
                         .cornerRadius(14)
-                        .frame(height: 100)
+                        .frame(maxWidth: maxWidth, maxHeight: maxHeight)
                         .contentShape(Rectangle())
                         .onTapGesture {
                             self.isDisplayed = false
@@ -166,16 +169,26 @@ struct GameSetupView: View {
                                 .foregroundColor(Color .offWhite)
                                 .padding()
                     )
-                    
-                    
-                    
-                    
                     Spacer()
                 }
                 Spacer()
             }
             .padding()
             //            Rectangle().fill(buttonSwitch ? Color.cyan1 : Color.orangeStart).frame(width: 200, height: 50).clipShape(Rectangle()).cornerRadius(14)
+            
+            VStack {
+                Spacer()
+                HStack {
+                    Image(systemName: "chevron.right.square.fill")
+                        .font(.system(.largeTitle, design: .rounded))
+                        .foregroundColor(Color.gray)
+                        .padding([.trailing,.bottom])
+                        .onTapGesture {
+//                            self.rotatedCube.toggle()
+                        }
+                    Spacer()
+                }.padding(.horizontal)
+            }
         }
     }
 }
@@ -185,7 +198,9 @@ struct GameSetupView: View {
 struct GameSetupView_Previews: PreviewProvider {
     static var previews: some View {
         BindingProvider(Game()) { binding in
-            GameSetupView(isDisplayed: .constant(true), game: binding)
+            GameSetupView(isDisplayed: .constant(true), game: binding).previewLayout(.fixed(width: 650, height: 320))
+            
+             GameSetupView(isDisplayed: .constant(true), game: binding)
         }
     }
 }
