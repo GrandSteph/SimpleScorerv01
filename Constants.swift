@@ -16,7 +16,7 @@ enum CardSize {
 }
 
 let gradiants =
-[LinearGradient.grad1,LinearGradient.grad2,LinearGradient.grad3
+    [LinearGradient.grad1,LinearGradient.grad2,LinearGradient.grad3
     ,LinearGradient.grad4,LinearGradient.grad5,LinearGradient.grad6
     ,LinearGradient.grad7,LinearGradient.grad8,LinearGradient.grad9
     ,LinearGradient.grad10,LinearGradient.grad11,LinearGradient.grad12]
@@ -46,7 +46,7 @@ extension LinearGradient {
     
     static let gradDefault = LinearGradient(Color(hex: 0x283048),Color(hex: 0x859398))
 
-    static let grad1 =  LinearGradient(Color(hex: 0x544a7d),Color(hex: 0xffd452))
+    static let grad1 =  LinearGradient(Color(hex: 0xf4c4f3),Color(hex: 0xfc67fa))
     static let grad2 =  LinearGradient(Color(hex: 0x7f7fd5),Color(hex: 0x86a8e7),Color(hex: 0x91eae4))
     static let grad3 =  LinearGradient(Color(hex: 0xa770ef),Color(hex: 0xcf8bf3),Color(hex: 0xfdb99b))
     static let grad4 =  LinearGradient(Color(hex: 0x3a7bd5),Color(hex: 0x3a6073))

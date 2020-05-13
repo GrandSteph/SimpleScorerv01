@@ -44,7 +44,7 @@ struct GameSetupView: View {
                 Spacer()
             }
             .padding()
-
+            
             gradient
                 .mask(
                     HStack {
@@ -184,10 +184,10 @@ struct GameSetupView: View {
                         .foregroundColor(Color.gray)
                         .padding([.trailing,.bottom])
                         .onTapGesture {
-//                            self.rotatedCube.toggle()
+                            self.isDisplayed = false
                         }
                     Spacer()
-                }.padding(.horizontal)
+                }.padding()
             }
         }
     }

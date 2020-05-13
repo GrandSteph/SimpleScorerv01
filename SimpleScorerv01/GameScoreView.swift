@@ -59,19 +59,36 @@ struct GameScoreView: View {
                 .animation(.linear)
 //
                 Group {
-                    if self.game.playerScores.count > 0 {
+                    ZStack {
                         ScrollView(self.axes) {
                             VStack()  {
-                                ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
-                                                    columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
-                                                    game: self.$game,
-                                                    scoreCardSize: self.ScoreCardSize,
-                                                    gradients: self.gradients)
+                                if self.game.playerScores.count > 0 {
+                                    ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
+                                                        columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
+                                                        game: self.$game,
+                                                        scoreCardSize: self.ScoreCardSize,
+                                                        gradients: self.gradients)
+                                } else {
+                                    EmptyView()
+                                }
                             }.animation(.none)
-    //                            .offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
+                            //                            .offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
                         }
-                    } else {
-                        /*@START_MENU_TOKEN@*/EmptyView()/*@END_MENU_TOKEN@*/
+                        
+                        VStack {
+                            Spacer()
+                            HStack {
+                                Spacer()
+                                Image(systemName: "chevron.left.square.fill")
+                                    .font(.system(.largeTitle, design: .rounded))
+                                    .foregroundColor(Color.gray)
+                                    .background(Color.clear.opacity(0))
+                                    .onTapGesture {
+                                        self.rotatedCube.toggle()
+                                }.padding()
+                            }
+                            
+                        }
                     }
                 }
                 .background(self.rotatedCube ? Color.white : Color.offWhite)
@@ -80,24 +97,6 @@ struct GameScoreView: View {
                 .rotation3DEffect(Angle(degrees: self.rotatedCube ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
                 .offset(x: self.rotatedCube ? -geometry.size.width : 0, y: 0)
                 .animation(.linear)
-                
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Image(systemName: "chevron.left.square.fill")
-                            .font(.system(.largeTitle, design: .rounded))
-                            .foregroundColor(Color.gray)
-                            .padding([.trailing,.bottom])
-                            .onTapGesture {
-                                self.rotatedCube.toggle()
-                            }
-                    }
-                }
-//                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
-//                .offset(x: self.dragOffset.width, y: 0)
-                .rotation3DEffect(Angle(degrees: self.rotatedCube ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
-                .offset(x: self.rotatedCube ? -geometry.size.width : 0, y: 0)
 
                 if self.showImagePicker {
                     CircleImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
