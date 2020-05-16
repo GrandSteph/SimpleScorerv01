@@ -21,6 +21,14 @@ let gradiants =
     ,LinearGradient.grad7,LinearGradient.grad8,LinearGradient.grad9
     ,LinearGradient.grad10,LinearGradient.grad11,LinearGradient.grad12]
 
+func randomGrad() -> LinearGradient {
+    
+    let color1 = Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
+    let color2 = Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
+    let color3 = Color(red: .random(in: 0...1), green: .random(in: 0...1), blue: .random(in: 0...1))
+    return  LinearGradient(gradient: Gradient(colors: [color1,color2,color3]), startPoint: .topLeading, endPoint: .bottomTrailing)
+}
+
 extension Color {
     
     static let purpleStart = Color(red: 84 / 255, green: 124 / 255, blue: 246 / 255)

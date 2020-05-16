@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import Combine
 
 struct GameScoreView: View {
     
@@ -71,10 +72,10 @@ struct GameScoreView: View {
                                 } else {
                                     EmptyView()
                                 }
-                            }.animation(.none)
+                                }.animation(.none)
+                                .keyboardAdaptive()
                             //                            .offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
                         }
-                        
                         VStack {
                             Spacer()
                             HStack {
@@ -89,6 +90,7 @@ struct GameScoreView: View {
                             }
                             
                         }
+                        
                     }
                 }
                 .background(self.rotatedCube ? Color.white : Color.offWhite)
@@ -122,8 +124,8 @@ struct GameScoreView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            GameScoreView()
-             .previewLayout(.fixed(width: 650, height: 320))
+//            GameScoreView()
+//             .previewLayout(.fixed(width: 650, height: 320))
             GameScoreView()
 //                .previewDevice("iPad Air 2")
         }
@@ -154,7 +156,9 @@ struct ScoreCardsGridView: View {
                                                     get: { self.game.playerScores[row*self.columns+column-1] },
                                                     set: { self.game.playerScores[row*self.columns+column-1] = $0 }),
                                     size: self.scoreCardSize,
-                                    backGroundGradient: self.gradients[row*self.columns+column-1])
+                                    backGroundGradient: self.gradients[row*self.columns+column-1]
+//                                    backGroundGradient: randomGrad()
+                                )
                             } else {
                                 Rectangle().opacity(0)
                             }
@@ -167,4 +171,6 @@ struct ScoreCardsGridView: View {
         }
     }
 }
+
+
 

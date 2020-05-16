@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D775E717246D75ED0058064E /* TestNotes in Resources */ = {isa = PBXBuildFile; fileRef = D775E716246D75ED0058064E /* TestNotes */; };
+		D7C03BAF246EEA1B0006FB9F /* KeyboardAvoidance.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7C03BAE246EEA1B0006FB9F /* KeyboardAvoidance.swift */; };
 		E8245A6C24600FE40057FB45 /* CircleImagePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8245A6B24600FE40057FB45 /* CircleImagePickerView.swift */; };
 		E828ADB2242370F40046BAF8 /* PlayerScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828ADB1242370F40046BAF8 /* PlayerScore.swift */; };
 		E828ADB4242387500046BAF8 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = E828ADB3242387500046BAF8 /* Game.swift */; };
@@ -31,6 +33,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D775E716246D75ED0058064E /* TestNotes */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestNotes; sourceTree = "<group>"; };
+		D7C03BAE246EEA1B0006FB9F /* KeyboardAvoidance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardAvoidance.swift; sourceTree = "<group>"; };
 		E8245A6B24600FE40057FB45 /* CircleImagePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircleImagePickerView.swift; sourceTree = "<group>"; };
 		E828ADB1242370F40046BAF8 /* PlayerScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerScore.swift; sourceTree = "<group>"; };
 		E828ADB3242387500046BAF8 /* Game.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Game.swift; sourceTree = "<group>"; };
@@ -67,9 +71,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D7C03BAD246EE9D50006FB9F /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				D7C03BAE246EEA1B0006FB9F /* KeyboardAvoidance.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
 		E887518B241F99DB0091853F = {
 			isa = PBXGroup;
 			children = (
+				D775E716246D75ED0058064E /* TestNotes */,
 				E8AE91A7245C405B00CA7F55 /* Helpers.swift */,
 				E8694439245B278E00B2CA95 /* GeoExperiment.swift */,
 				E8B42DA42456DFBB001AE7C2 /* Constants.swift */,
@@ -91,6 +104,7 @@
 		E8875196241F99DB0091853F /* SimpleScorerv01 */ = {
 			isa = PBXGroup;
 			children = (
+				D7C03BAD246EE9D50006FB9F /* Tools */,
 				E88751B9241FA2370091853F /* Data */,
 				E88751B6241F9E2B0091853F /* Resources */,
 				E88751B3241F9DE90091853F /* Views */,
@@ -220,6 +234,7 @@
 			files = (
 				E88751A4241F99DC0091853F /* LaunchScreen.storyboard in Resources */,
 				E88751A1241F99DC0091853F /* Preview Assets.xcassets in Resources */,
+				D775E717246D75ED0058064E /* TestNotes in Resources */,
 				E887519E241F99DC0091853F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -234,6 +249,7 @@
 				E8245A6C24600FE40057FB45 /* CircleImagePickerView.swift in Sources */,
 				E84FABFE2435E94B00C806D2 /* ClickWheel.swift in Sources */,
 				E88751B1241F9B9A0091853F /* Player.swift in Sources */,
+				D7C03BAF246EEA1B0006FB9F /* KeyboardAvoidance.swift in Sources */,
 				E828ADB4242387500046BAF8 /* Game.swift in Sources */,
 				E8F648382464014E00F59B7C /* GameSetupView.swift in Sources */,
 				E8875198241F99DB0091853F /* AppDelegate.swift in Sources */,
@@ -385,6 +401,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleScorerv01/Preview Content\"";
 				DEVELOPMENT_TEAM = 3CP7Y3H8F6;
 				ENABLE_PREVIEWS = YES;
@@ -405,6 +422,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleScorerv01/Preview Content\"";
 				DEVELOPMENT_TEAM = 3CP7Y3H8F6;
 				ENABLE_PREVIEWS = YES;

@@ -49,8 +49,8 @@ struct ScoreCardView: View {
                                 }
                             } else {
                                 TextField("Name?", text: self.$username,
-                                     onEditingChanged: {
-                                       if $0 { /*self.kGuardian.showField = 0 */} },
+//                                     onEditingChanged: {
+//                                       if $0 { /*self.kGuardian.showField = 0 */} },
                                      onCommit: {
                                         self.nameEditing = false
                                         self.playerScore.player.name = self.username
@@ -112,7 +112,9 @@ struct ScoreCardView: View {
                         }
                         
                         
-                    }.frame(height: frameHeight*2/3)
+                    }
+                    .frame(height: frameHeight*2/3)
+                   
                     
                     if self.size != .compact {
                         HStack (spacing: 0) {
@@ -151,7 +153,6 @@ struct ScoreCardView: View {
             }
             .frame(height: frameHeight)
             .clipShape(Rectangle()).cornerRadius(14)
-            .opacity(1)
             .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
     }
 }
@@ -240,6 +241,13 @@ struct ScoreCardView_Previews: PreviewProvider {
                     .previewLayout(.fixed(width: 375, height: 300))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
+            }
+            BindingProvider(Game()) { binding in
+                VStack {
+                    Spacer()
+                    ScoreCardView(playerScore: binding.playerScores[0], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
+                }
+                    
             }
         }
         

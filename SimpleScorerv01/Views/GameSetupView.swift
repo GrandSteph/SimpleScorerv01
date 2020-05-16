@@ -198,7 +198,7 @@ struct GameSetupView: View {
 struct GameSetupView_Previews: PreviewProvider {
     static var previews: some View {
         BindingProvider(Game()) { binding in
-            GameSetupView(isDisplayed: .constant(true), game: binding).previewLayout(.fixed(width: 650, height: 320))
+//            GameSetupView(isDisplayed: .constant(true), game: binding).previewLayout(.fixed(width: 650, height: 320))
             
              GameSetupView(isDisplayed: .constant(true), game: binding)
         }
