@@ -30,7 +30,8 @@ let gradiants =
     LinearGradient(Color(hex: 0xef32d9),Color(hex: 0x89fffd)),
         
     LinearGradient(Color(hex: 0xf12711),Color(hex: 0xf5af19)),
-    LinearGradient(Color(hex: 0x1E9600),Color(hex: 0xFFF200),Color(hex: 0xFF0000)),
+    LinearGradient(Color(hex: 0xbc4e9c),Color(hex: 0xf80759)),
+//    LinearGradient(Color(hex: 0x1E9600),Color(hex: 0xFFF200),Color(hex: 0xFF0000)),
     LinearGradient(Color(hex: 0xFDC830),Color(hex: 0xF37335)),
     LinearGradient(Color(hex: 0xf79d00),Color(hex: 0x64f38c)),
     LinearGradient(Color(hex: 0xEECDA3),Color(hex: 0xEF629F)),

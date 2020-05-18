@@ -14,7 +14,7 @@ struct ScoreCardView: View {
     var size: CardSize
     var backGroundGradient: LinearGradient
     
-    @State private var pointsScored = CGFloat(0)
+    @State private var pointsScored = CGFloat(120)
     @State private var editing = false
     
     @State private var nameEditing = false
@@ -42,6 +42,7 @@ struct ScoreCardView: View {
                                 Text(self.playerScore.player.name)
                                     .fontWeight(.semibold)
                                     .font(.system(.largeTitle, design: .rounded))
+                                    .minimumScaleFactor(0.5)
                                     .lineLimit(1)
                                     .foregroundColor(Color .offWhite)
                                     .onTapGesture {
@@ -61,6 +62,24 @@ struct ScoreCardView: View {
                                     .foregroundColor(Color.offWhite)
                                 .foregroundColor(Color .offWhite)
                             }
+                        } else {
+                            ZStack {
+                               
+                                VStack {
+                                    Image(systemName: "xmark").foregroundColor(Color.white)
+                                        .padding()
+                                        .contentShape(Rectangle())
+                                    Spacer()
+                                }.onTapGesture {
+                                    self.pointsScored = 0
+                                    self.editing = false
+                                }
+                           }
+                           .frame(minWidth:40, maxWidth:40, maxHeight: .infinity)
+                           .onTapGesture {
+                               self.pointsScored = 0
+                               self.editing = false
+                           }
                         }
                         
                         
@@ -71,15 +90,19 @@ struct ScoreCardView: View {
                                 .font(Font.system(size: 50, weight: .bold, design: .rounded))
                                 .lineLimit(1)
                                 .foregroundColor(Color .offWhite)
-                                .padding(.horizontal)
+                                .padding(.horizontal,self.editing ? 0 : 20)
                                 .layoutPriority(1)
                             
                             if editing {
                                 
                                 HStack {
+                                   
+                                    
                                     VStack {
                                         Text("\(self.pointsScored >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
                                             .font(Font.system(size: 25, weight: .bold, design: .rounded))
+                                            .minimumScaleFactor(0.5)
+                                            .lineLimit(1)
                                             .foregroundColor(Color .offWhite)
                                         
                                         
@@ -107,13 +130,13 @@ struct ScoreCardView: View {
                                         //                                        }
                                         
                                     }
-                                }.transition(.scale(scale: 0, anchor: .bottom))
+                                }//.transition(.scale(scale: 0, anchor: .bottom))
                             } //else {Spacer()}
                         }
                         
                         
                     }
-                    .frame(height: frameHeight*2/3)
+//                    .frame(height: frameHeight*2/3)
                    
                     
                     if self.size != .compact {
@@ -231,19 +254,19 @@ struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             BindingProvider(Game()) { binding in
-                ScoreCardView(playerScore: binding.playerScores[0], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
-                    .previewLayout(.fixed(width: 375, height: 300))
+                ScoreCardView(playerScore: binding.playerScores[0], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
+                    .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
             }
-            BindingProvider(PlayerScore(player: Player(), pointsList: [])) { binding in
-                ScoreCardView(playerScore: binding, size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
+            BindingProvider(PlayerScore(player: Player(), pointsList: [100])) { binding in
+                ScoreCardView(playerScore: binding, size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
                     .previewLayout(.fixed(width: 375, height: 300))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
             }
             BindingProvider(Game()) { binding in
-                ScoreCardView(playerScore: binding.playerScores[1], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
+                ScoreCardView(playerScore: binding.playerScores[1], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
                     .previewLayout(.fixed(width: 375, height: 300))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
