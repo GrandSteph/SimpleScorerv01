@@ -16,10 +16,27 @@ enum CardSize {
 }
 
 let gradiants =
-    [LinearGradient.grad1,LinearGradient.grad2,LinearGradient.grad3
-    ,LinearGradient.grad4,LinearGradient.grad5,LinearGradient.grad6
-    ,LinearGradient.grad7,LinearGradient.grad8,LinearGradient.grad9
-    ,LinearGradient.grad10,LinearGradient.grad11,LinearGradient.grad12]
+    [LinearGradient(Color(hex: 0xf4c4f3),Color(hex: 0xfc67fa)),
+    LinearGradient(Color(hex: 0x7f7fd5),Color(hex: 0x86a8e7),Color(hex: 0x91eae4)),
+    LinearGradient(Color(hex: 0xa770ef),Color(hex: 0xcf8bf3),Color(hex: 0xfdb99b)),
+    LinearGradient(Color(hex: 0x3a7bd5),Color(hex: 0x3a6073)),
+    LinearGradient(Color(hex: 0x43cea2),Color(hex: 0x185a9d)),
+    LinearGradient(Color(hex: 0x4568DC),Color(hex: 0xB06AB3)),
+    LinearGradient(Color(hex: 0x2193b0),Color(hex: 0x6dd5ed)),
+    LinearGradient(Color(hex: 0x00b09b),Color(hex: 0x96c93d)),
+    LinearGradient(Color(hex: 0xfeac5e),Color(hex: 0xc779d0),Color(hex: 0x4bc0c8)),
+    LinearGradient(Color(hex: 0xf09819),Color(hex: 0xedde5d)),
+    LinearGradient(Color(hex: 0xf79d00),Color(hex: 0x64f38c)),
+    LinearGradient(Color(hex: 0xef32d9),Color(hex: 0x89fffd)),
+        
+    LinearGradient(Color(hex: 0xf12711),Color(hex: 0xf5af19)),
+    LinearGradient(Color(hex: 0x1E9600),Color(hex: 0xFFF200),Color(hex: 0xFF0000)),
+    LinearGradient(Color(hex: 0xFDC830),Color(hex: 0xF37335)),
+    LinearGradient(Color(hex: 0xf79d00),Color(hex: 0x64f38c)),
+    LinearGradient(Color(hex: 0xEECDA3),Color(hex: 0xEF629F)),
+    LinearGradient(Color(hex: 0xfe8c00),Color(hex: 0xf83600)),
+    LinearGradient(Color(hex: 0xd53369),Color(hex: 0xcbad6d)),
+    LinearGradient(Color(hex: 0x16A085),Color(hex: 0xF4D03F))]
 
 func randomGrad() -> LinearGradient {
     
@@ -54,18 +71,7 @@ extension LinearGradient {
     
     static let gradDefault = LinearGradient(Color(hex: 0x283048),Color(hex: 0x859398))
 
-    static let grad1 =  LinearGradient(Color(hex: 0xf4c4f3),Color(hex: 0xfc67fa))
-    static let grad2 =  LinearGradient(Color(hex: 0x7f7fd5),Color(hex: 0x86a8e7),Color(hex: 0x91eae4))
-    static let grad3 =  LinearGradient(Color(hex: 0xa770ef),Color(hex: 0xcf8bf3),Color(hex: 0xfdb99b))
-    static let grad4 =  LinearGradient(Color(hex: 0x3a7bd5),Color(hex: 0x3a6073))
-    static let grad5 =  LinearGradient(Color(hex: 0x43cea2),Color(hex: 0x185a9d))
-    static let grad6 =  LinearGradient(Color(hex: 0x4568DC),Color(hex: 0xB06AB3))
-    static let grad7 =  LinearGradient(Color(hex: 0x2193b0),Color(hex: 0x6dd5ed))
-    static let grad8 =  LinearGradient(Color(hex: 0x00b09b),Color(hex: 0x96c93d))
-    static let grad9 =  LinearGradient(Color(hex: 0xfeac5e),Color(hex: 0xc779d0),Color(hex: 0x4bc0c8))
-    static let grad10 =  LinearGradient(Color(hex: 0xf09819),Color(hex: 0xedde5d))
-    static let grad11 =  LinearGradient(Color(hex: 0xf79d00),Color(hex: 0x64f38c))
-    static let grad12 =  LinearGradient(Color(hex: 0xef32d9),Color(hex: 0x89fffd))
+    
 
 }
 

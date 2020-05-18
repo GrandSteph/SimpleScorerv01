@@ -15,7 +15,7 @@ struct GameSetupView: View {
     
     @State private var showingActionSheet = false
     
-    let gradient = LinearGradient(gradient: Gradient(colors: [.blue, .green, .purple, .red]),
+    let backgroundGradient = LinearGradient(gradient: Gradient(colors: [.blue, .green, .purple, .red]),
                                   startPoint: .topLeading,
                                   endPoint: .bottomTrailing)
     
@@ -45,7 +45,7 @@ struct GameSetupView: View {
             }
             .padding()
             
-            gradient
+            backgroundGradient
                 .mask(
                     HStack {
                         Spacer()
@@ -113,12 +113,19 @@ struct GameSetupView: View {
                     )
                         .overlay(
                             HStack {
-                                Rectangle().fill(Color.clear).border(width: 1, edge: .trailing, color: .offWhite)
+                                if game.playerScores.count == 1 {
+                                    Rectangle().fill(Color.clear).border(width: 1, edge: .trailing, color: .offWhite)
                                     .contentShape(Rectangle())
-                                    .overlay(Image(systemName: "minus").font(.system(.largeTitle, design: .rounded)).foregroundColor(Color.offWhite))
+                                        .overlay(Text("Min").font(.system(.body, design: .rounded)).foregroundColor(Color.offWhite))
                                     .padding(.trailing)
-                                    .onTapGesture {
-                                        self.game.removePlayer()
+                                } else {
+                                    Rectangle().fill(Color.clear).border(width: 1, edge: .trailing, color: .offWhite)
+                                        .contentShape(Rectangle())
+                                        .overlay(Image(systemName: "minus").font(.system(.largeTitle, design: .rounded)).foregroundColor(Color.offWhite))
+                                        .padding(.trailing)
+                                        .onTapGesture {
+                                            self.game.removePlayer()
+                                    }
                                 }
                                 
                                 
@@ -139,12 +146,19 @@ struct GameSetupView: View {
                                     }
                                 }
                                 
-                                Rectangle().fill(Color.clear).border(width: 1, edge: .leading, color: .offWhite)
+                                if game.playerScores.count < gradiants.count {
+                                    Rectangle().fill(Color.clear).border(width: 1, edge: .leading, color: .offWhite)
+                                        .contentShape(Rectangle())
+                                        .overlay(Image(systemName: "plus").font(.system(.largeTitle, design: .rounded)).foregroundColor(Color.offWhite))
+                                        .padding(.leading)
+                                        .onTapGesture {
+                                            self.game.addEmptyPlayer()
+                                    }
+                                } else {
+                                    Rectangle().fill(Color.clear).border(width: 1, edge: .leading, color: .offWhite)
                                     .contentShape(Rectangle())
-                                    .overlay(Image(systemName: "plus").font(.system(.largeTitle, design: .rounded)).foregroundColor(Color.offWhite))
-                                    .padding(.leading)
-                                    .onTapGesture {
-                                        self.game.addEmptyPlayer()
+                                        .overlay(Text("Max").font(.system(.body, design: .rounded)).foregroundColor(Color.offWhite))
+                                    .padding(.trailing)
                                 }
                             }
                     )

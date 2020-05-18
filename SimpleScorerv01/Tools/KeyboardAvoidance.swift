@@ -45,7 +45,7 @@ struct KeyboardAdaptive: ViewModifier {
 
 //        GeometryReader { geometry in
             content
-                .offset(x: 0, y: -self.offset+20)
+                .offset(x: 0, y: -self.offset)
                 
                 .onReceive(Publishers.keyboardHeight) { keyboardHeight in
 
@@ -66,7 +66,7 @@ struct KeyboardAdaptive: ViewModifier {
                     
                     let screenHeight = UIScreen.main.bounds.height
                     
-                    let keyboardTop = screenHeight - keyboardHeight
+                    let keyboardTop = screenHeight - keyboardHeight - 20 // I prefer the textfield slightly above
                     
                     let focusedTextInputBottom = UIResponder.currentFirstResponder?.globalFrame?.maxY ?? 0
 

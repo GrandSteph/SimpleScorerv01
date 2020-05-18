@@ -18,7 +18,7 @@ struct AvatarView: View {
     var body: some View {
         
         ZStack {
-            if name != nil {
+            if name != nil && name != "Name ?" {
                 Text(name!.uppercased().prefix(1))
                     .fontWeight(.regular)
                     .font(.system(.largeTitle, design: .rounded))
@@ -43,7 +43,7 @@ struct AvatarView: View {
                 .clipShape(Circle())
                 .overlay(Circle().strokeBorder(Color.offWhite, lineWidth: 1))
             }
-        } 
+        }
     }
 }
 

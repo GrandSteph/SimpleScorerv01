@@ -38,7 +38,7 @@ struct ScoreCardView: View {
                         AvatarView(name: playerScore.player.name, image: playerScore.player.photoImage).padding(10).frame(maxWidth: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
                         if !editing {
-                            if !self.nameEditing || self.playerScore.player.name == "name ?" {
+                            if !self.nameEditing && self.playerScore.player.name != "Name ?" {
                                 Text(self.playerScore.player.name)
                                     .fontWeight(.semibold)
                                     .font(.system(.largeTitle, design: .rounded))
@@ -236,19 +236,25 @@ struct ScoreCardView_Previews: PreviewProvider {
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
             }
+            BindingProvider(PlayerScore(player: Player(), pointsList: [])) { binding in
+                ScoreCardView(playerScore: binding, size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
+                    .previewLayout(.fixed(width: 375, height: 300))
+                    .padding(.horizontal, 15)
+                    .padding(.bottom,15)
+            }
             BindingProvider(Game()) { binding in
                 ScoreCardView(playerScore: binding.playerScores[1], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
                     .previewLayout(.fixed(width: 375, height: 300))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
             }
-            BindingProvider(Game()) { binding in
-                VStack {
-                    Spacer()
-                    ScoreCardView(playerScore: binding.playerScores[0], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
-                }
-                    
-            }
+//            BindingProvider(Game()) { binding in
+//                VStack {
+//                    Spacer()
+//                    ScoreCardView(playerScore: binding.playerScores[0], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 12)])
+//                }
+//
+//            }
         }
         
     }
