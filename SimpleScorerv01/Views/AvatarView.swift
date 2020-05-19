@@ -10,30 +10,23 @@ import SwiftUI
 
 struct AvatarView: View {
     
-    var name : String?
-    var image : UIImage?
+    @Binding var user : Player
     
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage?
-    @State private var pickedImage: UIImage?
+//    @State private var pickedImage: UIImage?
     
     @ViewBuilder
     var body: some View {
         
         ZStack {
-            
-            if pickedImage?.imageAsset != nil {
-                Image(uiImage: pickedImage!).renderingMode(.original)
+            if user.photoImage?.imageAsset != nil {
+                Image(uiImage: user.photoImage!).renderingMode(.original)
                 .resizable()
                 .scaledToFill()
                 .clipShape(Circle())
-            } else if image?.imageAsset != nil {
-                Image(uiImage: image!).renderingMode(.original)
-                .resizable()
-                .scaledToFit()
-                .clipShape(Circle())
-            } else if name != nil && name != "Name ?" {
-                Text(name!.uppercased().prefix(1))
+            } else if user.name != "Name ?" {
+                Text(user.name.uppercased().prefix(1))
                     .fontWeight(.regular)
                     .font(.system(.largeTitle, design: .rounded))
                     .foregroundColor(Color.white)
@@ -58,7 +51,7 @@ struct AvatarView: View {
     
     func loadImage() {
         guard let inputImage = inputImage else { return }
-        pickedImage = resizeImage(image: inputImage, targetSize: CGSize(width: 200, height: 200))
+        self.user.photoImage = resizeImage(image: inputImage, targetSize: CGSize(width: 200, height: 200))
     }
 }
 
@@ -68,15 +61,15 @@ struct CircleImage_Previews: PreviewProvider {
     static var previews: some View {
         
         Group {
-            AvatarView(name: "steph", image: UIImage(named: "steph"))
+            AvatarView(user: .constant(Player(name: "Stephane", photoImage: UIImage(named: "steph"), colorGradient: gradiants[0])))
                 .background(Color.orangeEnd)
                 .previewLayout(.fixed(width: 200, height: 300))
             
-            AvatarView(name: "steph")
+            AvatarView(user: .constant(Player(name: "Stephane", colorGradient: gradiants[0])))
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 80*2/3, height: 80*2/3))
             
-            AvatarView()
+            AvatarView(user: .constant(Player()))
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 200, height: 300))
         }

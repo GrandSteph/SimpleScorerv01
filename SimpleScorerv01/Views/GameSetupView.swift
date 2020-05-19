@@ -15,10 +15,6 @@ struct GameSetupView: View {
     
     @State private var showingActionSheet = false
     
-    let backgroundGradient = LinearGradient(gradient: Gradient(colors: [.blue, .green, .purple, .red]),
-                                  startPoint: .topLeading,
-                                  endPoint: .bottomTrailing)
-    
     let maxHeight = CGFloat(100)
     let maxWidth = CGFloat(300)
     
@@ -45,7 +41,7 @@ struct GameSetupView: View {
             }
             .padding()
             
-            backgroundGradient
+            AnimatedGradientView()
                 .mask(
                     HStack {
                         Spacer()
@@ -215,6 +211,37 @@ struct GameSetupView_Previews: PreviewProvider {
 //            GameSetupView(isDisplayed: .constant(true), game: binding).previewLayout(.fixed(width: 650, height: 320))
             
              GameSetupView(isDisplayed: .constant(true), game: binding)
+        }
+    }
+}
+
+struct AnimatedGradientView: View {
+    
+     //LinearGradient(Color(hex: 0x373B44),Color(hex: 0x4286f4))
+
+    // triple blue / red / yellow
+//    @State var gradient = [Color(hex: 0x1a2a6c),Color(hex: 0xb21f1f),Color(hex: 0xfdbb2d)]
+    
+    
+    // pink / purple
+//    @State var gradient = [Color(red: 255 / 255, green: 85 / 255, blue: 85 / 255), Color(red: 85 / 255, green: 85 / 255, blue: 255 / 255)]
+    @State var gradient = [Color(hex: 0xFC466B),Color(hex: 0x3F5EFB)]
+    
+    // blue
+//    @State var gradient = [Color(red: 3 / 255, green: 79 / 255, blue: 135 / 255), Color(red: 0 / 255, green: 184 / 255, blue: 214 / 255)]
+//    @State var gradient = [Color(hex: 0x373B44),Color(hex: 0x4286f4)]
+    
+    
+    @State var startPoint = UnitPoint(x: -1, y: -1)
+    @State var endPoint = UnitPoint(x: 1, y: 1)
+    
+    var body: some View {
+        LinearGradient(gradient: Gradient(colors: self.gradient), startPoint: self.startPoint, endPoint: self.endPoint)
+            .onAppear() {
+                withAnimation (Animation.linear(duration: 10).repeatForever()){
+                    self.startPoint = UnitPoint(x: 0, y: 0)
+                    self.endPoint = UnitPoint(x: 2, y: 2)
+                }
         }
     }
 }

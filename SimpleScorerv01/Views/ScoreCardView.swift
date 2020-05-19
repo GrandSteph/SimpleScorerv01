@@ -35,14 +35,13 @@ struct ScoreCardView: View {
                     
                     HStack (alignment: .center, spacing: 0) {
                         
-                        AvatarView(name: playerScore.player.name, image: playerScore.player.photoImage).padding(10).frame(maxWidth: self.size != .compact ? frameHeight*2/3 : frameHeight)
+                        AvatarView(user: $playerScore.player).padding(10).frame(maxWidth: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
                         if !editing {
                             if !self.nameEditing && self.playerScore.player.name != "Name ?" {
                                 Text(self.playerScore.player.name)
                                     .fontWeight(.semibold)
                                     .font(.system(.largeTitle, design: .rounded))
-                                    .minimumScaleFactor(0.5)
                                     .lineLimit(1)
                                     .foregroundColor(Color .offWhite)
                                     .onTapGesture {
@@ -136,7 +135,7 @@ struct ScoreCardView: View {
                         
                         
                     }
-//                    .frame(height: frameHeight*2/3)
+                    .frame(height: frameHeight*2/3)
                    
                     
                     if self.size != .compact {
