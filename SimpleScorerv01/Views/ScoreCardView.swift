@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+//import Introspect
 
 struct ScoreCardView: View {
     
@@ -14,7 +15,7 @@ struct ScoreCardView: View {
     var size: CardSize
     var backGroundGradient: LinearGradient
     
-    @State private var pointsScored = CGFloat(120)
+    @State private var pointsScored = CGFloat(0)
     @State private var editing = false
     
     @State private var nameEditing = false
@@ -56,10 +57,14 @@ struct ScoreCardView: View {
                                         self.playerScore.player.name = self.username
                                         self.playerScore.player.colorGradient = self.backGroundGradient
                                     })
+//                                    .introspectTextField { textField in
+//                                        textField.becomeFirstResponder()
+//                                    }
                                     .font(.system(.largeTitle, design: .rounded))
                                     .background(Color.offWhite.opacity(0.6))
                                     .foregroundColor(Color.offWhite)
-                                .foregroundColor(Color .offWhite)
+                                    .foregroundColor(Color .offWhite)
+                                
                             }
                         } else {
                             ZStack {

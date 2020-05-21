@@ -21,10 +21,8 @@ struct AvatarView: View {
         
         ZStack {
             if user.photoImage?.imageAsset != nil {
-                Image(uiImage: user.photoImage!).renderingMode(.original)
+                Image(uiImage: user.photoImage!)
                 .resizable()
-                .scaledToFill()
-                .clipShape(Circle())
             } else if user.name != "Name ?" {
                 Text(user.name.uppercased().prefix(1))
                     .fontWeight(.regular)
@@ -41,6 +39,8 @@ struct AvatarView: View {
                     .contentShape(Circle())
             }
         }
+        .clipShape(Circle())
+        .aspectRatio(1, contentMode: .fit)
         .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
         .onTapGesture {
                 self.showingImagePicker = true
@@ -51,7 +51,8 @@ struct AvatarView: View {
     
     func loadImage() {
         guard let inputImage = inputImage else { return }
-        self.user.photoImage = resizeImage(image: inputImage, targetSize: CGSize(width: 200, height: 200))
+        self.user.photoImage = resizeImage(image: inputImage.fixedOrientation.squared()!, targetSize: CGSize(width: 200, height: 200))
+//        self.user.photoImage = inputImage.fixedOrientation.squared()
     }
 }
 
@@ -61,9 +62,13 @@ struct CircleImage_Previews: PreviewProvider {
     static var previews: some View {
         
         Group {
-            AvatarView(user: .constant(Player(name: "Stephane", photoImage: UIImage(named: "steph"), colorGradient: gradiants[0])))
+            AvatarView(user: .constant(Player(name: "Stephane", photoImage: UIImage(named: "horizontal"), colorGradient: gradiants[0])))
                 .background(Color.orangeEnd)
                 .previewLayout(.fixed(width: 200, height: 300))
+            
+            AvatarView(user: .constant(Player(name: "Stephane", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0])))
+            .background(Color.orangeEnd)
+            .previewLayout(.fixed(width: 200, height: 300))
             
             AvatarView(user: .constant(Player(name: "Stephane", colorGradient: gradiants[0])))
             .background(Color.orangeEnd)
@@ -114,3 +119,5 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
     }
 }
+
+

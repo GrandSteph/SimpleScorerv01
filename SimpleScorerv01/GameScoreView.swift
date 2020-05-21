@@ -18,7 +18,7 @@ struct GameScoreView: View {
     let gradients = gradiants.shuffled()
     
     // cube display
-    @State private var rotatedCube = false
+    @State private var rotatedCube = true
     @GestureState private var dragOffset = CGSize.zero
     @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 1)
     

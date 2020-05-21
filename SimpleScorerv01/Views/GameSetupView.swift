@@ -109,7 +109,7 @@ struct GameSetupView: View {
                     )
                         .overlay(
                             HStack {
-                                if game.playerScores.count == 1 {
+                                if game.playerScores.count == 0 {
                                     Rectangle().fill(Color.clear).border(width: 1, edge: .trailing, color: .offWhite)
                                     .contentShape(Rectangle())
                                         .overlay(Text("Min").font(.system(.body, design: .rounded)).foregroundColor(Color.offWhite))
@@ -219,13 +219,14 @@ struct AnimatedGradientView: View {
     
      //LinearGradient(Color(hex: 0x373B44),Color(hex: 0x4286f4))
 
-    // triple blue / red / yellow
+    // blue / red / yellow
 //    @State var gradient = [Color(hex: 0x1a2a6c),Color(hex: 0xb21f1f),Color(hex: 0xfdbb2d)]
+    @State var gradient = [Color.red, Color.orange, Color.purple]
     
     
     // pink / purple
 //    @State var gradient = [Color(red: 255 / 255, green: 85 / 255, blue: 85 / 255), Color(red: 85 / 255, green: 85 / 255, blue: 255 / 255)]
-    @State var gradient = [Color(hex: 0xFC466B),Color(hex: 0x3F5EFB)]
+//    @State var gradient = [Color(hex: 0xFC466B),Color(hex: 0x3F5EFB)]
     
     // blue
 //    @State var gradient = [Color(red: 3 / 255, green: 79 / 255, blue: 135 / 255), Color(red: 0 / 255, green: 184 / 255, blue: 214 / 255)]
@@ -238,7 +239,7 @@ struct AnimatedGradientView: View {
     var body: some View {
         LinearGradient(gradient: Gradient(colors: self.gradient), startPoint: self.startPoint, endPoint: self.endPoint)
             .onAppear() {
-                withAnimation (Animation.linear(duration: 10).repeatForever()){
+                withAnimation (Animation.linear(duration: 5).repeatForever()){
                     self.startPoint = UnitPoint(x: 0, y: 0)
                     self.endPoint = UnitPoint(x: 2, y: 2)
                 }

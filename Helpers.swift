@@ -162,3 +162,113 @@ extension GetRect {
         static var defaultValue: CGRect? = nil
     }
 }
+
+extension UIImage {
+    var isPortrait:  Bool    { size.height > size.width }
+    var isLandscape: Bool    { size.width > size.height }
+    var breadth:     CGFloat { min(size.width, size.height) }
+    var breadthSize: CGSize  { .init(width: breadth, height: breadth) }
+    
+    func squared(isOpaque: Bool = false) -> UIImage? {
+        print("image size x: \(size.width) h: \(size.height)")
+        print("is portrait \(isPortrait) - is landscape \(isLandscape)")
+        let cropcoords = (size.height-size.width) / 2
+        print("\(cropcoords)")
+        print("\(breadthSize)\n\n\n\n")
+        guard let cgImage = cgImage?
+//            .cropping(to: .init(origin: .init(x: isLandscape ? ((size.width-size.height)/4).rounded(.down) : 0,
+//                                              y: isPortrait  ? ((size.height-size.width)/4).rounded(.down) : 0),
+//                                size: breadthSize)) else { return nil }
+            .cropping(to: CGRect(x: isLandscape ? -((size.height-size.width)/2).rounded(.down) : 0,
+                                 y: isPortrait ? -((size.width-size.height)/2).rounded(.down): 0,
+                                 width: breadthSize.width,
+                                 height: breadthSize.height)) else {return nil}
+        let format = imageRendererFormat
+        format.opaque = isOpaque
+        return UIGraphicsImageRenderer(size: breadthSize, format: format).image { _ in
+            UIImage(cgImage: cgImage, scale: 1, orientation: imageOrientation)
+            .draw(in: .init(origin: .zero, size: breadthSize))
+        }
+    }
+}
+
+extension UIView {
+    func asImage(rect: CGRect) -> UIImage {
+        let renderer = UIGraphicsImageRenderer(bounds: rect)
+        return renderer.image { rendererContext in
+            layer.render(in: rendererContext.cgContext)
+        }
+    }
+}
+
+extension UIImage {
+    var fixedOrientation: UIImage {
+        guard imageOrientation != .up else { return self }
+
+        var transform: CGAffineTransform = .identity
+        switch imageOrientation {
+        case .down, .downMirrored:
+            transform = transform
+                .translatedBy(x: size.width, y: size.height).rotated(by: .pi)
+        case .left, .leftMirrored:
+            transform = transform
+                .translatedBy(x: size.width, y: 0).rotated(by: .pi)
+        case .right, .rightMirrored:
+            transform = transform
+                .translatedBy(x: 0, y: size.height).rotated(by: -.pi/2)
+        case .upMirrored:
+            transform = transform
+                .translatedBy(x: size.width, y: 0).scaledBy(x: -1, y: 1)
+        default:
+            break
+        }
+
+        guard
+            let cgImage = cgImage,
+            let colorSpace = cgImage.colorSpace,
+            let context = CGContext(
+                data: nil, width: Int(size.width), height: Int(size.height),
+                bitsPerComponent: cgImage.bitsPerComponent, bytesPerRow: 0,
+                space: colorSpace, bitmapInfo: cgImage.bitmapInfo.rawValue
+            )
+        else { return self }
+        context.concatenate(transform)
+
+        var rect: CGRect
+        switch imageOrientation {
+        case .left, .leftMirrored, .right, .rightMirrored:
+            rect = CGRect(x: 0, y: 0, width: size.height, height: size.width)
+        default:
+            rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+        }
+
+        context.draw(cgImage, in: rect)
+        return context.makeImage().map { UIImage(cgImage: $0) } ?? self
+    }
+}
+
+func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
+    let size = image.size
+
+    let widthRatio  = targetSize.width  / size.width
+    let heightRatio = targetSize.height / size.height
+
+    // Figure out what our orientation is, and use that to form the rectangle
+    var newSize: CGSize
+    if(widthRatio > heightRatio) {
+        newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
+    } else {
+        newSize = CGSize(width: size.width * widthRatio,  height: size.height * widthRatio)
+    }
+
+    // This is the rect that we've calculated out and this is what is actually used below
+    let rect = CGRect(x: 0, y: 0, width: newSize.width, height: newSize.height)
+
+    // Actually do the resizing to the rect using the ImageContext stuff
+    UIGraphicsBeginImageContextWithOptions(newSize, false, 1.0)
+    image.draw(in: rect)
+    let newImage = UIGraphicsGetImageFromCurrentImageContext()
+    UIGraphicsEndImageContext()
+
+    return newImage!
+}
