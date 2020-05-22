@@ -40,7 +40,7 @@ struct ScoreCardView: View {
                             .padding(10)
                             .frame(width: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
-                        PlayerNameView(editing: $editing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, backGroundGradient: backGroundGradient)
+                        PlayerNameView(editing: $editing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, backGroundGradient: backGroundGradient).animation(.none)
 
                         ExpandableScoreSection(editing: $editing, pointsScored: $pointsScored, playerScore: $playerScore)
 
@@ -189,6 +189,7 @@ struct PlayerNameView: View {
                         self.username = ""
                     })
                         .introspectTextField { textField in
+                            textField.tag = 0
                             if self.nameEditing {
                                 textField.becomeFirstResponder()
                             }
