@@ -93,7 +93,7 @@ struct ExpandableScoreSection: View {
                 .lineLimit(1)
                 .foregroundColor(Color .offWhite)
                 .padding(.horizontal,self.editing ? 0 : 20)
-                .layoutPriority(1)
+
             
             if editing {
                 
