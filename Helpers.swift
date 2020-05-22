@@ -170,15 +170,9 @@ extension UIImage {
     var breadthSize: CGSize  { .init(width: breadth, height: breadth) }
     
     func squared(isOpaque: Bool = false) -> UIImage? {
-        print("image size x: \(size.width) h: \(size.height)")
-        print("is portrait \(isPortrait) - is landscape \(isLandscape)")
-        let cropcoords = (size.height-size.width) / 2
-        print("\(cropcoords)")
-        print("\(breadthSize)\n\n\n\n")
+
         guard let cgImage = cgImage?
-//            .cropping(to: .init(origin: .init(x: isLandscape ? ((size.width-size.height)/4).rounded(.down) : 0,
-//                                              y: isPortrait  ? ((size.height-size.width)/4).rounded(.down) : 0),
-//                                size: breadthSize)) else { return nil }
+
             .cropping(to: CGRect(x: isLandscape ? -((size.height-size.width)/2).rounded(.down) : 0,
                                  y: isPortrait ? -((size.width-size.height)/2).rounded(.down): 0,
                                  width: breadthSize.width,
