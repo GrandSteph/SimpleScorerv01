@@ -87,7 +87,7 @@ struct Game {
         
         self.addEmptyPlayer()
         
-        //        self.playerScores[0].addPoints(scoreValue: 13)
+                self.playerScores[0].addPoints(scoreValue: 222)
         //
         //        self.playerScores[1].addPoints(scoreValue: 18)
         //        self.playerScores[1].addPoints(scoreValue: 2)

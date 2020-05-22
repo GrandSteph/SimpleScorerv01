@@ -15,8 +15,8 @@ struct ScoreCardView: View {
     var size: CardSize
     var backGroundGradient: LinearGradient
     
-    @State private var pointsScored = CGFloat(0)
-    @State private var editing = false
+    @State private var pointsScored = CGFloat(100)
+    @State private var editing = true
     
     @State private var nameEditing = false
     @State private var username = ""
@@ -32,18 +32,21 @@ struct ScoreCardView: View {
                 
                 self.playerScore.player.colorGradient
                 
-                VStack (alignment: .leading, spacing: 0){
+                VStack (spacing: 0){
                     
                     HStack (alignment: .center, spacing: 0) {
                         
-                        AvatarView(user: $playerScore.player).padding(10).frame(maxWidth: self.size != .compact ? frameHeight*2/3 : frameHeight)
+                        AvatarView(user: $playerScore.player)
+                            .padding(10)
+                            .frame(width: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
                         PlayerNameView(editing: $editing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, backGroundGradient: backGroundGradient)
 
                         ExpandableScoreSection(editing: $editing, pointsScored: $pointsScored, playerScore: $playerScore)
+
                     }
                     .frame(height: self.size == .compact ? frameHeight : frameHeight*2/3)
-                   
+                    
                     
                     if self.size != .compact {
                         ScoringBottomBarTools(frameHeight: frameHeight, editing: $editing, pointsScored: $pointsScored)
@@ -67,22 +70,17 @@ struct ExpandableScoreSection: View {
         Group {
             VStack {
                 if editing {
-                    ZStack {
-                    
-                     VStack {
-                         Image(systemName: "xmark").foregroundColor(Color.white)
-                             .padding()
-                             .contentShape(Rectangle())
-                         Spacer()
-                     }
-                }
-                .frame(minWidth:40, maxWidth:40, maxHeight: .infinity)
-                .onTapGesture {
-                    self.pointsScored = 0
-                    self.editing = false
+                    VStack {
+                        Image(systemName: "xmark").foregroundColor(Color.white)
+                            .padding()
+                            .contentShape(Rectangle())
+                        Spacer()
                     }
-                } else {
-                    EmptyView()
+                    .frame(minWidth:20, maxWidth:20, maxHeight: .infinity)
+                    .onTapGesture {
+                        self.pointsScored = 0
+                        self.editing = false
+                    }
                 }
             }
             
@@ -93,19 +91,16 @@ struct ExpandableScoreSection: View {
                 .lineLimit(1)
                 .foregroundColor(Color .offWhite)
                 .padding(.horizontal,self.editing ? 0 : 20)
-
+            
             
             if editing {
-                
-                HStack {
-                    
-                    
+
                     VStack {
                         Text("\(self.pointsScored >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
                             .font(Font.system(size: 25, weight: .bold, design: .rounded))
-                            .minimumScaleFactor(0.5)
                             .lineLimit(1)
                             .foregroundColor(Color .offWhite)
+                            .padding(.trailing,10)
                         
                         
                         Text("= \( String(format: "%.0f",CGFloat(self.playerScore.totalScore()) + self.pointsScored))")
@@ -114,21 +109,18 @@ struct ExpandableScoreSection: View {
                         
                     }
                     
-                    ZStack {
-                        Rectangle()
-                            .fill(Color.black)
-                            .opacity(0.05)
-                        Rectangle().fill(Color.clear)
-                            .border(width: 1, edge: .leading, color: .offWhite)
-                        Image(systemName: "checkmark").foregroundColor(Color.white)
+                    
+                    Rectangle().fill(Color.clear)
+                        .border(width: 1, edge: .leading, color: .offWhite)
+                        .overlay(Image(systemName: "checkmark").foregroundColor(Color.white))
+                        
+                        
+                        .frame(minWidth:40, maxWidth:40, maxHeight: .infinity)
+                        .onTapGesture {
+                            self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
+                            self.pointsScored = 0
+                            self.editing = false
                     }
-                    .frame(minWidth:40, maxWidth:40, maxHeight: .infinity)
-                    .onTapGesture {
-                        self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
-                        self.pointsScored = 0
-                        self.editing = false
-                    }
-                }
             }
         }
     }
@@ -189,10 +181,10 @@ struct PlayerNameView: View {
                     }
                 } else {
                     TextField("Name?", text: self.$username, onCommit: {
-                            self.nameEditing = false
-                            self.playerScore.player.name = self.username
-                            self.playerScore.player.colorGradient = self.backGroundGradient
-                            self.username = ""
+                        self.nameEditing = false
+                        self.playerScore.player.name = self.username
+                        self.playerScore.player.colorGradient = self.backGroundGradient
+                        self.username = ""
                     })
 //                        .introspectTextField { textField in
 //                            textField.becomeFirstResponder()
@@ -219,19 +211,19 @@ struct ScoreCardView_Previews: PreviewProvider {
                     .padding(.bottom,15)
                 
                 ScoreCardView(playerScore: binding.playerScores[1], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
-                                   .previewLayout(.fixed(width: 375, height: 200))
-                                   .padding(.horizontal, 15)
-                                   .padding(.bottom,15)
+                    .previewLayout(.fixed(width: 375, height: 200))
+                    .padding(.horizontal, 15)
+                    .padding(.bottom,15)
                 
                 ScoreCardView(playerScore: binding.playerScores[2], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
-                                   .previewLayout(.fixed(width: 375, height: 200))
-                                   .padding(.horizontal, 15)
-                                   .padding(.bottom,15)
+                    .previewLayout(.fixed(width: 375, height: 200))
+                    .padding(.horizontal, 15)
+                    .padding(.bottom,15)
                 
                 ScoreCardView(playerScore: binding.playerScores[3], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
-                .previewLayout(.fixed(width: 375, height: 100))
-                .padding(.horizontal, 15)
-                .padding(.bottom,15)
+                    .previewLayout(.fixed(width: 375, height: 100))
+                    .padding(.horizontal, 15)
+                    .padding(.bottom,15)
             }
         }
     }
