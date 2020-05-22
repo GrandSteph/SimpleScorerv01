@@ -21,7 +21,6 @@ struct GameScoreView: View {
     // cube display
     @State private var rotatedCube = false
     @GestureState private var dragOffset = CGSize.zero
-    @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 1)
     
     // image picker
     @State private var imagePicked = UIImage()
@@ -73,7 +72,6 @@ struct GameScoreView: View {
                                                             gradients: self.gradients)
                                     }
                                 }
-                                .animation(.none)
                                 .keyboardAdaptive()
                             }
                         } else {

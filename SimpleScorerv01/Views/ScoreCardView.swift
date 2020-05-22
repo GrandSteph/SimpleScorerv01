@@ -7,7 +7,7 @@
 //
 
 import SwiftUI
-//import Introspect
+import Introspect
 
 struct ScoreCardView: View {
     
@@ -15,8 +15,8 @@ struct ScoreCardView: View {
     var size: CardSize
     var backGroundGradient: LinearGradient
     
-    @State private var pointsScored = CGFloat(100)
-    @State private var editing = true
+    @State private var pointsScored = CGFloat(0)
+    @State private var editing = false
     
     @State private var nameEditing = false
     @State private var username = ""
@@ -107,7 +107,7 @@ struct ExpandableScoreSection: View {
                             .font(Font.system(size: 10, weight: .bold, design: .rounded))
                             .foregroundColor(Color .offWhite)
                         
-                    }
+                    }.animation(.none)
                     
                     
                     Rectangle().fill(Color.clear)
@@ -174,7 +174,6 @@ struct PlayerNameView: View {
                     Text(self.playerScore.player.name)
                         .fontWeight(.semibold)
                         .font(.system(.largeTitle, design: .rounded))
-                        .lineLimit(1)
                         .foregroundColor(Color .offWhite)
                         .onTapGesture {
                             self.nameEditing = true
@@ -183,12 +182,17 @@ struct PlayerNameView: View {
                     TextField("Name?", text: self.$username, onCommit: {
                         self.nameEditing = false
                         self.playerScore.player.name = self.username
+                        if self.username.count == 0 {
+                            self.playerScore.player.name = "~"
+                        }
                         self.playerScore.player.colorGradient = self.backGroundGradient
                         self.username = ""
                     })
-//                        .introspectTextField { textField in
-//                            textField.becomeFirstResponder()
-//                        }
+                        .introspectTextField { textField in
+                            if self.nameEditing {
+                                textField.becomeFirstResponder()
+                            }
+                        }
                         .font(.system(.largeTitle, design: .rounded))
                         .background(Color.offWhite.opacity(0.6))
                         .foregroundColor(Color.offWhite)

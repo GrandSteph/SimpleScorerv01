@@ -23,6 +23,64 @@ struct BindingProvider<StateT, Content: View>: View {
     }
 }
 
+// TextField responder
+
+struct TextFieldTyped: UIViewRepresentable {
+    let keyboardType: UIKeyboardType
+    let returnVal: UIReturnKeyType
+    let tag: Int
+    @Binding var text: String
+    @Binding var isfocusAble: [Bool]
+
+    func makeUIView(context: Context) -> UITextField {
+        let textField = UITextField(frame: .zero)
+        textField.keyboardType = self.keyboardType
+        textField.returnKeyType = self.returnVal
+        textField.tag = self.tag
+        textField.delegate = context.coordinator
+        textField.autocorrectionType = .no
+
+        return textField
+    }
+
+    func updateUIView(_ uiView: UITextField, context: Context) {
+        if isfocusAble[tag] {
+            uiView.becomeFirstResponder()
+        } else {
+            uiView.resignFirstResponder()
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, UITextFieldDelegate {
+        var parent: TextFieldTyped
+
+        init(_ textField: TextFieldTyped) {
+            self.parent = textField
+        }
+
+        func updatefocus(textfield: UITextField) {
+            textfield.becomeFirstResponder()
+        }
+
+func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+
+            if parent.tag == 0 {
+                parent.isfocusAble = [false, true]
+                parent.text = textField.text ?? ""
+            } else if parent.tag == 1 {
+                parent.isfocusAble = [false, false]
+                parent.text = textField.text ?? ""
+         }
+        return true
+        }
+
+    }
+}
+
 
 // Keyboard slide
 // Courtesy of https://stackoverflow.com/questions/56491881/move-textfield-up-when-thekeyboard-has-appeared-by-using-swiftui-ios
@@ -42,74 +100,6 @@ struct GeometryGetter: View {
         }
     }
 }
-final class KeyboardGuardian: ObservableObject {
-    
-    public var rects: Array<CGRect>
-    
-    public var keyboardRect: CGRect = CGRect()
-    // keyboardWillShow notification may be posted repeatedly,
-    // this flag makes sure we only act once per keyboard appearance
-    public var keyboardIsHidden = true
-    @Published var slide: CGFloat = 0
-
-    var showField: Int = 0 {
-        didSet {
-            updateSlide()
-        }
-    }
-    
-    init(textFieldCount: Int) {
-        self.rects = Array<CGRect>(repeating: CGRect(), count: textFieldCount)
-        
-    }
-    
-    func addObserver() {
-        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardWillShow(notification:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyBoardDidHide(notification:)), name: UIResponder.keyboardDidHideNotification, object: nil)
-    }
-    
-    func removeObserver() {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
-    
-    
-    @objc func keyBoardWillShow(notification: Notification) {
-        if keyboardIsHidden {
-            keyboardIsHidden = false
-            if let rect = notification.userInfo?["UIKeyboardFrameEndUserInfoKey"] as? CGRect {
-                keyboardRect = rect
-                updateSlide()
-            }
-        }
-    }
-    
-    @objc func keyBoardDidHide(notification: Notification) {
-        keyboardIsHidden = true
-        updateSlide()
-    }
-    
-    func updateSlide() {
-        if keyboardIsHidden {
-            slide = 0
-        } else {
-            let tfRect = self.rects[self.showField]
-            let diff = keyboardRect.minY - tfRect.maxY
-            
-            if diff > 0 {
-                slide += diff
-            } else {
-                slide += min(diff, 0)
-            }
-            
-        }
-    }
-}
-
 
 //--------------- UIview / Image
 

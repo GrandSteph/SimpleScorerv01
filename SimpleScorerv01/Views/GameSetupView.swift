@@ -32,7 +32,6 @@ struct GameSetupView: View {
                     
                     Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
                     
-                    
                     Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight).shadow(color: Color.black.opacity(0.3), radius: 10, x: 0, y: 10)
                     
                     Spacer()
@@ -85,7 +84,7 @@ struct GameSetupView: View {
                     ).onTapGesture {
                         self.showingActionSheet = true
                     }.actionSheet(isPresented: $showingActionSheet) {
-                        ActionSheet(title: Text("ARE YOU SURE ?").font(.system(.headline, design: .rounded)), buttons: [
+                        ActionSheet(title: Text("This will reset all scores to 0").font(.system(.headline, design: .rounded)), buttons: [
                             .default(Text("OK")) {
                                 self.game.resetScores()
                                 self.isDisplayed = false
