@@ -13,7 +13,7 @@ struct AvatarView: View {
     @Binding var user : Player
     
     @State private var showingImagePicker = false
-    @State private var inputImage: UIImage?
+    @State private var inputImage: UIImage? 
 //    @State private var pickedImage: UIImage?
     
     @ViewBuilder
@@ -21,8 +21,9 @@ struct AvatarView: View {
         
         ZStack {
             if user.photoImage?.imageAsset != nil {
-                Image(uiImage: user.photoImage!)
+                Image(uiImage: resizeImage(image: user.photoImage!.fixedOrientation.squared()!, targetSize: CGSize(width: 200, height: 200)))
                 .resizable()
+                .scaledToFit()
             } else if user.name != Player.defaultName {
                 Text(user.name.uppercased().prefix(1))
                     .fontWeight(.regular)
@@ -51,8 +52,8 @@ struct AvatarView: View {
     
     func loadImage() {
         guard let inputImage = inputImage else { return }
-        self.user.photoImage = resizeImage(image: inputImage.fixedOrientation.squared()!, targetSize: CGSize(width: 200, height: 200))
-//        self.user.photoImage = inputImage.fixedOrientation.squared()
+//        self.user.photoImage = resizeImage(image: inputImage.fixedOrientation.squared()!, targetSize: CGSize(width: 200, height: 200))
+        self.user.photoImage = inputImage
     }
 }
 
@@ -62,7 +63,7 @@ struct CircleImage_Previews: PreviewProvider {
     static var previews: some View {
         
         Group {
-            AvatarView(user: .constant(Player(name: "Stephane", photoImage: UIImage(named: "horizontal"), colorGradient: gradiants[0])))
+            AvatarView(user: .constant(Player(name: "Stephane", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[0])))
                 .background(Color.orangeEnd)
                 .previewLayout(.fixed(width: 200, height: 300))
             

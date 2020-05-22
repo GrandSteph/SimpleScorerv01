@@ -74,49 +74,50 @@ struct Game {
 //        return ranking
 //    }
     
-    init () {
-        self.addEmptyPlayer()
-        
-//        self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
-//        self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
+    mutating func addTestPlayers (){
+        self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
+        self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
 //        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
 //        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
         
 //        self.addPlayer(player: Player(name: "Stephane",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
-//        self.addPlayer(player: Player(name: "Sof",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
+        self.addPlayer(player: Player(name: "Sof",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
 //        self.addPlayer(player: Player(name: "Chloé",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
 //        self.addPlayer(player: Player(name: "Gaby",  colorGradient: gradiants[Int.random(in: 15 ..< 20)]))
-    //        self.addPlayer(player: Player(name: "Chloe", shortName: "Chloe", photoURL:"chloe", color: Color.blue, colorStart: Color.blueStart, colorEnd: Color.blueEnd))
-    //        self.addPlayer(player: Player(name: "Gabriel", shortName: "Gaby", photoURL:"gaby", color: Color.purple, colorStart: Color.purpleStart, colorEnd: Color.purpleEnd))
-            
-    //        self.playerScores[0].addPoints(scoreValue: 13)
-    //
-    //        self.playerScores[1].addPoints(scoreValue: 18)
-    //        self.playerScores[1].addPoints(scoreValue: 2)
-    //        self.playerScores[1].addPoints(scoreValue: 3)
-    //
-    //        self.playerScores[2].addPoints(scoreValue: 24)
-    //        self.playerScores[2].addPoints(scoreValue: 2)
-    //        self.playerScores[2].addPoints(scoreValue: 3)
-    //        self.playerScores[2].addPoints(scoreValue: 4)
-    //        self.playerScores[2].addPoints(scoreValue: 5)
-    //        self.playerScores[2].addPoints(scoreValue: 6)
-    //
-    //        self.playerScores[3].addPoints(scoreValue: 1)
-    //        self.playerScores[3].addPoints(scoreValue: 2)
-    //        self.playerScores[3].addPoints(scoreValue: 3)
-    //        self.playerScores[3].addPoints(scoreValue: 4)
-    //        self.playerScores[3].addPoints(scoreValue: 5)
-    //        self.playerScores[3].addPoints(scoreValue: 6)
-    //        self.playerScores[3].addPoints(scoreValue: 7)
-    //        self.playerScores[3].addPoints(scoreValue: 8)
-    //        self.playerScores[3].addPoints(scoreValue: 9)
-        }
+        
+        self.addEmptyPlayer()
+        
+        //        self.playerScores[0].addPoints(scoreValue: 13)
+        //
+        //        self.playerScores[1].addPoints(scoreValue: 18)
+        //        self.playerScores[1].addPoints(scoreValue: 2)
+        //        self.playerScores[1].addPoints(scoreValue: 3)
+        //
+        //        self.playerScores[2].addPoints(scoreValue: 24)
+        //        self.playerScores[2].addPoints(scoreValue: 2)
+        //        self.playerScores[2].addPoints(scoreValue: 3)
+        //        self.playerScores[2].addPoints(scoreValue: 4)
+        //        self.playerScores[2].addPoints(scoreValue: 5)
+        //        self.playerScores[2].addPoints(scoreValue: 6)
+        //
+        //        self.playerScores[3].addPoints(scoreValue: 1)
+        //        self.playerScores[3].addPoints(scoreValue: 2)
+        //        self.playerScores[3].addPoints(scoreValue: 3)
+        //        self.playerScores[3].addPoints(scoreValue: 4)
+        //        self.playerScores[3].addPoints(scoreValue: 5)
+        //        self.playerScores[3].addPoints(scoreValue: 6)
+        //        self.playerScores[3].addPoints(scoreValue: 7)
+        //        self.playerScores[3].addPoints(scoreValue: 8)
+        //        self.playerScores[3].addPoints(scoreValue: 9)
+    }
     
 }
 
 extension Game {
-    init(players: [Player] = [], scores: [PlayerScore] = []) {
-            self.playerScores = scores
-        }  
+    init(withTestPlayers: Void) {
+        self.init()
+        self.addTestPlayers()
+    }
 }
+
+

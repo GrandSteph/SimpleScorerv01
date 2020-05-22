@@ -11,14 +11,15 @@ import Combine
 
 struct GameScoreView: View {
     
-    @State private var game = Game()
+//    @State private var game = Game()
+    @State private var game = Game(withTestPlayers: ())
     @State private var shouldScroll = true
     @State private var ScoreCardSize = CardSize.normal
     
     let gradients = gradiants.shuffled()
     
     // cube display
-    @State private var rotatedCube = true
+    @State private var rotatedCube = false
     @GestureState private var dragOffset = CGSize.zero
     @ObservedObject private var kGuardian = KeyboardGuardian(textFieldCount: 1)
     
@@ -167,7 +168,8 @@ struct ScoreCardsGridView: View {
                     }
                 }
                 .padding(.horizontal, 15)
-                .padding(.bottom,15)
+                .padding(.bottom,10)
+                .padding(.top,5)
             }
         }
     }
