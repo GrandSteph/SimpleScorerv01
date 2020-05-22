@@ -39,7 +39,7 @@ struct ScoreCardView: View {
                         AvatarView(user: $playerScore.player).padding(10).frame(maxWidth: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
                         if !editing {
-                            if !self.nameEditing && self.playerScore.player.name != "Name ?" {
+                            if !self.nameEditing && self.playerScore.player.name != Player.defaultName {
                                 Text(self.playerScore.player.name)
                                     .fontWeight(.semibold)
                                     .font(.system(.largeTitle, design: .rounded))
@@ -56,6 +56,7 @@ struct ScoreCardView: View {
                                         self.nameEditing = false
                                         self.playerScore.player.name = self.username
                                         self.playerScore.player.colorGradient = self.backGroundGradient
+                                        self.username = ""
                                     })
 //                                    .introspectTextField { textField in
 //                                        textField.becomeFirstResponder()

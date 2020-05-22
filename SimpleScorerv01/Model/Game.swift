@@ -55,6 +55,11 @@ struct Game {
         
     }
     
+    mutating func refresh () {
+        playerScores.append(PlayerScore(player: Player(), pointsList: []))
+        self.removePlayer()
+    }
+    
 //    func ranking(for playerScore:PlayerScore) -> Int {
 //
 //        var ranking = 1
@@ -70,7 +75,9 @@ struct Game {
 //    }
     
     init () {
-        self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
+        self.addEmptyPlayer()
+        
+//        self.addPlayer(player: Player(name: "Stephane", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
 //        self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
 //        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
 //        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))

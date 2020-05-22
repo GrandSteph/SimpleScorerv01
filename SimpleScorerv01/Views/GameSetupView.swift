@@ -140,7 +140,7 @@ struct GameSetupView: View {
                                             .font(.system(.body, design: .rounded))
                                             .foregroundColor(Color .offWhite)
                                     }
-                                }
+                                }.animation(.none)
                                 
                                 if game.playerScores.count < gradiants.count {
                                     Rectangle().fill(Color.clear).border(width: 1, edge: .leading, color: .offWhite)
@@ -167,17 +167,18 @@ struct GameSetupView: View {
                         .contentShape(Rectangle())
                         .onTapGesture {
                             self.isDisplayed = false
+//                            self.game.refresh()
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 14)
                             .stroke(Color.offWhite, lineWidth: 1)
                     )
                         .overlay(
-                            Image(systemName: "checkmark")
-                                .font(.system(.largeTitle, design: .rounded))
-                                
-                                .foregroundColor(Color .offWhite)
-                                .padding()
+                           Text("PLAY")
+                            .fontWeight(.semibold)
+                            .font(.system(.largeTitle, design: .rounded))
+                            .foregroundColor(Color .offWhite)
+                            .padding()
                     )
                     Spacer()
                 }

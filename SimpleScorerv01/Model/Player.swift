@@ -16,8 +16,7 @@ struct Player: Identifiable {
 //    var photoURL: String?
     var photoImage: UIImage?
     var colorGradient: LinearGradient
-    
-    
+
     func defaultPlayer() -> Player {
         return Player()
     }
@@ -25,8 +24,13 @@ struct Player: Identifiable {
 }
 
 extension Player {
+    
+    static let defaultName = "Name ?"
+    
     init() {
-        self.name = "Name ?"
+        self.name = Player.defaultName
         self.colorGradient = LinearGradient.gradDefault
     }
+    
+    
 }

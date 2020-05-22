@@ -23,7 +23,7 @@ struct AvatarView: View {
             if user.photoImage?.imageAsset != nil {
                 Image(uiImage: user.photoImage!)
                 .resizable()
-            } else if user.name != "Name ?" {
+            } else if user.name != Player.defaultName {
                 Text(user.name.uppercased().prefix(1))
                     .fontWeight(.regular)
                     .font(.system(.largeTitle, design: .rounded))

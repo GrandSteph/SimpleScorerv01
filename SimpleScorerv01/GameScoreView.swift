@@ -61,21 +61,24 @@ struct GameScoreView: View {
 //
                 Group {
                     ZStack {
-                        ScrollView(self.axes) {
-                            VStack()  {
-                                if self.game.playerScores.count > 0 {
-                                    ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
-                                                        columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
-                                                        game: self.$game,
-                                                        scoreCardSize: self.ScoreCardSize,
-                                                        gradients: self.gradients)
-                                } else {
-                                    EmptyView()
+                        if self.game.playerScores.count != 0 {
+                            ScrollView(self.axes) {
+                                VStack()  {
+                                    if self.game.playerScores.count > 0 {
+                                        ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
+                                                            columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
+                                                            game: self.$game,
+                                                            scoreCardSize: self.ScoreCardSize,
+                                                            gradients: self.gradients)
+                                    }
                                 }
-                                }.animation(.none)
+                                .animation(.none)
                                 .keyboardAdaptive()
-                            //                            .offset(y: self.kGuardian.slide < 0 ? self.kGuardian.slide : 0)//.animation(.easeOut(duration: 0.16))
+                            }
+                        } else {
+                            EmptyView()
                         }
+                        
                         VStack {
                             Spacer()
                             HStack {
@@ -85,7 +88,7 @@ struct GameScoreView: View {
                                     .foregroundColor(Color.gray)
                                     .background(Color.clear.opacity(0))
                                     .onTapGesture {
-                                        self.rotatedCube.toggle()
+                                        self.rotatedCube = true
                                 }.padding()
                             }
                             
@@ -150,14 +153,12 @@ struct ScoreCardsGridView: View {
                     ForEach(1 ... self.columns, id: \.self) { column in
                         Group {
                             if ((row*self.columns+column-1) < self.game.playerScores.count) {
-//                                ScoreCardView(playerScore:self.$game.playerScores[row*self.columns+column-1], size: self.scoreCardSize)
                                 ScoreCardView(
                                     playerScore:Binding(   // << use proxy binding !!
                                                     get: { self.game.playerScores[row*self.columns+column-1] },
                                                     set: { self.game.playerScores[row*self.columns+column-1] = $0 }),
                                     size: self.scoreCardSize,
                                     backGroundGradient: self.gradients[row*self.columns+column-1]
-//                                    backGroundGradient: randomGrad()
                                 )
                             } else {
                                 Rectangle().opacity(0)
