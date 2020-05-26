@@ -10,36 +10,28 @@ import SwiftUI
 
 struct Game {
     
+    @EnvironmentObject var displayInfo : GlobalDisplayInfo
+    
     var playerScores = [PlayerScore] ()
     
     mutating func addPlayer(player: Player) {
         playerScores.append(PlayerScore(player: player, pointsList: []))
     }
     
-    mutating func addPlayer(player: Player, with pointList: [Int]) {
-        playerScores.append(PlayerScore(player: player, pointsList: pointList))
-    }
+//    mutating func addPlayer(player: Player, with pointList: [Int]) {
+//        playerScores.append(PlayerScore(player: player, pointsList: pointList))
+//    }
     
 //    func findScore(playerScore: PlayerScore) -> PlayerScore {
 //        return playerScores[playerScores.firstIndex(where: {$0 == playerScore})!]
 //    }
     
-    mutating func addScore(pointsValue: Int, playerScoreID: PlayerScore.ID) {
-        playerScores[playerScores.firstIndex(where: {$0.id == playerScoreID})!].addPoints(scoreValue: pointsValue)
-    }
-    
-    func maxScore() -> Int {
-        var maxScore = Int (0)
-        for score in self.playerScores {
-            if maxScore < score.totalScore()  {
-                maxScore = score.totalScore()
-            }
-        }
-        return maxScore
-    }
+//    mutating func addScore(pointsValue: Int, playerScoreID: PlayerScore.ID) {
+//        playerScores[playerScores.firstIndex(where: {$0.id == playerScoreID})!].addPoints(scoreValue: pointsValue)
+//    }
     
     mutating func addEmptyPlayer() {
-        playerScores.append(PlayerScore(player: Player(), pointsList: []))
+        self.addPlayer(player: Player())
     }
     
     mutating func removePlayer() {
@@ -55,9 +47,14 @@ struct Game {
         
     }
     
-    mutating func refresh () {
-        playerScores.append(PlayerScore(player: Player(), pointsList: []))
-        self.removePlayer()
+    func maxScore() -> Int {
+        var maxScore = Int (0)
+        for score in self.playerScores {
+            if maxScore < score.totalScore()  {
+                maxScore = score.totalScore()
+            }
+        }
+        return maxScore
     }
     
 //    func ranking(for playerScore:PlayerScore) -> Int {
@@ -75,6 +72,7 @@ struct Game {
 //    }
     
     mutating func addTestPlayers (){
+        
         self.addPlayer(player: Player(name: "", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
         self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
 //        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
