@@ -158,7 +158,8 @@ struct ScoreCardsGridView: View {
                                                     get: { self.game.playerScores[row*self.columns+column-1] },
                                                     set: { self.game.playerScores[row*self.columns+column-1] = $0 }),
                                     size: self.scoreCardSize,
-                                    backGroundGradient: self.gradients[row*self.columns+column-1]
+                                    backGroundGradient: self.gradients[row*self.columns+column-1],
+                                    index: row*self.columns+column-1
                                 )
                             } else {
                                 Rectangle().opacity(0)

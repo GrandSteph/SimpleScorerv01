@@ -21,6 +21,8 @@ struct ScoreCardView: View {
     @State private var nameEditing = false
     @State private var username = ""
     
+    var index : Int
+    
     var body: some View {
         
         var frameHeight : CGFloat {
@@ -31,6 +33,14 @@ struct ScoreCardView: View {
             ZStack {
                 
                 self.playerScore.player.colorGradient
+                
+                VStack {
+                    HStack {
+                        Spacer()
+                        Text(String(self.index)).padding()
+                    }
+                    Spacer()
+                }
                 
                 VStack (spacing: 0){
                     
@@ -209,22 +219,22 @@ struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             BindingProvider(Game(withTestPlayers: ())) { binding in
-                ScoreCardView(playerScore: binding.playerScores[0], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
+                ScoreCardView(playerScore: binding.playerScores[0], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)],index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: binding.playerScores[1], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
+                ScoreCardView(playerScore: binding.playerScores[1], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)],index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: binding.playerScores[2], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
+                ScoreCardView(playerScore: binding.playerScores[2], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)],index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: binding.playerScores[3], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)])
+                ScoreCardView(playerScore: binding.playerScores[3], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)],index: 1)
                     .previewLayout(.fixed(width: 375, height: 100))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
