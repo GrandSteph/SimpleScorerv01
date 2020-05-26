@@ -50,7 +50,7 @@ struct ScoreCardView: View {
                             .padding(10)
                             .frame(width: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
-                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, backGroundGradient: backGroundGradient).animation(.none)
+                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, backGroundGradient: backGroundGradient, indexOfScoreCard: index).animation(.none)
 
                         ExpandableScoreSection(scoreEditing: $scoreEditing, pointsScored: $pointsScored, playerScore: $playerScore)
 
@@ -171,11 +171,15 @@ struct ScoringBottomBarTools: View {
 
 struct PlayerNameView: View {
     
+    @EnvironmentObject var displayInfo : GlobalDisplayInfo
+    
     @Binding var scoreEditing : Bool
     @Binding var nameEditing : Bool
     @Binding var playerScore : PlayerScore
     @Binding var username : String
     var backGroundGradient : LinearGradient
+    
+    var indexOfScoreCard : Int
     
     var body: some View {
         Group {
@@ -197,9 +201,10 @@ struct PlayerNameView: View {
                         }
                         self.playerScore.player.colorGradient = self.backGroundGradient
                         self.username = ""
+                        self.displayInfo.indexOFTextfieldFocused = 1000
                     })
                         .introspectTextField { textField in
-                            if self.nameEditing && !textField.isFirstResponder {
+                            if self.shouldBecomeFirstResponder() && !textField.isFirstResponder {
                                 textField.becomeFirstResponder()
                             }
                         }
@@ -210,7 +215,20 @@ struct PlayerNameView: View {
                 }
             }
         }
+    }
+    
+    func shouldBecomeFirstResponder() -> Bool {
+        if self.nameEditing && self.indexOfScoreCard < self.displayInfo.indexOFTextfieldFocused {
+            return true
+        }
         
+        if (self.playerScore.player.name == Player.defaultName && !self.displayInfo.isGameSetupVisible && self.indexOfScoreCard < self.displayInfo.indexOFTextfieldFocused) {
+            self.displayInfo.indexOFTextfieldFocused = self.indexOfScoreCard
+            print(self.indexOfScoreCard)
+            return true
+        } else {
+            return false
+        }
     }
 }
 
