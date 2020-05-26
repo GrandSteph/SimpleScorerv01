@@ -11,8 +11,8 @@ import Combine
 
 struct GameScoreView: View {
     
-//    @State private var game = Game()
-    @State private var game = Game(withTestPlayers: ())
+    @State private var game = Game()
+//    @State private var game = Game(withTestPlayers: ())
     @State private var shouldScroll = true
     @State private var ScoreCardSize = CardSize.normal
     
