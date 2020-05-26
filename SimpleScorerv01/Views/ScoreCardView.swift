@@ -34,6 +34,14 @@ struct ScoreCardView: View {
                 
                 self.playerScore.player.colorGradient
                 
+                VStack {
+                    HStack {
+                        Spacer()
+                        Text(String(self.index)).padding()
+                    }
+                    Spacer()
+                }
+                
                 VStack (spacing: 0){
                     
                     HStack (alignment: .center, spacing: 0) {
