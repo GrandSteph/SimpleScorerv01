@@ -34,14 +34,6 @@ struct ScoreCardView: View {
                 
                 self.playerScore.player.colorGradient
                 
-                VStack {
-                    HStack {
-                        Spacer()
-                        Text(String(self.index)).padding()
-                    }
-                    Spacer()
-                }
-                
                 VStack (spacing: 0){
                     
                     HStack (alignment: .center, spacing: 0) {
@@ -201,7 +193,7 @@ struct PlayerNameView: View {
                         }
                         self.playerScore.player.colorGradient = self.backGroundGradient
                         self.username = ""
-                        self.displayInfo.indexOFTextfieldFocused = 1000
+                        self.displayInfo.indexOFTextfieldFocused += 1
                     })
                         .introspectTextField { textField in
                             if self.shouldBecomeFirstResponder() && !textField.isFirstResponder {
@@ -218,14 +210,25 @@ struct PlayerNameView: View {
     }
     
     func shouldBecomeFirstResponder() -> Bool {
-        if self.nameEditing && self.indexOfScoreCard < self.displayInfo.indexOFTextfieldFocused {
+        
+        
+        if self.displayInfo.isGameSetupVisible {
+            if self.indexOfScoreCard < self.displayInfo.indexOFTextfieldFocused {
+                self.displayInfo.indexOFTextfieldFocused = self.indexOfScoreCard
+            }
+            return false
+        }
+        
+        if self.nameEditing {
             return true
         }
         
-        if (self.playerScore.player.name == Player.defaultName && !self.displayInfo.isGameSetupVisible && self.indexOfScoreCard < self.displayInfo.indexOFTextfieldFocused) {
-            self.displayInfo.indexOFTextfieldFocused = self.indexOfScoreCard
-            print(self.indexOfScoreCard)
-            return true
+        if self.playerScore.player.name == Player.defaultName {
+            if self.indexOfScoreCard == self.displayInfo.indexOFTextfieldFocused {
+                return true
+            } else {
+                return false
+            }
         } else {
             return false
         }

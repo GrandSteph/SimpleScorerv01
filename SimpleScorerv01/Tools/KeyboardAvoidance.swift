@@ -66,11 +66,16 @@ struct KeyboardAdaptive: ViewModifier {
                     
                     let screenHeight = UIScreen.main.bounds.height
                     
-                    let keyboardTop = screenHeight - keyboardHeight - 20 // I prefer the textfield slightly above
+                    let keyboardTop = screenHeight - keyboardHeight //- 20 // I prefer the textfield slightly above
                     
                     let focusedTextInputBottom = UIResponder.currentFirstResponder?.globalFrame?.maxY ?? 0
 
                     self.offset = max(0, focusedTextInputBottom - keyboardTop )
+                    
+                    print(focusedTextInputBottom)
+                    print(keyboardTop)
+                    print(self.offset)
+                    print("\n\n")
                     
             }
             .animation(.easeOut(duration: 0.16))

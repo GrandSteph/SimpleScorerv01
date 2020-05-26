@@ -72,7 +72,7 @@ struct GameScoreView: View {
                                                             scoreCardSize: self.ScoreCardSize,
                                                             gradients: self.gradients)
                                     }
-                                }
+                                    }
                                 .keyboardAdaptive()
                             }
                         } else {
