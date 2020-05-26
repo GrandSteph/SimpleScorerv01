@@ -11,16 +11,13 @@ import Combine
 
 struct Player: Identifiable {
     
+    @EnvironmentObject var displayInfo : GlobalDisplayInfo
+    
     var id = UUID()
     var name: String
 //    var photoURL: String?
     var photoImage: UIImage?
     var colorGradient: LinearGradient
-
-    func defaultPlayer() -> Player {
-        return Player()
-    }
-    
 }
 
 extension Player {
