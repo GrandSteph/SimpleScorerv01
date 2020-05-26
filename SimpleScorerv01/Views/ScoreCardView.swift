@@ -16,7 +16,7 @@ struct ScoreCardView: View {
     var backGroundGradient: LinearGradient
     
     @State private var pointsScored = CGFloat(0)
-    @State private var editing = false
+    @State private var scoreEditing = false
     
     @State private var nameEditing = false
     @State private var username = ""
@@ -40,16 +40,16 @@ struct ScoreCardView: View {
                             .padding(10)
                             .frame(width: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
-                        PlayerNameView(editing: $editing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, backGroundGradient: backGroundGradient).animation(.none)
+                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, backGroundGradient: backGroundGradient).animation(.none)
 
-                        ExpandableScoreSection(editing: $editing, pointsScored: $pointsScored, playerScore: $playerScore)
+                        ExpandableScoreSection(scoreEditing: $scoreEditing, pointsScored: $pointsScored, playerScore: $playerScore)
 
                     }
                     .frame(height: self.size == .compact ? frameHeight : frameHeight*2/3)
                     
                     
                     if self.size != .compact {
-                        ScoringBottomBarTools(frameHeight: frameHeight, editing: $editing, pointsScored: $pointsScored)
+                        ScoringBottomBarTools(frameHeight: frameHeight, scoreEditing: $scoreEditing, pointsScored: $pointsScored)
                     }
                 }
             }
@@ -61,7 +61,7 @@ struct ScoreCardView: View {
 
 struct ExpandableScoreSection: View {
     
-    @Binding var editing : Bool
+    @Binding var scoreEditing : Bool
     @Binding var pointsScored : CGFloat
     @Binding var playerScore : PlayerScore
     
@@ -69,7 +69,7 @@ struct ExpandableScoreSection: View {
         
         Group {
             VStack {
-                if editing {
+                if scoreEditing {
                     VStack {
                         Image(systemName: "xmark").foregroundColor(Color.white)
                             .padding()
@@ -79,7 +79,7 @@ struct ExpandableScoreSection: View {
                     .frame(minWidth:20, maxWidth:20, maxHeight: .infinity)
                     .onTapGesture {
                         self.pointsScored = 0
-                        self.editing = false
+                        self.scoreEditing = false
                     }
                 }
             }
@@ -90,10 +90,10 @@ struct ExpandableScoreSection: View {
                 .font(Font.system(size: 50, weight: .bold, design: .rounded))
                 .lineLimit(1)
                 .foregroundColor(Color .offWhite)
-                .padding(.horizontal,self.editing ? 0 : 20)
+                .padding(.horizontal,self.scoreEditing ? 0 : 20)
             
             
-            if editing {
+            if scoreEditing {
 
                     VStack {
                         Text("\(self.pointsScored >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
@@ -119,7 +119,7 @@ struct ExpandableScoreSection: View {
                         .onTapGesture {
                             self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
                             self.pointsScored = 0
-                            self.editing = false
+                            self.scoreEditing = false
                     }
             }
         }
@@ -129,14 +129,14 @@ struct ExpandableScoreSection: View {
 struct ScoringBottomBarTools: View {
     
     let frameHeight : CGFloat
-    @Binding var editing : Bool
+    @Binding var scoreEditing : Bool
     @Binding var pointsScored : CGFloat
     
     var body: some View {
         HStack (spacing: 0) {
             
             Button(action: {
-                self.editing = true
+                self.scoreEditing = true
                 self.pointsScored -= 1
             }) {
                 Image(systemName: "minus.rectangle")
@@ -144,10 +144,10 @@ struct ScoringBottomBarTools: View {
             }
             .buttonStyle(SimpleRectButtonStyle())
             
-            ClickWheel(editing: self.$editing, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
+            ClickWheel(editing: self.$scoreEditing, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
             
             Button(action: {
-                self.editing = true
+                self.scoreEditing = true
                 self.pointsScored += 1
             }) {
                 Image(systemName: "plus.rectangle")
@@ -161,7 +161,7 @@ struct ScoringBottomBarTools: View {
 
 struct PlayerNameView: View {
     
-    @Binding var editing : Bool
+    @Binding var scoreEditing : Bool
     @Binding var nameEditing : Bool
     @Binding var playerScore : PlayerScore
     @Binding var username : String
@@ -169,7 +169,7 @@ struct PlayerNameView: View {
     
     var body: some View {
         Group {
-            if !editing {
+            if !scoreEditing {
                 if !self.nameEditing && self.playerScore.player.name != Player.defaultName {
                     Text(self.playerScore.player.name)
                         .fontWeight(.semibold)
@@ -179,7 +179,7 @@ struct PlayerNameView: View {
                             self.nameEditing = true
                     }
                 } else {
-                    TextField("Name?", text: self.$username, onCommit: {
+                    TextField("Name?", text: self.$username,onEditingChanged: {change in }, onCommit: {
                         self.nameEditing = false
                         self.playerScore.player.name = self.username
                         if self.username.count == 0 {
@@ -189,8 +189,7 @@ struct PlayerNameView: View {
                         self.username = ""
                     })
                         .introspectTextField { textField in
-                
-                            if self.nameEditing {
+                            if self.nameEditing && !textField.isFirstResponder {
                                 textField.becomeFirstResponder()
                             }
                         }
