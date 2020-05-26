@@ -10,7 +10,7 @@ import SwiftUI
 
 struct GameSetupView: View {
     
-    @Binding var isDisplayed : Bool
+    @EnvironmentObject var displayInfo : GlobalDisplayInfo
     @Binding var game : Game
     
     @State private var showingActionSheet = false
@@ -87,7 +87,7 @@ struct GameSetupView: View {
                         ActionSheet(title: Text("This will reset all scores to 0").font(.system(.headline, design: .rounded)), buttons: [
                             .default(Text("OK")) {
                                 self.game.resetScores()
-                                self.isDisplayed = false
+                                self.displayInfo.isGameSetupVisible = false
                             },
                             .cancel()
                         ])
@@ -165,7 +165,7 @@ struct GameSetupView: View {
                         .frame(maxWidth: maxWidth, maxHeight: maxHeight)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            self.isDisplayed = false
+                            self.displayInfo.isGameSetupVisible = false
 //                            self.game.refresh()
                     }
                     .overlay(
@@ -194,7 +194,7 @@ struct GameSetupView: View {
                         .foregroundColor(Color.gray)
                         .padding([.trailing,.bottom])
                         .onTapGesture {
-                            self.isDisplayed = false
+                            self.displayInfo.isGameSetupVisible = false
                         }
                     Spacer()
                 }.padding()
@@ -208,9 +208,9 @@ struct GameSetupView: View {
 struct GameSetupView_Previews: PreviewProvider {
     static var previews: some View {
         BindingProvider(Game()) { binding in
-//            GameSetupView(isDisplayed: .constant(true), game: binding).previewLayout(.fixed(width: 650, height: 320))
+//            GameSetupView(displayInfo.isGameSetupVisible: .constant(true), game: binding).previewLayout(.fixed(width: 650, height: 320))
             
-             GameSetupView(isDisplayed: .constant(true), game: binding)
+             GameSetupView(game: binding)
         }
     }
 }

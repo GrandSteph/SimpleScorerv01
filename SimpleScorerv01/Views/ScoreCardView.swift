@@ -189,7 +189,7 @@ struct PlayerNameView: View {
                         self.username = ""
                     })
                         .introspectTextField { textField in
-                            textField.tag = 0
+                
                             if self.nameEditing {
                                 textField.becomeFirstResponder()
                             }
