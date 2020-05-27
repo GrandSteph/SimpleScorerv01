@@ -153,8 +153,6 @@ struct ImageResizerView: View {
         let parentHeight = parent.maxY
         let offset = CGSize(width: (parentWidth * scaled - parentWidth) / 2,
                             height: (parentHeight * scaled - parentHeight) / 2)
-        
-        print(offset)
         var resolved = CGSize()
         let newDraged = CGSize(width: self.draged.width * scaled,
                                height: self.draged.height * scaled)

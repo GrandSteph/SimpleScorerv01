@@ -20,7 +20,6 @@ struct GameScoreView: View {
     
     // cube display
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
-    @State private var rotatedCube = false
     @GestureState private var dragOffset = CGSize.zero
     
     // image picker
@@ -50,6 +49,8 @@ struct GameScoreView: View {
             ZStack {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
+                
+                
                 GameSetupView(game: self.$game)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(self.displayInfo.isGameSetupVisible ? Color.darkGray : Color.gray)
@@ -74,6 +75,7 @@ struct GameScoreView: View {
                                     }
                                     }
                                 .keyboardAdaptive()
+//                            .offset(x: 0, y: -260)
                             }
                         } else {
                             EmptyView()

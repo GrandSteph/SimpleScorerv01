@@ -17,21 +17,24 @@ import UIKit
 
 // Propagating Keyboard Height Changes
 extension Publishers {
-    static var keyboardHeight: AnyPublisher<CGFloat, Never> {
+    static var keyboardSize: AnyPublisher<CGRect, Never> {
         let willShow = NotificationCenter.default.publisher(for: UIApplication.keyboardWillShowNotification)
-            .map { $0.keyboardHeight }
+            .map { $0.keyboardSize }
         
         let willHide = NotificationCenter.default.publisher(for: UIApplication.keyboardWillHideNotification)
-            .map { _ in CGFloat(0) }
+            .map { _ in CGRect() }
         
-        return MergeMany(willShow, willHide)
+        let didHide = NotificationCenter.default.publisher(for: UIApplication.keyboardDidHideNotification)
+            .map { $0.keyboardSize }
+        
+        return MergeMany(willShow, willHide,didHide)
             .eraseToAnyPublisher()
     }
 }
 
 extension Notification {
-    var keyboardHeight: CGFloat {
-        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect)?.height ?? 0
+    var keyboardSize: CGRect {
+        return (userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect) ?? CGRect()
     }
 }
 
@@ -47,9 +50,11 @@ struct KeyboardAdaptive: ViewModifier {
             content
                 .offset(x: 0, y: -self.offset)
                 
-                .onReceive(Publishers.keyboardHeight) { keyboardHeight in
+                .onReceive(Publishers.keyboardSize) { keyboardSize in
+                
 
-//                    let keyboardTop = geometry.frame(in: .global).height - keyboardHeight
+//                    let keyboardTop = geometry.frame(in: .global).height - keyboardSize.height
+                    let keyboardBottom = UIScreen.main.bounds.height - keyboardSize.maxY
                     
                     var screenOrientation: UIInterfaceOrientation? {
                         get {
@@ -66,16 +71,22 @@ struct KeyboardAdaptive: ViewModifier {
                     
                     let screenHeight = UIScreen.main.bounds.height
                     
-                    let keyboardTop = screenHeight - keyboardHeight //- 20 // I prefer the textfield slightly above
+                    let keyboardTop = screenHeight - keyboardSize.height // I prefer the textfield slightly above
                     
                     let focusedTextInputBottom = UIResponder.currentFirstResponder?.globalFrame?.maxY ?? 0
-
-                    self.offset = max(0, focusedTextInputBottom - keyboardTop )
                     
-                    print(focusedTextInputBottom)
-                    print(keyboardTop)
-                    print(self.offset)
-                    print("\n\n")
+                    // This is a tricky part. When focusing from one textfield to the other, the offset wont reset between focuses
+                    // This will create a lack of offset in the calculation
+                    // For exemple, if previous offset was 110, when looking at Global.frame.maxY it will find a value offset by 110
+                    // to avoid, we detect if there is a first responder after keybard resigned (added the notification)
+                    // If not, we set offset to 0
+                    
+                    // Ideally, who want to keep keyboard up between field focuses but I don't see how to do it ... yet
+                    if UIResponder.currentFirstResponder != nil {
+                        self.offset = max(0, focusedTextInputBottom - keyboardTop ) + self.offset
+                    } else {
+                        self.offset = 0
+                    }
                     
             }
             .animation(.easeOut(duration: 0.16))
@@ -110,25 +121,25 @@ extension UIResponder {
     }
 }
 
-struct ContentView_AK: View {
-    @State private var text = ""
-    @State private var keyboardHeight: CGFloat = 0
-
-    var body: some View {
-        VStack {
-            Spacer()
-            
-            TextField("Enter something", text: $text)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-        }.keyboardAdaptive()
-//        .padding()
-//        .padding(.bottom, keyboardHeight)
-//        .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
-    }
-}
-
-struct ContentView_AK_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView_AK()
-    }
-}
+//struct ContentView_AK: View {
+//    @State private var text = ""
+//    @State private var keyboardHeight: CGFloat = 0
+//
+//    var body: some View {
+//        VStack {
+//            Spacer()
+//
+//            TextField("Enter something", text: $text)
+//                .textFieldStyle(RoundedBorderTextFieldStyle())
+//        }.keyboardAdaptive()
+////        .padding()
+////        .padding(.bottom, keyboardHeight)
+////        .onReceive(Publishers.keyboardHeight) { self.keyboardHeight = $0 }
+//    }
+//}
+//
+//struct ContentView_AK_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ContentView_AK()
+//    }
+//}

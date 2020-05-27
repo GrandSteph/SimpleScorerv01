@@ -73,19 +73,20 @@ struct Game {
     
     mutating func addTestPlayers (){
         
-        self.addPlayer(player: Player(name: "", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
+        self.addPlayer(player: Player(name: "Steph", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
         self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
-//        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
-//        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
+        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
+        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
         
-//        self.addPlayer(player: Player(name: "Stephane",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
-        self.addPlayer(player: Player(name: "Sof",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
-//        self.addPlayer(player: Player(name: "Chloé",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
+        self.addPlayer(player: Player(name: "Karine",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
+//        self.addPlayer(player: Player(name: "Vince",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
+//        self.addPlayer(player: Player(name: "Mat",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
 //        self.addPlayer(player: Player(name: "Gaby",  colorGradient: gradiants[Int.random(in: 15 ..< 20)]))
         
-        self.addEmptyPlayer()
+//        self.addEmptyPlayer()
         
-                self.playerScores[0].addPoints(scoreValue: 222)
+        
+//                self.playerScores[0].addPoints(scoreValue: 222)
         //
         //        self.playerScores[1].addPoints(scoreValue: 18)
         //        self.playerScores[1].addPoints(scoreValue: 2)
