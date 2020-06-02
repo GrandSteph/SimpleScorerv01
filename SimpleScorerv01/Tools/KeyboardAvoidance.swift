@@ -54,7 +54,7 @@ struct KeyboardAdaptive: ViewModifier {
                 
 
 //                    let keyboardTop = geometry.frame(in: .global).height - keyboardSize.height
-                    let keyboardBottom = UIScreen.main.bounds.height - keyboardSize.maxY
+//                    let keyboardBottom = UIScreen.main.bounds.height - keyboardSize.maxY
                     
                     var screenOrientation: UIInterfaceOrientation? {
                         get {
