@@ -13,7 +13,6 @@ struct ScoreCardView: View {
     
     @Binding var playerScore: PlayerScore
     var size: CardSize
-    var backGroundGradient: LinearGradient
     
     @State private var pointsScored = CGFloat(0)
     @State private var scoreEditing = false
@@ -34,14 +33,6 @@ struct ScoreCardView: View {
                 
                 self.playerScore.player.colorGradient
                 
-                VStack {
-                    HStack {
-                        Spacer()
-                        Text(String(self.index)).padding()
-                    }
-                    Spacer()
-                }
-                
                 VStack (spacing: 0){
                     
                     HStack (alignment: .center, spacing: 0) {
@@ -50,7 +41,7 @@ struct ScoreCardView: View {
                             .padding(10)
                             .frame(width: self.size != .compact ? frameHeight*2/3 : frameHeight)
                         
-                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, backGroundGradient: backGroundGradient, indexOfScoreCard: index).animation(.none)
+                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, indexOfScoreCard: index).animation(.none)
 
                         ExpandableScoreSection(scoreEditing: $scoreEditing, pointsScored: $pointsScored, playerScore: $playerScore)
 
@@ -177,7 +168,6 @@ struct PlayerNameView: View {
     @Binding var nameEditing : Bool
     @Binding var playerScore : PlayerScore
     @Binding var username : String
-    var backGroundGradient : LinearGradient
     
     var indexOfScoreCard : Int
     
@@ -199,7 +189,6 @@ struct PlayerNameView: View {
                         if self.username.count == 0 {
                             self.playerScore.player.name = "~"
                         }
-                        self.playerScore.player.colorGradient = self.backGroundGradient
                         self.username = ""
                         self.displayInfo.indexOFTextfieldFocused += 1
                     })
@@ -231,15 +220,17 @@ struct PlayerNameView: View {
             return true
         }
         
-        if self.playerScore.player.name == Player.defaultName {
-            if self.indexOfScoreCard == self.displayInfo.indexOFTextfieldFocused {
-                return true
-            } else {
-                return false
-            }
-        } else {
-            return false
-        }
+        return false
+        
+//        if self.playerScore.player.name == Player.defaultName {
+//            if self.indexOfScoreCard == self.displayInfo.indexOFTextfieldFocused {
+//                return true
+//            } else {
+//                return false
+//            }
+//        } else {
+//            return false
+//        }
     }
 }
 
@@ -248,22 +239,22 @@ struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             BindingProvider(Game(withTestPlayers: ())) { binding in
-                ScoreCardView(playerScore: binding.playerScores[0], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)],index: 1)
+                ScoreCardView(playerScore: binding.playerScores[0], size: .normal, index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: binding.playerScores[1], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)],index: 1)
+                ScoreCardView(playerScore: binding.playerScores[1], size: .compact, index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: binding.playerScores[2], size: .normal, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)],index: 1)
+                ScoreCardView(playerScore: binding.playerScores[2], size: .normal, index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: binding.playerScores[3], size: .compact, backGroundGradient: gradiants[Int.random(in: 0 ..< 20)],index: 1)
+                ScoreCardView(playerScore: binding.playerScores[3], size: .compact, index: 1)
                     .previewLayout(.fixed(width: 375, height: 100))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)

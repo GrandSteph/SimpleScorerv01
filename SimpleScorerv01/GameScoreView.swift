@@ -16,7 +16,8 @@ struct GameScoreView: View {
     @State private var shouldScroll = true
     @State private var ScoreCardSize = CardSize.normal
     
-    let gradients = gradiants.shuffled()
+    // PlayerEntry
+    @State private var showPlayerEntry = false
     
     // cube display
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
@@ -51,7 +52,7 @@ struct GameScoreView: View {
                 
                 
                 
-                GameSetupView(game: self.$game)
+                GameSetupView(game: self.$game, showPlayerEntry: self.$showPlayerEntry)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(self.displayInfo.isGameSetupVisible ? Color.darkGray : Color.gray)
 //                .rotation3DEffect( Angle(degrees: 90) + self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0),anchor: .leading)
@@ -70,8 +71,7 @@ struct GameScoreView: View {
                                         ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
                                                             columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
                                                             game: self.$game,
-                                                            scoreCardSize: self.ScoreCardSize,
-                                                            gradients: self.gradients)
+                                                            scoreCardSize: self.ScoreCardSize)
                                     }
                                     }
                                 .keyboardAdaptive()
@@ -109,6 +109,12 @@ struct GameScoreView: View {
                     CircleImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
                         .edgesIgnoringSafeArea(.all)
                 }
+                
+                if self.showPlayerEntry {
+                    PlayersNameEntry(game: self.$game, isVisible: self.$showPlayerEntry)
+                }
+                
+                
             }
 //            .gesture(
 //                DragGesture()
@@ -131,7 +137,7 @@ struct ContentView_Previews: PreviewProvider {
         Group {
 //            GameScoreView()
 //             .previewLayout(.fixed(width: 650, height: 320))
-            GameScoreView()
+            GameScoreView().environmentObject(GlobalDisplayInfo())
 //                .previewDevice("iPad Air 2")
         }
         
@@ -146,7 +152,6 @@ struct ScoreCardsGridView: View {
     
     @Binding var game: Game
     var scoreCardSize: CardSize
-    var gradients: [LinearGradient]
     
     var body: some View {
         VStack {
@@ -160,7 +165,6 @@ struct ScoreCardsGridView: View {
                                                     get: { self.game.playerScores[row*self.columns+column-1] },
                                                     set: { self.game.playerScores[row*self.columns+column-1] = $0 }),
                                     size: self.scoreCardSize,
-                                    backGroundGradient: self.gradients[row*self.columns+column-1],
                                     index: row*self.columns+column-1
                                 )
                             } else {

@@ -71,7 +71,7 @@ struct KeyboardAdaptive: ViewModifier {
                     
                     let screenHeight = UIScreen.main.bounds.height
                     
-                    let keyboardTop = screenHeight - keyboardSize.height // I prefer the textfield slightly above
+                    let keyboardTop = screenHeight - keyboardSize.height - 20 // I prefer the textfield slightly above
                     
                     let focusedTextInputBottom = UIResponder.currentFirstResponder?.globalFrame?.maxY ?? 0
                     

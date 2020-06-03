@@ -9,7 +9,8 @@
 import SwiftUI
 
 class GlobalDisplayInfo: ObservableObject {
-    @Published var isGameSetupVisible : Bool = false
+    @Published var isGameSetupVisible : Bool = true
     @Published var indexOFTextfieldFocused : Int = 1000
+    @Published var gradients = gradiants.shuffled()
 }
 

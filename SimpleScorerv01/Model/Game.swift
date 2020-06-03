@@ -10,8 +10,6 @@ import SwiftUI
 
 struct Game {
     
-    @EnvironmentObject var displayInfo : GlobalDisplayInfo
-    
     var playerScores = [PlayerScore] ()
     
     mutating func addPlayer(player: Player) {
@@ -31,7 +29,14 @@ struct Game {
 //    }
     
     mutating func addEmptyPlayer() {
+        
         self.addPlayer(player: Player())
+    }
+    
+    mutating func addEmptyPlayer(with gradient : LinearGradient) {
+        var player = Player()
+        player.colorGradient = gradient
+        self.addPlayer(player: player)
     }
     
     mutating func removePlayer() {
@@ -57,6 +62,29 @@ struct Game {
         return maxScore
     }
     
+    func needsNameEntry() -> Bool {
+        
+        var allPlayersHaveNames = true
+        
+        for playerScore in self.playerScores {
+            print(playerScore.player.name)
+            if playerScore.player.name == Player.defaultName {
+                allPlayersHaveNames = false
+            }
+        }
+        
+        return !allPlayersHaveNames && self.playerScores.count > 0
+    }
+    
+    func listNames() -> String {
+        var names = ""
+        for playerScore in self.playerScores {
+            names += playerScore.player.name + "\n"
+        }
+        
+        return names
+    }
+    
 //    func ranking(for playerScore:PlayerScore) -> Int {
 //
 //        var ranking = 1
@@ -73,17 +101,20 @@ struct Game {
     
     mutating func addTestPlayers (){
         
-        self.addPlayer(player: Player(name: "Steph", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
-        self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
-        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
-        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
-        
-        self.addPlayer(player: Player(name: "Karine",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
+//        self.addPlayer(player: Player(name: "Steph", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
+//        self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
+//        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
+//        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
+//        
+//        self.addPlayer(player: Player(name: "Karine",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
 //        self.addPlayer(player: Player(name: "Vince",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
 //        self.addPlayer(player: Player(name: "Mat",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
 //        self.addPlayer(player: Player(name: "Gaby",  colorGradient: gradiants[Int.random(in: 15 ..< 20)]))
         
-//        self.addEmptyPlayer()
+        self.addEmptyPlayer()
+        self.addEmptyPlayer()
+        self.addEmptyPlayer()
+        self.addEmptyPlayer()
         
         
 //                self.playerScores[0].addPoints(scoreValue: 222)

@@ -12,6 +12,7 @@ struct GameSetupView: View {
     
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
     @Binding var game : Game
+    @Binding var showPlayerEntry : Bool
     
     @State private var showingActionSheet = false
     
@@ -87,7 +88,7 @@ struct GameSetupView: View {
                         ActionSheet(title: Text("This will reset all scores to 0").font(.system(.headline, design: .rounded)), buttons: [
                             .default(Text("OK")) {
                                 self.game.resetScores()
-                                self.displayInfo.isGameSetupVisible = false
+                                self.moveNextScreen()
                             },
                             .cancel()
                         ])
@@ -100,7 +101,7 @@ struct GameSetupView: View {
                         .frame(maxWidth: maxWidth, maxHeight: maxHeight)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            
+                            // needed to pass gesture down to overlay
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 14)
@@ -147,7 +148,11 @@ struct GameSetupView: View {
                                         .overlay(Image(systemName: "plus").font(.system(.largeTitle, design: .rounded)).foregroundColor(Color.offWhite))
                                         .padding(.leading)
                                         .onTapGesture {
-                                            self.game.addEmptyPlayer()
+                                            let grad = self.displayInfo.gradients.last!
+                                            if self.displayInfo.gradients.count > 1 {
+                                                self.displayInfo.gradients.removeLast()
+                                            }
+                                            self.game.addEmptyPlayer(with: grad)
                                     }
                                 } else {
                                     Rectangle().fill(Color.clear).border(width: 1, edge: .leading, color: .offWhite)
@@ -165,8 +170,7 @@ struct GameSetupView: View {
                         .frame(maxWidth: maxWidth, maxHeight: maxHeight)
                         .contentShape(Rectangle())
                         .onTapGesture {
-                            self.displayInfo.isGameSetupVisible = false
-//                            self.game.refresh()
+                            self.moveNextScreen()
                     }
                     .overlay(
                         RoundedRectangle(cornerRadius: 14)
@@ -194,11 +198,18 @@ struct GameSetupView: View {
                         .foregroundColor(Color.gray)
                         .padding([.trailing,.bottom])
                         .onTapGesture {
-                            self.displayInfo.isGameSetupVisible = false
+                            self.moveNextScreen()
                         }
                     Spacer()
                 }.padding()
             }
+        }
+    }
+    
+    func moveNextScreen() {
+        self.displayInfo.isGameSetupVisible = false
+        if self.game.needsNameEntry() {
+            self.showPlayerEntry = true
         }
     }
 }
@@ -210,7 +221,7 @@ struct GameSetupView_Previews: PreviewProvider {
         BindingProvider(Game()) { binding in
 //            GameSetupView(displayInfo.isGameSetupVisible: .constant(true), game: binding).previewLayout(.fixed(width: 650, height: 320))
             
-             GameSetupView(game: binding)
+            GameSetupView(game: binding, showPlayerEntry: .constant(false))
         }
     }
 }
