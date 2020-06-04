@@ -76,7 +76,8 @@ struct PlayersNameEntry: View {
                         .clipShape(Rectangle()).cornerRadius(14)
                         .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
                         .zIndex(self.zIndex(for: self.game.playerScores[self.index(for: playerScore)!]))
-//                        .offset(self.offset(for: self.game.playerScores[self.index(for: playerScore)!]))
+                        .offset(self.offset(for: self.game.playerScores[self.index(for: playerScore)!]))
+                        .scaleEffect(self.scale(for: self.game.playerScores[self.index(for: playerScore)!]))
                         .padding()
                     }
                 }
@@ -125,7 +126,20 @@ struct PlayersNameEntry: View {
             return CGSize()
         }
 
-        return CGSize(width: 0, height: -50 * CGFloat(cardIndex))
+        return CGSize(width: 0, height: -20 * CGFloat(self.textFields.count+cardIndex-self.game.playerScores.count))
+    }
+    
+    private func scale(for playerScore: PlayerScore) -> CGFloat {
+
+        guard let cardIndex = index(for: playerScore) else {
+            return CGFloat()
+        }
+        
+        let distanceFromTop = self.textFields.count+cardIndex-self.game.playerScores.count
+        
+        print("distFT \(distanceFromTop) - scale \(100 - distanceFromTop*10)*100)")
+
+        return CGFloat(100 - distanceFromTop*10)/100
     }
 }
 
