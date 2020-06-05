@@ -16,7 +16,7 @@ struct PlayersEntryView: View {
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
     @State private var username : String = ""
     
-    @State private var cardViews = [CardView]()
+    @State private var cardViews = [ScoreCardView]()
     
     var body: some View {
         ZStack {
@@ -24,7 +24,7 @@ struct PlayersEntryView: View {
             Color.offWhite.edgesIgnoringSafeArea(.all).zIndex(-2)
             
             ZStack {
-                ForEach(cardViews) { cardView in
+                ForEach(cardViews, id: \.playerScore.id) { cardView in
                     cardView
                         .frame(height: self.frameHeight)
                         .clipShape(Rectangle()).cornerRadius(14)
@@ -50,7 +50,7 @@ struct PlayersEntryView: View {
         for playerScore in game.playerScores {
             let index = self.game.playerScores.firstIndex(where: { $0.id == playerScore.id })
             
-            self.cardViews.append(CardView(playerScore: self.$game.playerScores[index!]))
+            self.cardViews.append(ScoreCardView(playerScore: self.$game.playerScores[index!], size: .compact, index: index!))
         }
     }
     
