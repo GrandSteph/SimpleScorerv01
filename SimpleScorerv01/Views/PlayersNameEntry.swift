@@ -12,7 +12,6 @@ struct PlayersNameEntry: View {
 
     @Binding var game : Game
     @Binding var isVisible : Bool
-    @EnvironmentObject var displayInfo : GlobalDisplayInfo
 
     // This is a copy of the number of players to allows smooth move between textfields
     // It's easier to just become first responsder when the textfield is last
@@ -26,60 +25,53 @@ struct PlayersNameEntry: View {
     var frameHeight = CGFloat(90)
 
     var body: some View {
-        GeometryReader { geometry in
-            ZStack {
 
-                Color.offWhite.edgesIgnoringSafeArea(.all)
-                    .zIndex(-Double(self.game.playerScores.count))
-//                Color.red
+        ZStack {
 
-                ForEach(self.game.playerScores) { playerScore in
-                    //            ForEach(game.playerScores.indices) { i in
+            Color.offWhite.edgesIgnoringSafeArea(.all)
+                .zIndex(-Double(self.game.playerScores.count))
 
+            ForEach(self.game.playerScores) { playerScore in
 
-//                    Text(self.game.listNames())
+                if playerScore.player.name == Player.defaultName {
+                    ZStack {
 
-                    if playerScore.player.name == Player.defaultName {
-                        ZStack {
-                            Color.green
+                        playerScore.player.colorGradient
 
-                            playerScore.player.colorGradient
+                        VStack {
+                            Color.purple
 
-                            VStack {
-                                Color.purple
+                            Spacer()
 
-                                Spacer()
+                            HStack {
 
-                                HStack {
-
-                                    AvatarView(user: self.$game.playerScores[self.index(for: playerScore)!].player)
-                                        .padding(10)
-                                        .frame(width: self.frameHeight, height: self.frameHeight)
+                                AvatarView(user: self.$game.playerScores[self.index(for: playerScore)!].player)
+                                    .padding(10)
+                                    .frame(width: self.frameHeight, height: self.frameHeight)
 
 
-                                    TaggedTextField(username: self.$username, tag: self.index(for: playerScore)!, parentView: self, textFields: self.$textFields)
+                                TaggedTextField(username: self.$username, tag: self.index(for: playerScore)!, parentView: self, textFields: self.$textFields)
 
-                                    Rectangle().fill(Color.clear)
-                                        .border(width: 1, edge: .leading, color: .offWhite)
-                                        .overlay(Image(systemName: "chevron.right").foregroundColor(Color.white))
-                                        .frame(minWidth:60, maxWidth:60, maxHeight: .infinity)
-                                        .onTapGesture {
-                                            self.commitNameAndMove(forIndex: self.index(for: playerScore)!)
-                                    }
+                                Rectangle().fill(Color.clear)
+                                    .border(width: 1, edge: .leading, color: .offWhite)
+                                    .overlay(Image(systemName: "chevron.right").foregroundColor(Color.white))
+                                    .frame(width: 60, height: self.frameHeight)
+                                    .onTapGesture {
+                                        self.commitNameAndMove(forIndex: self.index(for: playerScore)!)
                                 }
-
-                                Spacer()
-
                             }
+
+                            Spacer()
+
                         }
-                        .frame(height: self.frameHeight)
-                        .clipShape(Rectangle()).cornerRadius(14)
-                        .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
-                        .zIndex(self.zIndex(for: self.game.playerScores[self.index(for: playerScore)!]))
-                        .offset(self.offset(for: self.game.playerScores[self.index(for: playerScore)!]))
-                        .scaleEffect(self.scale(for: self.game.playerScores[self.index(for: playerScore)!]))
-                        .padding()
                     }
+                    .frame(height: self.frameHeight)
+                    .clipShape(Rectangle()).cornerRadius(14)
+                    .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                    .zIndex(self.zIndex(for: self.game.playerScores[self.index(for: playerScore)!]))
+                    .offset(self.offset(for: self.game.playerScores[self.index(for: playerScore)!]))
+                    .scaleEffect(self.scale(for: self.game.playerScores[self.index(for: playerScore)!]))
+                    .padding()
                 }
             }
         }
@@ -88,11 +80,14 @@ struct PlayersNameEntry: View {
     func commitNameAndMove(forIndex i : Int) {
 
         self.game.playerScores[i].player.name = self.username
+        
+        withAnimation(Animation.default){
         if self.textFields.last != nil {
             if self.textFields.last! == i {
                 self.textFields.removeLast()
                 self.username = Player.defaultName
             }
+        }
         }
         print("\(self.game.listNames()) - \(i)")
         if !self.game.needsNameEntry() {
@@ -125,15 +120,19 @@ struct PlayersNameEntry: View {
         guard let cardIndex = index(for: playerScore) else {
             return CGSize()
         }
-
+        
+        if self.textFields.count == 0 { return CGSize(width: 0, height: -20 * CGFloat(cardIndex)) }
+        
         return CGSize(width: 0, height: -20 * CGFloat(self.textFields.count+cardIndex-self.game.playerScores.count))
     }
     
     private func scale(for playerScore: PlayerScore) -> CGFloat {
 
         guard let cardIndex = index(for: playerScore) else {
-            return CGFloat()
+            return 1
         }
+        
+        if self.textFields.count == 0 { return CGFloat(100 - cardIndex*10)/100 }
         
         let distanceFromTop = self.textFields.count+cardIndex-self.game.playerScores.count
         

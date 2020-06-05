@@ -111,7 +111,8 @@ struct GameScoreView: View {
                 }
                 
                 if self.showPlayerEntry {
-                    PlayersNameEntry(game: self.$game, isVisible: self.$showPlayerEntry)
+//                    PlayersNameEntry(game: self.$game, isVisible: self.$showPlayerEntry)
+                    PlayersEntryView(game: self.$game, isVisible: self.$showPlayerEntry)
                 }
                 
                 
