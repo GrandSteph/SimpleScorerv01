@@ -23,6 +23,10 @@ struct BindingProvider<StateT, Content: View>: View {
     }
 }
 
+// other Textfield
+
+
+
 // TextField responder
 
 struct TextFieldTyped: UIViewRepresentable {

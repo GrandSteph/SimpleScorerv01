@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		65CCB199C56AD023D51B518B /* Pods_SimpleScorerv01.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EE9E13D8DA85C91D42C8F4 /* Pods_SimpleScorerv01.framework */; };
+		D70F1356248E37F9001D3217 /* SATextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70F1355248E37F9001D3217 /* SATextField.swift */; };
 		D7153D0824866A6E004C5B2B /* PlayersNameEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7153D0724866A6E004C5B2B /* PlayersNameEntry.swift */; };
 		D76274F1247D020C0035F6DD /* GlobalDisplayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76274F0247D020C0035F6DD /* GlobalDisplayInfo.swift */; };
 		D775E717246D75ED0058064E /* TestNotes in Resources */ = {isa = PBXBuildFile; fileRef = D775E716246D75ED0058064E /* TestNotes */; };
@@ -39,6 +40,7 @@
 		7ECA00223447A9C413822523 /* Pods-SimpleScorerv01.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleScorerv01.debug.xcconfig"; path = "Target Support Files/Pods-SimpleScorerv01/Pods-SimpleScorerv01.debug.xcconfig"; sourceTree = "<group>"; };
 		C4B8CB780368C6537ED97F24 /* Pods-SimpleScorerv01.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleScorerv01.release.xcconfig"; path = "Target Support Files/Pods-SimpleScorerv01/Pods-SimpleScorerv01.release.xcconfig"; sourceTree = "<group>"; };
 		C7EE9E13D8DA85C91D42C8F4 /* Pods_SimpleScorerv01.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SimpleScorerv01.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D70F1355248E37F9001D3217 /* SATextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATextField.swift; sourceTree = "<group>"; };
 		D7153D0724866A6E004C5B2B /* PlayersNameEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersNameEntry.swift; sourceTree = "<group>"; };
 		D76274F0247D020C0035F6DD /* GlobalDisplayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDisplayInfo.swift; sourceTree = "<group>"; };
 		D775E716246D75ED0058064E /* TestNotes */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestNotes; sourceTree = "<group>"; };
@@ -102,6 +104,7 @@
 			children = (
 				D7C03BAE246EEA1B0006FB9F /* KeyboardAvoidance.swift */,
 				D76274F0247D020C0035F6DD /* GlobalDisplayInfo.swift */,
+				D70F1355248E37F9001D3217 /* SATextField.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -327,6 +330,7 @@
 				D7153D0824866A6E004C5B2B /* PlayersNameEntry.swift in Sources */,
 				E828ADB4242387500046BAF8 /* Game.swift in Sources */,
 				E8F648382464014E00F59B7C /* GameSetupView.swift in Sources */,
+				D70F1356248E37F9001D3217 /* SATextField.swift in Sources */,
 				E8875198241F99DB0091853F /* AppDelegate.swift in Sources */,
 				E8B42DA52456DFBB001AE7C2 /* Constants.swift in Sources */,
 				E8FB1A342451B97A009A4846 /* CodeParking.swift in Sources */,

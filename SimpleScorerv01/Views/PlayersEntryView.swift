@@ -22,7 +22,7 @@ struct PlayersEntryView: View {
     var body: some View {
         ZStack {
             
-            Color.offWhite.edgesIgnoringSafeArea(.all).zIndex(-2)
+            Color.offWhite.edgesIgnoringSafeArea(.all).zIndex(-Double(self.cardViews.count+1))
             
             ZStack {
                 ForEach(cardViews, id: \.playerScore.id) { cardView in
@@ -33,31 +33,27 @@ struct PlayersEntryView: View {
                         .overlay(
                             HStack {
                                 Rectangle().fill(Color.clear).frame(width: self.frameHeight, height: self.frameHeight)
-                                TextField(cardView.playerScore.player.name, text: self.$username,onEditingChanged: {change in }, onCommit: {
-                                    self.commitNameAndMove(forIndex: self.game.playerScores.firstIndex(where: { $0.id == cardView.playerScore.id })!)
-                                    
-                                })
-                                    .introspectTextField { textField in
-                                        textField.becomeFirstResponder()
-                                        
-                                        if self.game.playerScores[self.game.playerScores.firstIndex(where: { $0.id == cardView.playerScore.id })!].player.name == Player.defaultName && self.username == "" {
-                                            textField.placeholder = "Player #\(self.game.playerScores.firstIndex(where: { $0.id == cardView.playerScore.id })!+1)"
-                                            textField.text = nil
-                                        }
-                                        
-                                        
-                                }
-                                .font(.system(.largeTitle, design: .rounded))
-                                .background(Color.offWhite.opacity(0.6))
-                                .foregroundColor(Color.offWhite)
-                                .foregroundColor(Color .offWhite)
-                                Rectangle().fill(Color.clear)
-                                    .border(width: 1, edge: .leading, color: .offWhite)
-                                    .overlay(Image(systemName: "chevron.right").foregroundColor(Color.white))
-                                    .frame(width: 60, height: self.frameHeight)
-                                    .onTapGesture {
+                                
+                                SATextField(tag: self.index(for: cardView.playerScore)!, placeholder: "Player #\(self.game.playerScores.firstIndex(where: { $0.id == cardView.playerScore.id })!+1)"
+                                    , returnKey: self.cardViews.last?.playerScore.id == cardView.playerScore.id ? .done : .next
+                                    , changeHandler: { (newString) in
+                                        self.username = newString
+                                        print(self.username)
+                                    }
+                                    , onCommitHandler: {
                                         self.commitNameAndMove(forIndex: self.game.playerScores.firstIndex(where: { $0.id == cardView.playerScore.id })!)
-                                }
+                                    })
+                                    .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
+                                    .background(Color.offWhite.opacity(0.5))
+                               
+
+                                Rectangle().fill(Color.clear)
+//                                    .border(width: 1, edge: .leading, color: .offWhite)
+//                                    .overlay(Image(systemName: "chevron.right").foregroundColor(Color.white))
+                                    .frame(width: 60, height: self.frameHeight)
+//                                    .onTapGesture {
+//                                        self.commitNameAndMove(forIndex: self.game.playerScores.firstIndex(where: { $0.id == cardView.playerScore.id })!)
+//                                }
                             }
                         )
                         .zIndex(self.zIndex(for: cardView.playerScore))
@@ -66,7 +62,9 @@ struct PlayersEntryView: View {
                         .padding()
                         .animation(.spring()).transition(.slide)
                 }
-            }.onAppear {
+            }
+            .offset(x: 0, y: -30)
+            .onAppear {
                 self.buildCardViews()
             }
         }
@@ -75,9 +73,12 @@ struct PlayersEntryView: View {
     func commitNameAndMove(forIndex i : Int) {
 
         self.game.playerScores[i].player.name = self.username
-        self.cardViews.removeFirst()
         self.username = ""
         
+        if self.cardViews.count > 0 {
+            self.cardViews.removeFirst()
+        }
+
         if self.cardViews.count == 0 {
             self.isVisible = false
         }
@@ -91,7 +92,9 @@ struct PlayersEntryView: View {
             
             if index == 0 {print(playerScore.player.name)}
 //            self.cardViews.append(ScoreCardView(playerScore: self.$game.playerScores[index!], size: .compact, index: index!))
-            self.cardViews.append(CardView(playerScore: self.$game.playerScores[index!], username: self.$username,isFirstResponder: index == 0))
+            if self.game.playerScores[index!].player.name == Player.defaultName {
+                self.cardViews.append(CardView(playerScore: self.$game.playerScores[index!], username: self.$username,isFirstResponder: index == 0))
+            }
         }
     }
     
@@ -171,10 +174,10 @@ struct CardView: Identifiable, View {
                     
                     Spacer()
                     
-                    Rectangle().fill(Color.clear)
-                        .border(width: 1, edge: .leading, color: .offWhite)
-                        .overlay(Image(systemName: "chevron.right").foregroundColor(Color.white))
-                        .frame(width: 60, height: self.frameHeight)
+//                    Rectangle().fill(Color.clear)
+//                        .border(width: 1, edge: .leading, color: .offWhite)
+//                        .overlay(Image(systemName: "chevron.right").foregroundColor(Color.white))
+//                        .frame(width: 60, height: self.frameHeight)
                     
                 }
                 Spacer()
