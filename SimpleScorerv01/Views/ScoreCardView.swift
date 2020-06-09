@@ -160,6 +160,8 @@ struct ScoringBottomBarTools: View {
     }
 }
 
+
+
 struct PlayerNameView: View {
     
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
@@ -168,6 +170,8 @@ struct PlayerNameView: View {
     @Binding var nameEditing : Bool
     @Binding var playerScore : PlayerScore
     @Binding var username : String
+    
+    @State private var showingAlert = false
     
     var indexOfScoreCard : Int
     
@@ -184,13 +188,20 @@ struct PlayerNameView: View {
                     }
                 } else {
                     TextField("Name?", text: self.$username,onEditingChanged: {change in }, onCommit: {
-                        self.nameEditing = false
-                        self.playerScore.player.name = self.username
+                        
+                        
                         if self.username.count == 0 {
-                            self.playerScore.player.name = "~"
+                            self.showingAlert = true
+                        } else {
+                            
+                            self.nameEditing = false
+                            self.playerScore.player.name = self.username
+                            
+                            self.username = ""
+                            self.displayInfo.indexOFTextfieldFocused += 1
                         }
-                        self.username = ""
-                        self.displayInfo.indexOFTextfieldFocused += 1
+                        
+                        
                     })
                         .introspectTextField { textField in
                             if self.shouldBecomeFirstResponder() && !textField.isFirstResponder {
@@ -203,6 +214,8 @@ struct PlayerNameView: View {
                         .foregroundColor(Color .offWhite)
                 }
             }
+        }.alert(isPresented: $showingAlert) {
+            Alert(title: Text("No name entered"), message: Text("Please enter a name"), dismissButton: .default(Text("OK")))
         }
     }
     
