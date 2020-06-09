@@ -85,6 +85,16 @@ struct Game {
         return names
     }
     
+    func checkIdenticalName(name : String) -> Bool {
+        for playerScore in self.playerScores {
+            if name.caseInsensitiveCompare(playerScore.player.name) == .orderedSame {
+                return true
+            }
+        }
+        
+        return false
+    }
+    
 //    func ranking(for playerScore:PlayerScore) -> Int {
 //
 //        var ranking = 1
