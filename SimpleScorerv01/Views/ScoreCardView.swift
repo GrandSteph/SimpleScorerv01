@@ -44,6 +44,7 @@ struct ScoreCardView: View {
                         PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, indexOfScoreCard: index).animation(.none)
 
                         ExpandableScoreSection(scoreEditing: $scoreEditing, pointsScored: $pointsScored, playerScore: $playerScore)
+                        
 
                     }
                     .frame(height: self.size == .compact ? frameHeight : frameHeight*2/3)
@@ -88,8 +89,9 @@ struct ExpandableScoreSection: View {
             Spacer()
             
             Text("\(self.playerScore.totalScore())")
-                .font(Font.system(size: 50, weight: .bold, design: .rounded))
+                .font(Font.system(size: fontSize(nbrChar: String(self.playerScore.totalScore()).count, fontSize: 50), weight: .bold, design: .rounded))
                 .lineLimit(1)
+            .layoutPriority(1)
                 .foregroundColor(Color .offWhite)
                 .padding(.horizontal,self.scoreEditing ? 0 : 20)
             
@@ -124,6 +126,13 @@ struct ExpandableScoreSection: View {
                     }
             }
         }
+    }
+    
+    func fontSize(nbrChar :Int, fontSize :Int) -> CGFloat {
+        
+        if nbrChar <= 3 { return CGFloat(fontSize)}
+        
+        return self.scoreEditing ? CGFloat(fontSize - (nbrChar-2)*10 ) : CGFloat(fontSize - (nbrChar-3)*10)
     }
 }
 
@@ -180,8 +189,8 @@ struct PlayerNameView: View {
             if !scoreEditing {
                 if !self.nameEditing && self.playerScore.player.name != Player.defaultName {
                     Text(self.playerScore.player.name)
-                        .fontWeight(.semibold)
-                        .font(.system(.largeTitle, design: .rounded))
+                        .font(Font.system(size: fontSize(nbrChar: self.playerScore.player.name.count, fontSize: 40), weight: .semibold, design: .rounded))
+                            .lineLimit(1)
                         .foregroundColor(Color .offWhite)
                         .onTapGesture {
                             self.nameEditing = true
@@ -217,6 +226,13 @@ struct PlayerNameView: View {
         }.alert(isPresented: $showingAlert) {
             Alert(title: Text("No name entered"), message: Text("Please enter a name"), dismissButton: .default(Text("OK")))
         }
+    }
+    
+    func fontSize(nbrChar :Int, fontSize :Int) -> CGFloat {
+        
+        if nbrChar <= 5 { return CGFloat(fontSize)}
+        
+        return CGFloat(fontSize - (nbrChar-5)*7 )
     }
     
     func shouldBecomeFirstResponder() -> Bool {

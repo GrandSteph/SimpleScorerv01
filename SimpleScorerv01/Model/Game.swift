@@ -116,8 +116,8 @@ struct Game {
 //        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
 //        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
 //        
-        self.addPlayer(player: Player(name: "Karine",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
-        self.addPlayer(player: Player(name: "Vince",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
+        self.addPlayer(player: Player(name: "Karine the great",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
+        self.addPlayer(player: Player(name: "Vincent",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
         self.addPlayer(player: Player(name: "Mat",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
         self.addPlayer(player: Player(name: "Gaby",  colorGradient: gradiants[Int.random(in: 15 ..< 20)]))
         
@@ -127,10 +127,10 @@ struct Game {
 //        self.addEmptyPlayer(with: gradiants[Int.random(in: 15 ..< 20)])
         
         
-//                self.playerScores[0].addPoints(scoreValue: 222)
+                self.playerScores[0].addPoints(scoreValue: 123)
         //
-        //        self.playerScores[1].addPoints(scoreValue: 18)
-        //        self.playerScores[1].addPoints(scoreValue: 2)
+                self.playerScores[1].addPoints(scoreValue: 1234)
+                self.playerScores[2].addPoints(scoreValue: 12345)
         //        self.playerScores[1].addPoints(scoreValue: 3)
         //
         //        self.playerScores[2].addPoints(scoreValue: 24)
