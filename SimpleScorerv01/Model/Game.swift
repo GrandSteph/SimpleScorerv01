@@ -116,10 +116,10 @@ struct Game {
 //        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
 //        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
 //        
-        self.addPlayer(player: Player(name: "Karine the great",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
-        self.addPlayer(player: Player(name: "Vincent",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
-        self.addPlayer(player: Player(name: "Mat",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
-        self.addPlayer(player: Player(name: "Gaby",  colorGradient: gradiants[Int.random(in: 15 ..< 20)]))
+//        self.addPlayer(player: Player(name: "Karine the great",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
+//        self.addPlayer(player: Player(name: "Vincent",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
+//        self.addPlayer(player: Player(name: "Mat",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
+//        self.addPlayer(player: Player(name: "Gaby",  colorGradient: gradiants[Int.random(in: 15 ..< 20)]))
         
 //        self.addEmptyPlayer(with: gradiants[Int.random(in: 0 ..< 5)])
 //        self.addEmptyPlayer(with: gradiants[Int.random(in: 5 ..< 10)])
