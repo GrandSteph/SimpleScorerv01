@@ -11,7 +11,7 @@ import Combine
 
 struct GameScoreView: View {
     
-    @State private var game = Game()
+    @State private var game = Game(withTestPlayers: ())
 //    @State private var game = Game(withTestPlayers: ())
     @State private var shouldScroll = true
     @State private var ScoreCardSize = CardSize.normal
@@ -73,9 +73,15 @@ struct GameScoreView: View {
                                                             game: self.$game,
                                                             scoreCardSize: self.ScoreCardSize)
                                     }
-                                    }
+                                }
+//                                ForEach(self.game.playerScores.indices, id: \.self) { index in
+//                                    VStack()  {
+//                                        ScoreCardView(playerScore: self.$game.playerScores[index], size: .normal, index: index)
+//                                            .padding(15)
+//                                    }
+//                                }
                                 .keyboardAdaptive()
-//                            .offset(x: 0, y: -260)
+                                //                            .offset(x: 0, y: -260)
                             }
                         } else {
                             EmptyView()
