@@ -20,13 +20,12 @@ struct ScoreCardView: View {
     @State private var nameEditing = false
     @State private var username = ""
     
+    @State private var frameHeight = CGFloat(90)
+    @State private var showBottomBar = false
+    
     var index : Int
     
     var body: some View {
-        
-        var frameHeight : CGFloat {
-            self.size == .compact ? CGFloat(90) : CGFloat(135)
-        }
         
         return
             ZStack {
@@ -39,25 +38,37 @@ struct ScoreCardView: View {
                         
                         AvatarView(user: $playerScore.player)
                             .padding(10)
-                            .frame(width: self.size != .compact ? frameHeight*2/3 : frameHeight)
+                            .frame(width: self.showBottomBar ? frameHeight*2/3 : frameHeight)
                         
                         PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, indexOfScoreCard: index).animation(.none)
 
-                        ExpandableScoreSection(scoreEditing: $scoreEditing, pointsScored: $pointsScored, playerScore: $playerScore)
+                        ExpandableScoreSection(scoreEditing: $scoreEditing, pointsScored: $pointsScored, playerScore: $playerScore, frameHeight: $frameHeight, showBottomBar: $showBottomBar, size: size)
+                            .onTapGesture {
+                                self.scoreEditing = true
+                                self.frameHeight = CGFloat(135)
+                                self.showBottomBar = true
+                        }
                         
 
                     }
-                    .frame(height: self.size == .compact ? frameHeight : frameHeight*2/3)
+                    .frame(height:  self.showBottomBar ? frameHeight*2/3 : frameHeight).animation(.linear)
                     
                     
-                    if self.size != .compact {
-                        ScoringBottomBarTools(frameHeight: frameHeight, scoreEditing: $scoreEditing, pointsScored: $pointsScored)
+                    if self.showBottomBar {
+                        ScoringBottomBarTools(frameHeight: frameHeight, scoreEditing: $scoreEditing, pointsScored: $pointsScored).animation(.easeOut).transition(.slide)
                     }
                 }
             }
             .frame(height: frameHeight)
             .clipShape(Rectangle()).cornerRadius(14)
             .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+            .onAppear {
+                if self.size == .normal {
+                    self.frameHeight = CGFloat(135)
+                    self.showBottomBar = true
+                }
+        }
+    
     }
 }
 
@@ -66,6 +77,9 @@ struct ExpandableScoreSection: View {
     @Binding var scoreEditing : Bool
     @Binding var pointsScored : CGFloat
     @Binding var playerScore : PlayerScore
+    @Binding var frameHeight : CGFloat
+    @Binding var showBottomBar : Bool
+    var size : CardSize
     
     var body: some View {
         
@@ -82,6 +96,11 @@ struct ExpandableScoreSection: View {
                     .onTapGesture {
                         self.pointsScored = 0
                         self.scoreEditing = false
+                        
+                        if self.size == .compact {
+                            self.frameHeight = CGFloat(90)
+                            self.showBottomBar = false
+                        }
                     }
                 }
             }
@@ -93,7 +112,7 @@ struct ExpandableScoreSection: View {
                 .lineLimit(1)
             .layoutPriority(1)
                 .foregroundColor(Color .offWhite)
-                .padding(.horizontal,self.scoreEditing ? 0 : 20)
+                .padding(.horizontal,self.scoreEditing ? 0 : 20).animation(.none)
             
             
             if scoreEditing {
@@ -123,6 +142,10 @@ struct ExpandableScoreSection: View {
                             self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
                             self.pointsScored = 0
                             self.scoreEditing = false
+                            if self.size == .compact {
+                                self.frameHeight = CGFloat(90)
+                                self.showBottomBar = false
+                            }
                     }
             }
         }
@@ -168,8 +191,6 @@ struct ScoringBottomBarTools: View {
         .frame(height: frameHeight/3)
     }
 }
-
-
 
 struct PlayerNameView: View {
     

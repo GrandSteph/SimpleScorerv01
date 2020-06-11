@@ -40,7 +40,6 @@ struct GameScoreView: View {
     }
     
     func dragToRotation(translation : CGSize) -> Angle {
-        
         return Angle(degrees: Double(translation.width/4.16))
     }
     

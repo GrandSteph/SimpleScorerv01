@@ -169,20 +169,19 @@ struct GameSetupView: View {
                         .cornerRadius(14)
                         .frame(maxWidth: maxWidth, maxHeight: maxHeight)
                         .contentShape(Rectangle())
-                        .onTapGesture {
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 14)
+                                .stroke(Color.offWhite, lineWidth: 1)
+                        )
+                        .overlay(
+                            Text("PLAY")
+                                .fontWeight(.semibold)
+                                .font(.system(.largeTitle, design: .rounded))
+                                .foregroundColor(Color .offWhite)
+                                .padding()
+                    ).onTapGesture {
                             self.moveNextScreen()
                     }
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 14)
-                            .stroke(Color.offWhite, lineWidth: 1)
-                    )
-                        .overlay(
-                           Text("PLAY")
-                            .fontWeight(.semibold)
-                            .font(.system(.largeTitle, design: .rounded))
-                            .foregroundColor(Color .offWhite)
-                            .padding()
-                    )
                     Spacer()
                 }
                 Spacer()
