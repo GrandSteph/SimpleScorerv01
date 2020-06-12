@@ -40,9 +40,9 @@ struct ScoreCardView: View {
                             .padding(10)
                             .frame(width: self.showBottomBar ? frameHeight*2/3 : frameHeight)
                         
-                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, indexOfScoreCard: index).animation(.none)
+                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, indexOfScoreCard: index)
 
-                        ExpandableScoreSection(scoreEditing: $scoreEditing, pointsScored: $pointsScored, playerScore: $playerScore, frameHeight: $frameHeight, showBottomBar: $showBottomBar, size: size)
+                        ExpandableScoreSection
                             .onTapGesture {
                                 self.scoreEditing = true
                                 self.frameHeight = CGFloat(135)
@@ -51,11 +51,11 @@ struct ScoreCardView: View {
                         
 
                     }
-                    .frame(height:  self.showBottomBar ? frameHeight*2/3 : frameHeight).animation(.linear)
+                    .frame(height:  self.showBottomBar ? frameHeight*2/3 : frameHeight)
                     
                     
                     if self.showBottomBar {
-                        ScoringBottomBarTools(frameHeight: frameHeight, scoreEditing: $scoreEditing, pointsScored: $pointsScored).animation(.easeOut).transition(.slide)
+                        ScoringBottomBarTools.animation(.easeOut).transition(.slide)
                     }
                 }
             }
@@ -70,19 +70,8 @@ struct ScoreCardView: View {
         }
     
     }
-}
-
-struct ExpandableScoreSection: View {
     
-    @Binding var scoreEditing : Bool
-    @Binding var pointsScored : CGFloat
-    @Binding var playerScore : PlayerScore
-    @Binding var frameHeight : CGFloat
-    @Binding var showBottomBar : Bool
-    var size : CardSize
-    
-    var body: some View {
-        
+    var ExpandableScoreSection: some View {
         Group {
             VStack {
                 if scoreEditing {
@@ -151,21 +140,7 @@ struct ExpandableScoreSection: View {
         }
     }
     
-    func fontSize(nbrChar :Int, fontSize :Int) -> CGFloat {
-        
-        if nbrChar <= 3 { return CGFloat(fontSize)}
-        
-        return self.scoreEditing ? CGFloat(fontSize - (nbrChar-2)*10 ) : CGFloat(fontSize - (nbrChar-3)*10)
-    }
-}
-
-struct ScoringBottomBarTools: View {
-    
-    let frameHeight : CGFloat
-    @Binding var scoreEditing : Bool
-    @Binding var pointsScored : CGFloat
-    
-    var body: some View {
+    var ScoringBottomBarTools: some View {
         HStack (spacing: 0) {
             
             Button(action: {
@@ -188,9 +163,17 @@ struct ScoringBottomBarTools: View {
             }
             .buttonStyle(SimpleRectButtonStyle())
         }
-        .frame(height: frameHeight/3)
+    }
+    
+    func fontSize(nbrChar :Int, fontSize :Int) -> CGFloat {
+        
+        if nbrChar <= 3 { return CGFloat(fontSize)}
+        
+        return self.scoreEditing ? CGFloat(fontSize - (nbrChar-2)*10 ) : CGFloat(fontSize - (nbrChar-3)*10)
     }
 }
+
+
 
 struct PlayerNameView: View {
     
