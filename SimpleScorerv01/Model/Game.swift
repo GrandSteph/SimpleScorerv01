@@ -20,9 +20,19 @@ class Game : ObservableObject {
 //        playerScores.append(PlayerScore(player: player, pointsList: pointList))
 //    }
     
-//    func findScore(playerScore: PlayerScore) -> PlayerScore {
-//        return playerScores[playerScores.firstIndex(where: {$0 == playerScore})!]
-//    }
+    func findScore(playerScore: PlayerScore) -> PlayerScore {
+        return playerScores[playerScores.firstIndex(where: {$0.id == playerScore.id})!]
+    }
+    
+    func indexOf(player : Player) -> Int? {
+        for index in self.playerScores.indices {
+            if self.playerScores[index].player.id == player.id {
+                return index
+            }
+        }
+        
+        return nil
+    }
     
 //    mutating func addScore(pointsValue: Int, playerScoreID: PlayerScore.ID) {
 //        playerScores[playerScores.firstIndex(where: {$0.id == playerScoreID})!].addPoints(scoreValue: pointsValue)
@@ -67,7 +77,6 @@ class Game : ObservableObject {
         var allPlayersHaveNames = true
         
         for playerScore in self.playerScores {
-            print(playerScore.player.name)
             if playerScore.player.name == Player.defaultName {
                 allPlayersHaveNames = false
             }

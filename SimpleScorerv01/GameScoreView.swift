@@ -26,10 +26,6 @@ struct GameScoreView: View {
     @State private var showImagePicker = false
     @State private var pickerSource = UIImagePickerController.SourceType.photoLibrary
     
-    private var axes: Axis.Set {
-        return shouldScroll ? .vertical : []
-    }
-    
     func nbrRowsColumns(screenWidth: CGFloat, playerCount: Int) -> (rows : Int, columns : Int) {
         
         let nbrColumns = Double((screenWidth) / 325).rounded(.down)
@@ -60,28 +56,27 @@ struct GameScoreView: View {
                 Group {
                     ZStack {
                         if self.game.playerScores.count != 0 {
-                            ScrollView(self.axes) {
+                            ScrollView(self.displayInfo.shouldScroll ? .vertical : []) {
                                 VStack()  {
-//                                    if self.game.playerScores.count > 0 {
-//                                        ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
-//                                                            columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
-//                                                            scoreCardSize: self.$ScoreCardSize)
-//                                    }
-                                    ForEach (self.game.playerScores, id: \.id) { playerScore in
-                                        ScoreCardView(playerScore: playerScore, index: self.game.playerScores.firstIndex(where: {$0.id == playerScore.id})!)
+                                    if self.game.playerScores.count > 0 {
+                                        ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
+                                                            columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns)
                                     }
+//                                    ForEach (self.game.playerScores, id: \.id) { playerScore in
+//                                        ScoreCardView(playerScore: playerScore, index: self.game.playerScores.firstIndex(where: {$0.id == playerScore.id})!)
+//                                    }
                                     
-                                    Image(systemName: self.displayInfo.scoreCardSize == .compact ? "chevron.compact.down" : "chevron.compact.up")
-                                        .font(.system(.largeTitle, design: .rounded))
-                                        .foregroundColor(Color.gray)
-                                        .background(Color.clear.opacity(0))
-                                        .onTapGesture {
-                                            if self.displayInfo.scoreCardSize == .compact {
-                                                self.displayInfo.scoreCardSize = .normal
-                                            } else {
-                                                self.displayInfo.scoreCardSize = .compact
-                                            }
-                                    }.padding()
+//                                    Image(systemName: self.displayInfo.scoreCardSize == .compact ? "chevron.compact.down" : "chevron.compact.up")
+//                                        .font(.system(.largeTitle, design: .rounded))
+//                                        .foregroundColor(Color.gray)
+//                                        .background(Color.clear.opacity(0))
+//                                        .onTapGesture {
+//                                            if self.displayInfo.scoreCardSize == .compact {
+//                                                self.displayInfo.scoreCardSize = .normal
+//                                            } else {
+//                                                self.displayInfo.scoreCardSize = .compact
+//                                            }
+//                                    }.padding()
                                 }
 //                                ForEach(self.game.playerScores.indices, id: \.self) { index in
 //                                    VStack()  {
@@ -169,7 +164,6 @@ struct ScoreCardsGridView: View {
     let columns: Int
     
     @EnvironmentObject var game: Game
-    @Binding var scoreCardSize: CardSize
     
     var body: some View {
         VStack {

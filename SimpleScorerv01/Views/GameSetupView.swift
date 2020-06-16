@@ -121,6 +121,7 @@ struct GameSetupView: View {
                                         .padding(.trailing)
                                         .onTapGesture {
                                             self.game.removePlayer()
+                                            self.setSizeAndScroll()
                                     }
                                 }
                                 
@@ -153,6 +154,7 @@ struct GameSetupView: View {
                                                 self.displayInfo.gradients.removeLast()
                                             }
                                             self.game.addEmptyPlayer(with: grad)
+                                            self.setSizeAndScroll()
                                     }
                                 } else {
                                     Rectangle().fill(Color.clear).border(width: 1, edge: .leading, color: .offWhite)
@@ -209,6 +211,21 @@ struct GameSetupView: View {
         self.displayInfo.isGameSetupVisible = false
         if self.game.needsNameEntry() {
             self.showPlayerEntry = true
+        }
+    }
+    
+    func setSizeAndScroll () {
+        
+        self.displayInfo.shouldScroll = false
+        self.displayInfo.scoreCardSize = .normal
+        
+        if self.game.playerScores.count > 4 {
+            self.displayInfo.scoreCardSize = .compact
+            
+            if self.game.playerScores.count > 6 {
+                self.displayInfo.shouldScroll = true
+            }
+            
         }
     }
 }

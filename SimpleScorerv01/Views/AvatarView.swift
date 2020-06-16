@@ -55,7 +55,7 @@ struct AvatarView: View {
     func loadImage() {
         guard let inputImage = inputImage else { return }
 //        self.user.photoImage = resizeImage(image: inputImage.fixedOrientation.squared()!, targetSize: CGSize(width: 200, height: 200))
-        let index = self.game.playerScores.firstIndex(where: {$0.id == self.user.id})!
+        let index = self.game.indexOf(player: user)!
         self.game.playerScores[index].player.photoImage = inputImage
         self.inputImage = inputImage
     }

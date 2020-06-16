@@ -38,7 +38,6 @@ struct PlayersEntryView: View {
                                     , returnKey: self.cardViews.last?.playerScore.id == cardView.playerScore.id ? .done : .next
                                     , changeHandler: { (newString) in
                                         self.username = newString
-                                        print(self.username)
                                     }
                                     , onCommitHandler: {
                                         self.commitNameAndMove(forIndex: self.game.playerScores.firstIndex(where: { $0.id == cardView.playerScore.id })!)
@@ -90,7 +89,6 @@ struct PlayersEntryView: View {
         for playerScore in game.playerScores {
             let index = self.game.playerScores.firstIndex(where: { $0.id == playerScore.id })
             
-            if index == 0 {print(playerScore.player.name)}
 //            self.cardViews.append(ScoreCardView(playerScore: self.$game.playerScores[index!], size: .compact, index: index!))
             if self.game.playerScores[index!].player.name == Player.defaultName {
                 self.cardViews.append(CardView(playerScore: self.$game.playerScores[index!], username: self.$username,isFirstResponder: index == 0))
