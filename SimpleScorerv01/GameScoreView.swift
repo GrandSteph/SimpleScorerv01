@@ -11,7 +11,7 @@ import Combine
 
 struct GameScoreView: View {
     
-    @State private var game = Game(withTestPlayers: ())
+    @EnvironmentObject var game : Game
 //    @State private var game = Game(withTestPlayers: ())
     @State private var shouldScroll = true
     @State private var ScoreCardSize = CardSize.normal
@@ -51,7 +51,7 @@ struct GameScoreView: View {
                 
                 
                 
-                GameSetupView(game: self.$game, showPlayerEntry: self.$showPlayerEntry)
+                GameSetupView(showPlayerEntry: self.$showPlayerEntry)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(self.displayInfo.isGameSetupVisible ? Color.darkGray : Color.gray)
 //                .rotation3DEffect( Angle(degrees: 90) + self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0),anchor: .leading)
@@ -69,7 +69,6 @@ struct GameScoreView: View {
                                     if self.game.playerScores.count > 0 {
                                         ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
                                                             columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
-                                                            game: self.$game,
                                                             scoreCardSize: self.ScoreCardSize)
                                     }
                                 }
@@ -117,7 +116,7 @@ struct GameScoreView: View {
                 
                 if self.showPlayerEntry {
 //                    PlayersNameEntry(game: self.$game, isVisible: self.$showPlayerEntry)
-                    PlayersEntryView(game: self.$game, isVisible: self.$showPlayerEntry)
+                    PlayersEntryView(isVisible: self.$showPlayerEntry)
                 }
                 
                 
@@ -143,7 +142,9 @@ struct ContentView_Previews: PreviewProvider {
         Group {
 //            GameScoreView()
 //             .previewLayout(.fixed(width: 650, height: 320))
-            GameScoreView().environmentObject(GlobalDisplayInfo())
+            GameScoreView()
+                .environmentObject(GlobalDisplayInfo())
+                .environmentObject(Game(withTestPlayers: ()))
 //                .previewDevice("iPad Air 2")
         }
         
@@ -156,7 +157,7 @@ struct ScoreCardsGridView: View {
     let rows : Int
     let columns: Int
     
-    @Binding var game: Game
+    @EnvironmentObject var game: Game
     var scoreCardSize: CardSize
     
     var body: some View {
@@ -167,9 +168,7 @@ struct ScoreCardsGridView: View {
                         Group {
                             if ((row*self.columns+column-1) < self.game.playerScores.count) {
                                 ScoreCardView(
-                                    playerScore:Binding(   // << use proxy binding !!
-                                                    get: { self.game.playerScores[row*self.columns+column-1] },
-                                                    set: { self.game.playerScores[row*self.columns+column-1] = $0 }),
+                                    playerScore:self.game.playerScores[row*self.columns+column-1],
                                     size: self.scoreCardSize,
                                     index: row*self.columns+column-1
                                 )

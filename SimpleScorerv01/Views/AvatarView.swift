@@ -10,7 +10,9 @@ import SwiftUI
 
 struct AvatarView: View {
     
-    @Binding var user : Player
+    @EnvironmentObject var game : Game
+    
+    var user : Player
     
     @State private var showingImagePicker = false
     @State private var inputImage: UIImage? 
@@ -53,7 +55,9 @@ struct AvatarView: View {
     func loadImage() {
         guard let inputImage = inputImage else { return }
 //        self.user.photoImage = resizeImage(image: inputImage.fixedOrientation.squared()!, targetSize: CGSize(width: 200, height: 200))
-        self.user.photoImage = inputImage
+        let index = self.game.playerScores.firstIndex(where: {$0.id == self.user.id})!
+        self.game.playerScores[index].player.photoImage = inputImage
+        self.inputImage = inputImage
     }
 }
 
@@ -63,19 +67,19 @@ struct CircleImage_Previews: PreviewProvider {
     static var previews: some View {
         
         Group {
-            AvatarView(user: .constant(Player(name: "Stephane", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[0])))
+            AvatarView(user: Player(name: "Stephane", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[0]))
                 .background(Color.orangeEnd)
                 .previewLayout(.fixed(width: 200, height: 300))
             
-            AvatarView(user: .constant(Player(name: "Stephane", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0])))
+            AvatarView(user: Player(name: "Stephane", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 200, height: 300))
             
-            AvatarView(user: .constant(Player(name: "Stephane", colorGradient: gradiants[0])))
+            AvatarView(user: Player(name: "Stephane", colorGradient: gradiants[0]))
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 80*2/3, height: 80*2/3))
             
-            AvatarView(user: .constant(Player()))
+            AvatarView(user: Player())
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 200, height: 300))
         }

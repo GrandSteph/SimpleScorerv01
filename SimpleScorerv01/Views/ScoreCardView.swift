@@ -11,7 +11,9 @@ import Introspect
 
 struct ScoreCardView: View {
     
-    @Binding var playerScore: PlayerScore
+    @EnvironmentObject var game : Game
+    
+    var playerScore: PlayerScore
     var size: CardSize
     
     @State private var pointsScored = CGFloat(0)
@@ -36,11 +38,11 @@ struct ScoreCardView: View {
                     
                     HStack (alignment: .center, spacing: 0) {
                         
-                        AvatarView(user: $playerScore.player)
+                        AvatarView(user: playerScore.player)
                             .padding(10)
                             .frame(width: self.showBottomBar ? frameHeight*2/3 : frameHeight)
                         
-                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: $playerScore, username: $username, indexOfScoreCard: index)
+                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: playerScore, username: $username, indexOfScoreCard: index)
 
                         ExpandableScoreSection
                             .onTapGesture {
@@ -128,7 +130,8 @@ struct ScoreCardView: View {
                         
                         .frame(minWidth:40, maxWidth:40, maxHeight: .infinity)
                         .onTapGesture {
-                            self.playerScore.addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
+                            let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
+                            self.game.playerScores[index].addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
                             self.pointsScored = 0
                             self.scoreEditing = false
                             if self.size == .compact {
@@ -178,10 +181,11 @@ struct ScoreCardView: View {
 struct PlayerNameView: View {
     
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
+    @EnvironmentObject var game : Game
     
     @Binding var scoreEditing : Bool
     @Binding var nameEditing : Bool
-    @Binding var playerScore : PlayerScore
+    var playerScore : PlayerScore
     @Binding var username : String
     
     @State private var showingAlert = false
@@ -208,7 +212,8 @@ struct PlayerNameView: View {
                         } else {
                             
                             self.nameEditing = false
-                            self.playerScore.player.name = self.username
+                            let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
+                            self.game.playerScores[index].player.name = self.username
                             
                             self.username = ""
                             self.displayInfo.indexOFTextfieldFocused += 1
@@ -271,27 +276,28 @@ struct ScoreCardView_Previews: PreviewProvider {
     
     static var previews: some View {
         Group {
-            BindingProvider(Game(withTestPlayers: ())) { binding in
-                ScoreCardView(playerScore: binding.playerScores[0], size: .normal, index: 1)
+
+            ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []), size: .normal, index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: binding.playerScores[1], size: .compact, index: 1)
+                
+                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []), size: .compact, index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: binding.playerScores[2], size: .normal, index: 1)
+                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []), size: .normal, index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: binding.playerScores[3], size: .compact, index: 1)
+                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []), size: .compact, index: 1)
                     .previewLayout(.fixed(width: 375, height: 100))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
-            }
+
         }
     }
 }

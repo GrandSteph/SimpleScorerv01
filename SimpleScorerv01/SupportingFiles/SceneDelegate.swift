@@ -20,12 +20,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         // Create the SwiftUI view that provides the window contents.
         let displayInfo = GlobalDisplayInfo()
+        let game = Game()
         let contentView = GameScoreView()
-
+        
         // Use a UIHostingController as window root view controller.
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: contentView.environmentObject(displayInfo))
+            window.rootViewController = UIHostingController(
+                rootView: contentView
+                    .environmentObject(displayInfo)
+                    .environmentObject(game))
             self.window = window
             window.makeKeyAndVisible()
         }

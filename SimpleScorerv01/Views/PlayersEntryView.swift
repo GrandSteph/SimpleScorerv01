@@ -10,7 +10,7 @@ import SwiftUI
 
 struct PlayersEntryView: View {
     
-    @Binding var game : Game
+    @EnvironmentObject var game : Game
     @Binding var isVisible : Bool
     
     var frameHeight = CGFloat(90)
@@ -168,7 +168,7 @@ struct CardView: Identifiable, View {
                 
                 HStack {
                     
-                    AvatarView(user: $playerScore.player)
+                    AvatarView(user: playerScore.player)
                         .padding(10)
                         .frame(width: self.frameHeight, height: self.frameHeight)
                     
@@ -188,8 +188,6 @@ struct CardView: Identifiable, View {
 
 struct PlayersEntryView_Previews: PreviewProvider {
     static var previews: some View {
-        BindingProvider(Game(withTestPlayers: ())) { binding in
-            PlayersEntryView(game: binding, isVisible: .constant(true))
-        }
+            PlayersEntryView(isVisible: .constant(true)).environmentObject(Game())
     }
 }

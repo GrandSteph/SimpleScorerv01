@@ -8,11 +8,11 @@
 
 import SwiftUI
 
-struct Game {
+class Game : ObservableObject {
     
-    var playerScores = [PlayerScore] ()
+    @Published var playerScores = [PlayerScore] ()
     
-    mutating func addPlayer(player: Player) {
+    func addPlayer(player: Player) {
         playerScores.append(PlayerScore(player: player, pointsList: []))
     }
     
@@ -28,24 +28,24 @@ struct Game {
 //        playerScores[playerScores.firstIndex(where: {$0.id == playerScoreID})!].addPoints(scoreValue: pointsValue)
 //    }
     
-    mutating func addEmptyPlayer() {
+    func addEmptyPlayer() {
         
         self.addPlayer(player: Player())
     }
     
-    mutating func addEmptyPlayer(with gradient : LinearGradient) {
+    func addEmptyPlayer(with gradient : LinearGradient) {
         var player = Player()
         player.colorGradient = gradient
         self.addPlayer(player: player)
     }
     
-    mutating func removePlayer() {
+    func removePlayer() {
         if playerScores.count > 0 {
             playerScores.removeLast()
         }
     }
     
-    mutating func resetScores () {
+    func resetScores () {
         for (index, _) in playerScores.enumerated() {
             playerScores[index].resetScore()
         }
@@ -109,17 +109,17 @@ struct Game {
 //        return ranking
 //    }
     
-    mutating func addTestPlayers (){
+    func addTestPlayers (){
         
 //        self.addPlayer(player: Player(name: "Steph", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
 //        self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
 //        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
 //        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
 //        
-        self.addPlayer(player: Player(name: "Karine",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
-        self.addPlayer(player: Player(name: "Vincent",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
-        self.addPlayer(player: Player(name: "Mat",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
-        self.addPlayer(player: Player(name: "Gaby",  colorGradient: gradiants[Int.random(in: 15 ..< 20)]))
+        self.addPlayer(player: Player(id : UUID(uuidString: "123")!, name: "Karine",  colorGradient: gradiants[Int.random(in: 0 ..< 5)]))
+        self.addPlayer(player: Player(id : UUID(uuidString: "456")!,name: "Vincent",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
+        self.addPlayer(player: Player(id : UUID(uuidString: "789")!,name: "Mat",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
+        self.addPlayer(player: Player(id : UUID(uuidString: "101")!,name: "Gaby",  colorGradient: gradiants[Int.random(in: 15 ..< 20)]))
         
 //        self.addEmptyPlayer(with: gradiants[Int.random(in: 0 ..< 5)])
 //        self.addEmptyPlayer(with: gradiants[Int.random(in: 5 ..< 10)])
@@ -154,7 +154,7 @@ struct Game {
 }
 
 extension Game {
-    init(withTestPlayers: Void) {
+    convenience init(withTestPlayers: Void) {
         self.init()
         self.addTestPlayers()
     }

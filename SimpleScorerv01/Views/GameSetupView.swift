@@ -11,7 +11,7 @@ import SwiftUI
 struct GameSetupView: View {
     
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
-    @Binding var game : Game
+    @EnvironmentObject var game : Game
     @Binding var showPlayerEntry : Bool
     
     @State private var showingActionSheet = false
@@ -217,11 +217,8 @@ struct GameSetupView: View {
 
 struct GameSetupView_Previews: PreviewProvider {
     static var previews: some View {
-        BindingProvider(Game()) { binding in
-//            GameSetupView(displayInfo.isGameSetupVisible: .constant(true), game: binding).previewLayout(.fixed(width: 650, height: 320))
             
-            GameSetupView(game: binding, showPlayerEntry: .constant(false))
-        }
+            GameSetupView(showPlayerEntry: .constant(false))
     }
 }
 
