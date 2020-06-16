@@ -12,9 +12,7 @@ import Combine
 struct GameScoreView: View {
     
     @EnvironmentObject var game : Game
-//    @State private var game = Game(withTestPlayers: ())
     @State private var shouldScroll = true
-    @State private var ScoreCardSize = CardSize.normal
     
     // PlayerEntry
     @State private var showPlayerEntry = false
@@ -49,8 +47,6 @@ struct GameScoreView: View {
             ZStack {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
-                
-                
                 GameSetupView(showPlayerEntry: self.$showPlayerEntry)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .background(self.displayInfo.isGameSetupVisible ? Color.darkGray : Color.gray)
@@ -66,11 +62,26 @@ struct GameScoreView: View {
                         if self.game.playerScores.count != 0 {
                             ScrollView(self.axes) {
                                 VStack()  {
-                                    if self.game.playerScores.count > 0 {
-                                        ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
-                                                            columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
-                                                            scoreCardSize: self.ScoreCardSize)
+//                                    if self.game.playerScores.count > 0 {
+//                                        ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
+//                                                            columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns,
+//                                                            scoreCardSize: self.$ScoreCardSize)
+//                                    }
+                                    ForEach (self.game.playerScores, id: \.id) { playerScore in
+                                        ScoreCardView(playerScore: playerScore, index: self.game.playerScores.firstIndex(where: {$0.id == playerScore.id})!)
                                     }
+                                    
+                                    Image(systemName: self.displayInfo.scoreCardSize == .compact ? "chevron.compact.down" : "chevron.compact.up")
+                                        .font(.system(.largeTitle, design: .rounded))
+                                        .foregroundColor(Color.gray)
+                                        .background(Color.clear.opacity(0))
+                                        .onTapGesture {
+                                            if self.displayInfo.scoreCardSize == .compact {
+                                                self.displayInfo.scoreCardSize = .normal
+                                            } else {
+                                                self.displayInfo.scoreCardSize = .compact
+                                            }
+                                    }.padding()
                                 }
 //                                ForEach(self.game.playerScores.indices, id: \.self) { index in
 //                                    VStack()  {
@@ -158,7 +169,7 @@ struct ScoreCardsGridView: View {
     let columns: Int
     
     @EnvironmentObject var game: Game
-    var scoreCardSize: CardSize
+    @Binding var scoreCardSize: CardSize
     
     var body: some View {
         VStack {
@@ -169,7 +180,6 @@ struct ScoreCardsGridView: View {
                             if ((row*self.columns+column-1) < self.game.playerScores.count) {
                                 ScoreCardView(
                                     playerScore:self.game.playerScores[row*self.columns+column-1],
-                                    size: self.scoreCardSize,
                                     index: row*self.columns+column-1
                                 )
                             } else {

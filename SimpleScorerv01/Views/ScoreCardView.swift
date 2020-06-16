@@ -12,9 +12,9 @@ import Introspect
 struct ScoreCardView: View {
     
     @EnvironmentObject var game : Game
+    @EnvironmentObject var displayInfo : GlobalDisplayInfo
     
     var playerScore: PlayerScore
-    var size: CardSize
     
     @State private var pointsScored = CGFloat(0)
     @State private var scoreEditing = false
@@ -22,7 +22,7 @@ struct ScoreCardView: View {
     @State private var nameEditing = false
     @State private var username = ""
     
-    @State private var frameHeight = CGFloat(90)
+    let frameHeight = CGFloat(135)
     @State private var showBottomBar = false
     
     var index : Int
@@ -32,7 +32,7 @@ struct ScoreCardView: View {
         return
             ZStack {
                 
-                self.playerScore.player.colorGradient
+                self.playerScore.player.colorGradient.frame(height: self.showBottomBar || self.displayInfo.scoreCardSize == .normal ? frameHeight : frameHeight*2/3)
                 
                 VStack (spacing: 0){
                     
@@ -40,37 +40,27 @@ struct ScoreCardView: View {
                         
                         AvatarView(user: playerScore.player)
                             .padding(10)
-                            .frame(width: self.showBottomBar ? frameHeight*2/3 : frameHeight)
                         
                         PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: playerScore, username: $username, indexOfScoreCard: index)
 
                         ExpandableScoreSection
                             .onTapGesture {
                                 self.scoreEditing = true
-                                self.frameHeight = CGFloat(135)
                                 self.showBottomBar = true
                         }
                         
 
                     }
-                    .frame(height:  self.showBottomBar ? frameHeight*2/3 : frameHeight)
+                    .frame(height: frameHeight*2/3)
                     
-                    
-                    if self.showBottomBar {
+                    if self.showBottomBar || self.displayInfo.scoreCardSize == .normal {
                         ScoringBottomBarTools.animation(.easeOut).transition(.slide)
+                        .frame(height: frameHeight/3)
                     }
                 }
             }
-            .frame(height: frameHeight)
             .clipShape(Rectangle()).cornerRadius(14)
             .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
-            .onAppear {
-                if self.size == .normal {
-                    self.frameHeight = CGFloat(135)
-                    self.showBottomBar = true
-                }
-        }
-    
     }
     
     var ExpandableScoreSection: some View {
@@ -88,8 +78,7 @@ struct ScoreCardView: View {
                         self.pointsScored = 0
                         self.scoreEditing = false
                         
-                        if self.size == .compact {
-                            self.frameHeight = CGFloat(90)
+                        if self.displayInfo.scoreCardSize == .compact {
                             self.showBottomBar = false
                         }
                     }
@@ -134,8 +123,7 @@ struct ScoreCardView: View {
                             self.game.playerScores[index].addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
                             self.pointsScored = 0
                             self.scoreEditing = false
-                            if self.size == .compact {
-                                self.frameHeight = CGFloat(90)
+                            if self.displayInfo.scoreCardSize == .compact {
                                 self.showBottomBar = false
                             }
                     }
@@ -277,27 +265,29 @@ struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
 
-            ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []), size: .normal, index: 1)
+            ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
                 
-                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []), size: .compact, index: 1)
+                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []), size: .normal, index: 1)
+                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []), size: .compact, index: 1)
+                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
                     .previewLayout(.fixed(width: 375, height: 100))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
 
         }
+        .environmentObject(Game())
+        .environmentObject(GlobalDisplayInfo())
     }
 }
