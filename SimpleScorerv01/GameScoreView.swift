@@ -95,8 +95,6 @@ struct GameScoreView: View {
                 if self.showPlayerEntry {
                     PlayersEntryView(isVisible: self.$showPlayerEntry)
                 }
-                
-                
             }
         }
     }
@@ -106,12 +104,12 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
 //            GameScoreView()
-//             .previewLayout(.fixed(width: 650, height: 320))
+//                .previewLayout(.fixed(width: 1000, height: 320))
             GameScoreView()
-                .environmentObject(GlobalDisplayInfo())
-                .environmentObject(Game(withTestPlayers: ()))
 //                .previewDevice("iPad Air 2")
         }
+        .environmentObject(GlobalDisplayInfo())
+        .environmentObject(Game(withTestPlayers: ()))
         
     }
 }
@@ -123,28 +121,38 @@ struct ScoreCardsGridView: View {
     let columns: Int
     
     @EnvironmentObject var game: Game
+    @EnvironmentObject var displayInfo : GlobalDisplayInfo
     
     var body: some View {
         VStack {
+            if self.displayInfo.scoreCardSize == .compact { Spacer() }
             ForEach(0 ..< self.rows, id: \.self) { row in
-                HStack {
-                    ForEach(1 ... self.columns, id: \.self) { column in
-                        Group {
-                            if ((row*self.columns+column-1) < self.game.playerScores.count) {
-                                ScoreCardView(
-                                    playerScore:self.game.playerScores[row*self.columns+column-1],
-                                    index: row*self.columns+column-1
-                                )
-                            } else {
-                                Rectangle().opacity(0)
-                            }
-                        }.padding(.horizontal, 5)
+                Group {
+                    HStack {
+                        ForEach(1 ... self.columns, id: \.self) { column in
+                            Group {
+                                if ((row*self.columns+column-1) < self.game.playerScores.count) {
+                                    ScoreCardView(
+                                        playerScore:self.game.playerScores[row*self.columns+column-1],
+                                        index: row*self.columns+column-1
+                                    )
+                                } else {
+                                    Rectangle().opacity(0)
+                                }
+                            }.padding(.horizontal, 5)
+                        }
                     }
+                    .padding(.horizontal, 15)
+                    .padding(.bottom,10)
+                    .padding(.top,5)
+                    
+                     if self.displayInfo.scoreCardSize == .compact { Spacer() }
                 }
-                .padding(.horizontal, 15)
-                .padding(.bottom,10)
-                .padding(.top,5)
+                
+                
             }
+            
+            
         }
     }
 }
