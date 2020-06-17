@@ -45,14 +45,11 @@ struct GameScoreView: View {
                 
                 GameSetupView(showPlayerEntry: self.$showPlayerEntry)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                .background(self.displayInfo.isGameSetupVisible ? Color.darkGray : Color.gray)
-//                .rotation3DEffect( Angle(degrees: 90) + self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0),anchor: .leading)
-//                .offset(x: self.dragOffset.width + geometry.size.width, y: 0)
                 .rotation3DEffect(Angle(degrees: self.displayInfo.isGameSetupVisible ? 0 : 90), axis: (x: 0, y:1 , z:0),anchor: .leading)
                 .offset(x: self.displayInfo.isGameSetupVisible ? 0 : geometry.size.width, y: 0)
                 .edgesIgnoringSafeArea(.all)
                 .animation(.linear)
-//
+
                 Group {
                     ZStack {
                         if self.game.playerScores.count != 0 {
@@ -62,30 +59,9 @@ struct GameScoreView: View {
                                         ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
                                                             columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns)
                                     }
-//                                    ForEach (self.game.playerScores, id: \.id) { playerScore in
-//                                        ScoreCardView(playerScore: playerScore, index: self.game.playerScores.firstIndex(where: {$0.id == playerScore.id})!)
-//                                    }
-                                    
-//                                    Image(systemName: self.displayInfo.scoreCardSize == .compact ? "chevron.compact.down" : "chevron.compact.up")
-//                                        .font(.system(.largeTitle, design: .rounded))
-//                                        .foregroundColor(Color.gray)
-//                                        .background(Color.clear.opacity(0))
-//                                        .onTapGesture {
-//                                            if self.displayInfo.scoreCardSize == .compact {
-//                                                self.displayInfo.scoreCardSize = .normal
-//                                            } else {
-//                                                self.displayInfo.scoreCardSize = .compact
-//                                            }
-//                                    }.padding()
                                 }
-//                                ForEach(self.game.playerScores.indices, id: \.self) { index in
-//                                    VStack()  {
-//                                        ScoreCardView(playerScore: self.$game.playerScores[index], size: .normal, index: index)
-//                                            .padding(15)
-//                                    }
-//                                }
                                 .keyboardAdaptive()
-                                //                            .offset(x: 0, y: -260)
+
                             }
                         } else {
                             EmptyView()
@@ -103,17 +79,13 @@ struct GameScoreView: View {
                                         self.displayInfo.isGameSetupVisible = true
                                 }.padding()
                             }
-                            
                         }
-                        
-                    }.disabled(self.displayInfo.isGameSetupVisible ? true : false)
+                    }
                 }
-//                .background(self.displayInfo.isGameSetupVisible ? Color.white : Color.offWhite)
-//                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
-//                .offset(x: self.dragOffset.width, y: 0)
                 .rotation3DEffect(Angle(degrees: self.displayInfo.isGameSetupVisible ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
                 .offset(x: self.displayInfo.isGameSetupVisible ? -geometry.size.width : 0, y: 0)
                 .animation(.linear)
+                .disabled(self.displayInfo.isGameSetupVisible ? true : false)
 
                 if self.showImagePicker {
                     CircleImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
@@ -121,24 +93,11 @@ struct GameScoreView: View {
                 }
                 
                 if self.showPlayerEntry {
-//                    PlayersNameEntry(game: self.$game, isVisible: self.$showPlayerEntry)
                     PlayersEntryView(isVisible: self.$showPlayerEntry)
                 }
                 
                 
             }
-//            .gesture(
-//                DragGesture()
-//                    .updating(self.$dragOffset, body: { (value, state, transaction) in
-//                        if value.startLocation.x > (geometry.size.width - 25) {
-//                            state = value.translation
-//                        }
-//                    })
-//                    .onEnded({ (value) in
-//                        self.displayInfo.isGameSetupVisible = true
-//                    })
-//            )
-
         }
     }
 }
