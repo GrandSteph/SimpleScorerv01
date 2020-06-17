@@ -45,7 +45,7 @@ struct GameScoreView: View {
                 
                 GameSetupView(showPlayerEntry: self.$showPlayerEntry)
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .background(self.displayInfo.isGameSetupVisible ? Color.darkGray : Color.gray)
+//                .background(self.displayInfo.isGameSetupVisible ? Color.darkGray : Color.gray)
 //                .rotation3DEffect( Angle(degrees: 90) + self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0),anchor: .leading)
 //                .offset(x: self.dragOffset.width + geometry.size.width, y: 0)
                 .rotation3DEffect(Angle(degrees: self.displayInfo.isGameSetupVisible ? 0 : 90), axis: (x: 0, y:1 , z:0),anchor: .leading)
@@ -106,9 +106,9 @@ struct GameScoreView: View {
                             
                         }
                         
-                    }
+                    }.disabled(self.displayInfo.isGameSetupVisible ? true : false)
                 }
-                .background(self.displayInfo.isGameSetupVisible ? Color.white : Color.offWhite)
+//                .background(self.displayInfo.isGameSetupVisible ? Color.white : Color.offWhite)
 //                .rotation3DEffect(self.dragToRotation(translation: self.dragOffset), axis: (x: 0, y:1 , z:0), anchor: .trailing)
 //                .offset(x: self.dragOffset.width, y: 0)
                 .rotation3DEffect(Angle(degrees: self.displayInfo.isGameSetupVisible ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
