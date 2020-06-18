@@ -9,11 +9,30 @@
 import SwiftUI
 
 class GlobalDisplayInfo: ObservableObject {
-    @Published var isGameSetupVisible : Bool = false
+    @Published var isGameSetupVisible : Bool = true
     @Published var indexOFTextfieldFocused : Int = 1000
     @Published var gradients = gradiants.shuffled()
     @Published var scoreCardSize = CardSize.normal
-    @Published var shouldScroll = false
+    @Published var shouldScroll = true
+
+    func setSizeAndScroll (nbrPlayers : Int) {
         
+        self.shouldScroll = false
+        self.scoreCardSize = .normal
+        
+        if nbrPlayers > 4 {
+            self.scoreCardSize = .compact
+            
+            if nbrPlayers > 6 {
+                self.shouldScroll = true
+            }
+        }
+        
+        if nbrPlayers == 0 {
+            self.isGameSetupVisible = true
+        }
+        
+        self.shouldScroll = true
+    }
 }
 

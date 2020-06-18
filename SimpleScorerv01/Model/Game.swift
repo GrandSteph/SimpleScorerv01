@@ -49,10 +49,14 @@ class Game : ObservableObject {
         self.addPlayer(player: player)
     }
     
-    func removePlayer() {
+    func removeLastPlayer() {
         if playerScores.count > 0 {
             playerScores.removeLast()
         }
+    }
+    
+    func removePlayer(player : Player) {
+        self.playerScores.remove(at: self.indexOf(player: player)!)
     }
     
     func resetScores () {

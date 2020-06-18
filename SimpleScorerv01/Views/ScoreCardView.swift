@@ -25,6 +25,9 @@ struct ScoreCardView: View {
     let frameHeight = CGFloat(135)
     @State private var showBottomBar = false
     
+    @State private var dragOffset = CGSize.zero
+//    @State private var dragOffset = CGSize(width: -180, height: 0)
+    
     var index : Int
     
     var body: some View {
@@ -32,35 +35,80 @@ struct ScoreCardView: View {
         return
             ZStack {
                 
-                self.playerScore.player.colorGradient.frame(height: self.showBottomBar || self.displayInfo.scoreCardSize == .normal ? frameHeight : frameHeight*2/3)
-                
-                VStack (spacing: 0){
+                HStack {
+                    Spacer()
                     
-                    HStack (alignment: .center, spacing: 0) {
-                        
-                        AvatarView(user: playerScore.player)
-                            .padding(10)
-                        
-                        PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: playerScore, username: $username, indexOfScoreCard: index)
-
-                        ExpandableScoreSection
-                            .onTapGesture {
-                                self.scoreEditing = true
-                                self.showBottomBar = true
-                        }
-                        
-
+                    Button(action: {
+                        self.game.removePlayer(player: self.playerScore.player)
+                        self.dragOffset = CGSize.zero
+                        self.displayInfo.setSizeAndScroll(nbrPlayers: self.game.playerScores.count)
+                    }) {
+                        Image(systemName: "trash.circle")
+                            .font(.system(size: 45, weight: .light, design: .default))
+                            .foregroundColor(Color.red)
+                            .padding()
+                            .contentShape(Rectangle()).frame(height: self.frameHeight*2/3)
                     }
-                    .frame(height: frameHeight*2/3)
+//                    Button(action: {
+//                        self.dragOffset = CGSize.zero
+//                    }) {
+//                        Image(systemName: "pencil.circle")
+//                            .font(.system(size: 45, weight: .light, design: .default))
+//                            .foregroundColor(Color.gray)
+//                            .padding()
+//                            .contentShape(Rectangle()).frame(height: self.frameHeight*2/3)
+//                    }
+                }
+                
+                ZStack {
                     
-                    if self.showBottomBar || self.displayInfo.scoreCardSize == .normal {
-                        ScoringBottomBarTools.animation(.easeOut).transition(.slide)
-                        .frame(height: frameHeight/3)
+                    
+                    
+                    self.playerScore.player.colorGradient.frame(height: self.showBottomBar || self.displayInfo.scoreCardSize == .normal ? frameHeight : frameHeight*2/3)
+                    
+                    VStack (spacing: 0){
+                        
+                        HStack (alignment: .center, spacing: 0) {
+                            AvatarView(user: playerScore.player)
+                                .padding(10)
+                            
+                            PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: playerScore, username: $username, indexOfScoreCard: index)
+                            
+                            ExpandableScoreSection
+                        }
+                        .frame(height: frameHeight*2/3)
+                        
+                        if self.showBottomBar || self.displayInfo.scoreCardSize == .normal {
+                            ScoringBottomBarTools.animation(.easeOut).transition(.slide)
+                                .frame(height: frameHeight/3)
+                                .disabled(self.dragOffset.width != 0)
+                        }
                     }
                 }
+                .clipShape(Rectangle()).cornerRadius(14)
+                .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+                .offset(self.dragOffset)
             }
-            .clipShape(Rectangle()).cornerRadius(14)
-            .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
+            .onTapGesture {
+                self.scoreEditing = true
+                self.showBottomBar = true
+                self.dragOffset.width = 0
+            }
+            .gesture(
+                DragGesture(minimumDistance: 25, coordinateSpace: .local)
+                    .onChanged({ (value) in
+                        if !self.scoreEditing {
+                            self.dragOffset.width = value.translation.width
+                        }
+                    })
+                    .onEnded({ (value) in
+                        if value.translation.width < -90 && !self.scoreEditing {
+                            self.dragOffset.width = -75
+                        } else {
+                            self.dragOffset = CGSize.zero
+                        }
+                    }))
+        
     }
     
     var ExpandableScoreSection: some View {
@@ -188,9 +236,9 @@ struct PlayerNameView: View {
                         .font(Font.system(size: fontSize(nbrChar: self.playerScore.player.name.count, fontSize: 40), weight: .semibold, design: .rounded))
                             .lineLimit(1)
                         .foregroundColor(Color .offWhite)
-                        .onTapGesture {
+                        .onLongPressGesture {
                             self.nameEditing = true
-                    }
+                        }
                 } else {
                     TextField("Name?", text: self.$username,onEditingChanged: {change in }, onCommit: {
                         
@@ -270,21 +318,6 @@ struct ScoreCardView_Previews: PreviewProvider {
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 
-                
-                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
-                    .previewLayout(.fixed(width: 375, height: 200))
-                    .padding(.horizontal, 15)
-                    .padding(.bottom,15)
-                
-                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
-                    .previewLayout(.fixed(width: 375, height: 200))
-                    .padding(.horizontal, 15)
-                    .padding(.bottom,15)
-                
-                ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
-                    .previewLayout(.fixed(width: 375, height: 100))
-                    .padding(.horizontal, 15)
-                    .padding(.bottom,15)
 
         }
         .environmentObject(Game())

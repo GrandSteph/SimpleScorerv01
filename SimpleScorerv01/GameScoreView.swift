@@ -19,7 +19,6 @@ struct GameScoreView: View {
     
     // cube display
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
-    @GestureState private var dragOffset = CGSize.zero
     
     // image picker
     @State private var imagePicked = UIImage()
@@ -114,7 +113,14 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
-
+extension AnyTransition {
+    static var scaleAndOffset: AnyTransition {
+        AnyTransition.asymmetric(
+            insertion: .scale(scale: 0, anchor: .bottom),
+            removal: .offset(x: -600, y: 00)
+        )
+    }
+}
 
 struct ScoreCardsGridView: View {
     let rows : Int

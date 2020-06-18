@@ -103,12 +103,12 @@ struct ClickWheel: View {
     }
     
     func setPoints(speed : CGFloat) {
-        print(" --> \(String(format: "%.0f",speed))")
-            if abs(speed) > 15 {
-                self.backgroundColor = Color.red
-            } else {
-                self.backgroundColor = Color.white
-            }
+//        print(" --> \(String(format: "%.0f",speed))")
+//            if abs(speed) > 15 {
+//                self.backgroundColor = Color.red
+//            } else {
+//                self.backgroundColor = Color.white
+//            }
         
             switch abs(speed) {
             case 0..<15:
@@ -118,8 +118,6 @@ struct ClickWheel: View {
             default:
                 self.pointsScored += speed / 5
             }
-        
-        print(self.pointsScored)
     }
 }
 
