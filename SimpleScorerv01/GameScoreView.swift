@@ -42,12 +42,19 @@ struct GameScoreView: View {
             ZStack {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
+//                AllScoresView()
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                    .rotation3DEffect(Angle(degrees: self.displayInfo.isGameSetupVisible ? 0 : 90), axis: (x: 0, y:1 , z:0),anchor: .leading)
+//                    .offset(x: self.displayInfo.isGameSetupVisible ? 0 : geometry.size.width, y: 0)
+//                    .edgesIgnoringSafeArea(.all)
+//                    .animation(.linear)
+                
                 GameSetupView(showPlayerEntry: self.$showPlayerEntry)
-                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                .rotation3DEffect(Angle(degrees: self.displayInfo.isGameSetupVisible ? 0 : 90), axis: (x: 0, y:1 , z:0),anchor: .leading)
-                .offset(x: self.displayInfo.isGameSetupVisible ? 0 : geometry.size.width, y: 0)
-                .edgesIgnoringSafeArea(.all)
-                .animation(.linear)
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .rotation3DEffect(Angle(degrees: self.displayInfo.screenDisplayed == .gameSetup ? 0 : 90), axis: (x: 0, y:1 , z:0),anchor: .leading)
+                    .offset(x: self.displayInfo.screenDisplayed == .gameSetup ? 0 : geometry.size.width, y: 0)
+                    .edgesIgnoringSafeArea(.all)
+                    .animation(.linear)
 
                 Group {
                     ZStack {
@@ -70,21 +77,21 @@ struct GameScoreView: View {
                             Spacer()
                             HStack {
                                 Spacer()
-                                Image(systemName: "chevron.left.square.fill")
+                                Image(systemName: "chevron.right.square.fill")
                                     .font(.system(.largeTitle, design: .rounded))
                                     .foregroundColor(Color.gray)
                                     .background(Color.clear.opacity(0))
                                     .onTapGesture {
-                                        self.displayInfo.isGameSetupVisible = true
+                                        self.displayInfo.screenDisplayed = .gameSetup
                                 }.padding()
                             }
                         }
                     }
                 }
-                .rotation3DEffect(Angle(degrees: self.displayInfo.isGameSetupVisible ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
-                .offset(x: self.displayInfo.isGameSetupVisible ? -geometry.size.width : 0, y: 0)
+                .rotation3DEffect(Angle(degrees: self.displayInfo.screenDisplayed == .gameSetup ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
+                .offset(x: self.displayInfo.screenDisplayed == .gameSetup ? -geometry.size.width : 0, y: 0)
                 .animation(.linear)
-                .disabled(self.displayInfo.isGameSetupVisible ? true : false)
+                .disabled(self.displayInfo.screenDisplayed == .scoreCards ? false : true)
 
                 if self.showImagePicker {
                     CircleImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)

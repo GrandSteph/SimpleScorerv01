@@ -15,6 +15,13 @@ enum CardSize {
     normal
 }
 
+enum DisplayedScreen {
+    case
+    gameSetup ,
+    scoreCards ,
+    allScores
+}
+
 let gradiants =
     [LinearGradient(Color(hex: 0xf4c4f3),Color(hex: 0xfc67fa)),
     LinearGradient(Color(hex: 0x7f7fd5),Color(hex: 0x86a8e7),Color(hex: 0x91eae4)),

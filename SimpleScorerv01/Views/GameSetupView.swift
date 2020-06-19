@@ -194,7 +194,7 @@ struct GameSetupView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Image(systemName: "chevron.right.square.fill")
+                    Image(systemName: "chevron.left.square.fill")
                         .font(.system(.largeTitle, design: .rounded))
                         .foregroundColor(Color.gray)
                         .padding([.trailing,.bottom])
@@ -208,7 +208,7 @@ struct GameSetupView: View {
     }
     
     func moveNextScreen() {
-        self.displayInfo.isGameSetupVisible = false
+        self.displayInfo.screenDisplayed = .scoreCards
         if self.game.needsNameEntry() {
             self.showPlayerEntry = true
         }
