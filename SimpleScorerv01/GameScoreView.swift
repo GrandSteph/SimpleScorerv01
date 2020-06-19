@@ -125,23 +125,13 @@ struct cubeRotation: ViewModifier {
         } else {
             return .trailing
         }
-        
-    
     }
     
     func offSet() -> CGFloat {
-        
         return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed.current)
-        
     }
     
     func body(content: Content) -> some View {
-//        print("Previous : \(self.displayInfo.screenDisplayed.previous) - Raw : \(self.displayInfo.screenDisplayed.previous.rawValue)")
-//        print("Current  : \(self.displayInfo.screenDisplayed.current)  - Raw : \(self.displayInfo.screenDisplayed.current.rawValue)")
-//        print("\(screen) - Raw : \(screen.rawValue)")
-//        print("previous \(self.displayInfo.screenDisplayed.previous.rawValue) < current \(self.displayInfo.screenDisplayed.current.rawValue) ? \(self.displayInfo.screenDisplayed.previous < self.displayInfo.screenDisplayed.current)\n")
-//
-//        return
         content
             .rotation3DEffect(self.angle(), axis: (x: 0, y:1 , z:0), anchor: self.edge())
             .offset(x: self.offSet() , y: 0)
