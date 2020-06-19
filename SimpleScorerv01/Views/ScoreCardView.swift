@@ -283,7 +283,7 @@ struct PlayerNameView: View {
     func shouldBecomeFirstResponder() -> Bool {
         
         
-        if self.displayInfo.screenDisplayed == .gameSetup {
+        if self.displayInfo.screenDisplayed.current == .gameSetup {
             if self.indexOfScoreCard < self.displayInfo.indexOFTextfieldFocused {
                 self.displayInfo.indexOFTextfieldFocused = self.indexOfScoreCard
             }

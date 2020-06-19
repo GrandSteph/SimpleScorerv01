@@ -42,19 +42,13 @@ struct GameScoreView: View {
             ZStack {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
-//                AllScoresView()
-//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                    .rotation3DEffect(Angle(degrees: self.displayInfo.isGameSetupVisible ? 0 : 90), axis: (x: 0, y:1 , z:0),anchor: .leading)
-//                    .offset(x: self.displayInfo.isGameSetupVisible ? 0 : geometry.size.width, y: 0)
-//                    .edgesIgnoringSafeArea(.all)
-//                    .animation(.linear)
+                AllScoresView()
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .modifier(cubeRotation(screen: .allScores, screenWidth: geometry.size.width))
                 
                 GameSetupView(showPlayerEntry: self.$showPlayerEntry)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .rotation3DEffect(Angle(degrees: self.displayInfo.screenDisplayed == .gameSetup ? 0 : 90), axis: (x: 0, y:1 , z:0),anchor: .leading)
-                    .offset(x: self.displayInfo.screenDisplayed == .gameSetup ? 0 : geometry.size.width, y: 0)
-                    .edgesIgnoringSafeArea(.all)
-                    .animation(.linear)
+                    .modifier(cubeRotation(screen: .gameSetup, screenWidth: geometry.size.width))
 
                 Group {
                     ZStack {
@@ -67,7 +61,7 @@ struct GameScoreView: View {
                                     }
                                 }
                                 .keyboardAdaptive()
-
+                                
                             }
                         } else {
                             EmptyView()
@@ -76,22 +70,28 @@ struct GameScoreView: View {
                         VStack {
                             Spacer()
                             HStack {
+                                Image(systemName: "chevron.left.square.fill")
+                                    .font(.system(.largeTitle, design: .rounded))
+                                    .foregroundColor(Color.gray)
+                                    .background(Color.clear.opacity(0))
+                                    .onTapGesture {
+                                        self.displayInfo.screenDisplayed.current = .allScores
+                                        self.displayInfo.screenDisplayed.previous = .scoreCards
+                                }.padding()
                                 Spacer()
                                 Image(systemName: "chevron.right.square.fill")
                                     .font(.system(.largeTitle, design: .rounded))
                                     .foregroundColor(Color.gray)
                                     .background(Color.clear.opacity(0))
                                     .onTapGesture {
-                                        self.displayInfo.screenDisplayed = .gameSetup
+                                        self.displayInfo.screenDisplayed.current = .gameSetup
+                                        self.displayInfo.screenDisplayed.previous = .scoreCards
                                 }.padding()
                             }
                         }
                     }
                 }
-                .rotation3DEffect(Angle(degrees: self.displayInfo.screenDisplayed == .gameSetup ? -90 : 0), axis: (x: 0, y:1 , z:0), anchor: .trailing)
-                .offset(x: self.displayInfo.screenDisplayed == .gameSetup ? -geometry.size.width : 0, y: 0)
-                .animation(.linear)
-                .disabled(self.displayInfo.screenDisplayed == .scoreCards ? false : true)
+                .modifier(cubeRotation(screen: .scoreCards, screenWidth: geometry.size.width))
 
                 if self.showImagePicker {
                     CircleImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
@@ -105,6 +105,52 @@ struct GameScoreView: View {
         }
     }
 }
+
+struct cubeRotation: ViewModifier {
+    
+    @EnvironmentObject var displayInfo : GlobalDisplayInfo
+    
+    let screen : ScreenType
+    
+    let screenWidth : CGFloat
+    
+    func angle() -> Angle {
+        return Angle(degrees: 90 * Double(screen - self.displayInfo.screenDisplayed.current))
+    }
+    
+    func edge() -> UnitPoint {
+    
+        if (screen - self.displayInfo.screenDisplayed.current) > 0 {
+            return .leading
+        } else {
+            return .trailing
+        }
+        
+    
+    }
+    
+    func offSet() -> CGFloat {
+        
+        return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed.current)
+        
+    }
+    
+    func body(content: Content) -> some View {
+//        print("Previous : \(self.displayInfo.screenDisplayed.previous) - Raw : \(self.displayInfo.screenDisplayed.previous.rawValue)")
+//        print("Current  : \(self.displayInfo.screenDisplayed.current)  - Raw : \(self.displayInfo.screenDisplayed.current.rawValue)")
+//        print("\(screen) - Raw : \(screen.rawValue)")
+//        print("previous \(self.displayInfo.screenDisplayed.previous.rawValue) < current \(self.displayInfo.screenDisplayed.current.rawValue) ? \(self.displayInfo.screenDisplayed.previous < self.displayInfo.screenDisplayed.current)\n")
+//
+//        return
+        content
+            .rotation3DEffect(self.angle(), axis: (x: 0, y:1 , z:0), anchor: self.edge())
+            .offset(x: self.offSet() , y: 0)
+            .animation(.linear)
+            .disabled(!(self.displayInfo.screenDisplayed.current == screen))
+    }
+}
+
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

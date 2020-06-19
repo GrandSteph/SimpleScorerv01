@@ -208,7 +208,8 @@ struct GameSetupView: View {
     }
     
     func moveNextScreen() {
-        self.displayInfo.screenDisplayed = .scoreCards
+        self.displayInfo.screenDisplayed.current = .scoreCards
+        self.displayInfo.screenDisplayed.previous = .gameSetup
         if self.game.needsNameEntry() {
             self.showPlayerEntry = true
         }

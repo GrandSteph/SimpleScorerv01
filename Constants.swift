@@ -15,12 +15,26 @@ enum CardSize {
     normal
 }
 
-enum DisplayedScreen {
+enum ScreenType : Int, Comparable {
     case
-    gameSetup ,
-    scoreCards ,
-    allScores
+    allScores = 0,
+    scoreCards = 1,
+    gameSetup = 2
+    
+    public static func < (a: ScreenType, b: ScreenType) -> Bool {
+        return a.rawValue < b.rawValue
+    }
+    
+    public static func > (a: ScreenType, b: ScreenType) -> Bool {
+        return a.rawValue > b.rawValue
+    }
+    
+    public static func - (a: ScreenType, b: ScreenType) -> Int {
+        return a.rawValue - b.rawValue
+    }
 }
+
+
 
 let gradiants =
     [LinearGradient(Color(hex: 0xf4c4f3),Color(hex: 0xfc67fa)),

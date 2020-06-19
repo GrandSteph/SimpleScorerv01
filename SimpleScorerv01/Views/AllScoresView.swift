@@ -9,13 +9,23 @@
 import SwiftUI
 
 struct AllScoresView: View {
+    
+    @EnvironmentObject var displayInfo : GlobalDisplayInfo
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Image(systemName: "chevron.right.square.fill")
+            .font(.system(.largeTitle, design: .rounded))
+            .foregroundColor(Color.gray)
+            .background(Color.clear.opacity(0))
+            .onTapGesture {
+                self.displayInfo.screenDisplayed.current = .scoreCards
+                self.displayInfo.screenDisplayed.previous = .allScores
+        }.padding()
     }
 }
 
 struct AllScoresView_Previews: PreviewProvider {
     static var previews: some View {
-        AllScoresView()
+        AllScoresView().environmentObject(GlobalDisplayInfo())
     }
 }
