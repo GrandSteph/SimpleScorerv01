@@ -16,10 +16,6 @@ class Game : ObservableObject {
         playerScores.append(PlayerScore(player: player, pointsList: []))
     }
     
-//    mutating func addPlayer(player: Player, with pointList: [Int]) {
-//        playerScores.append(PlayerScore(player: player, pointsList: pointList))
-//    }
-    
     func findScore(playerScore: PlayerScore) -> PlayerScore {
         return playerScores[playerScores.firstIndex(where: {$0.id == playerScore.id})!]
     }
@@ -33,10 +29,6 @@ class Game : ObservableObject {
         
         return nil
     }
-    
-//    mutating func addScore(pointsValue: Int, playerScoreID: PlayerScore.ID) {
-//        playerScores[playerScores.firstIndex(where: {$0.id == playerScoreID})!].addPoints(scoreValue: pointsValue)
-//    }
     
     func addEmptyPlayer() {
         

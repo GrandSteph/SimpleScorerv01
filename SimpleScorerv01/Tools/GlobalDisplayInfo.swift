@@ -10,7 +10,7 @@ import SwiftUI
 
 class GlobalDisplayInfo: ObservableObject {
     
-    @Published var screenDisplayed = (current: ScreenType.allScores, previous: ScreenType.scoreCards)
+    @Published var screenDisplayed = ScreenType.allScores
     @Published var indexOFTextfieldFocused : Int = 1000
     @Published var gradients = gradiants.shuffled()
     @Published var scoreCardSize = CardSize.normal
@@ -30,7 +30,7 @@ class GlobalDisplayInfo: ObservableObject {
         }
         
         if nbrPlayers == 0 {
-            self.screenDisplayed.current = .gameSetup
+            self.screenDisplayed = .gameSetup
         }
         
         self.shouldScroll = true

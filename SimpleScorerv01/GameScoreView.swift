@@ -44,10 +44,10 @@ struct GameScoreView: View {
                 
                 AllScoresView()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .modifier(cubeRotation(screen: .allScores, screenWidth: geometry.size.width))
+//                    .modifier(cubeRotation(screen: .allScores, screenWidth: geometry.size.width))
                 
                 GameSetupView(showPlayerEntry: self.$showPlayerEntry)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .modifier(cubeRotation(screen: .gameSetup, screenWidth: geometry.size.width))
 
                 Group {
@@ -75,8 +75,8 @@ struct GameScoreView: View {
                                     .foregroundColor(Color.gray)
                                     .background(Color.clear.opacity(0))
                                     .onTapGesture {
-                                        self.displayInfo.screenDisplayed.current = .allScores
-                                        self.displayInfo.screenDisplayed.previous = .scoreCards
+                                        self.displayInfo.screenDisplayed = .allScores
+
                                 }.padding()
                                 Spacer()
                                 Image(systemName: "chevron.right.square.fill")
@@ -84,8 +84,8 @@ struct GameScoreView: View {
                                     .foregroundColor(Color.gray)
                                     .background(Color.clear.opacity(0))
                                     .onTapGesture {
-                                        self.displayInfo.screenDisplayed.current = .gameSetup
-                                        self.displayInfo.screenDisplayed.previous = .scoreCards
+                                        self.displayInfo.screenDisplayed = .gameSetup
+
                                 }.padding()
                             }
                         }
@@ -115,12 +115,12 @@ struct cubeRotation: ViewModifier {
     let screenWidth : CGFloat
     
     func angle() -> Angle {
-        return Angle(degrees: 90 * Double(screen - self.displayInfo.screenDisplayed.current))
+        return Angle(degrees: 90 * Double(screen - self.displayInfo.screenDisplayed))
     }
     
     func edge() -> UnitPoint {
     
-        if (screen - self.displayInfo.screenDisplayed.current) > 0 {
+        if (screen - self.displayInfo.screenDisplayed) > 0 {
             return .leading
         } else {
             return .trailing
@@ -128,7 +128,7 @@ struct cubeRotation: ViewModifier {
     }
     
     func offSet() -> CGFloat {
-        return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed.current)
+        return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed)
     }
     
     func body(content: Content) -> some View {
@@ -136,7 +136,7 @@ struct cubeRotation: ViewModifier {
             .rotation3DEffect(self.angle(), axis: (x: 0, y:1 , z:0), anchor: self.edge())
             .offset(x: self.offSet() , y: 0)
             .animation(.linear)
-            .disabled(!(self.displayInfo.screenDisplayed.current == screen))
+            .disabled(!(self.displayInfo.screenDisplayed == screen))
     }
 }
 
