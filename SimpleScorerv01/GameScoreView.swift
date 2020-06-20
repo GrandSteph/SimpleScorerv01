@@ -43,8 +43,8 @@ struct GameScoreView: View {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
                 AllScoresView()
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-//                    .modifier(cubeRotation(screen: .allScores, screenWidth: geometry.size.width))
+//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .modifier(cubeRotation(screen: .allScores, screenWidth: geometry.size.width))
                 
                 GameSetupView(showPlayerEntry: self.$showPlayerEntry)
 //                    .frame(maxWidth: .infinity, maxHeight: .infinity)

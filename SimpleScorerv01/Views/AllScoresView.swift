@@ -15,17 +15,74 @@ struct AllScoresView: View {
     
     var body: some View {
         ZStack {
-            HStack {
-                ForEach(self.game.playerScores, id: \.id) { playerScore in
-                    VStack {
-                        Text(playerScore.player.name)
-                        ForEach(playerScore.pointsList.indices) { index in
-                            Text(String(playerScore.pointsList[index]))
+//            HStack {
+//                Spacer()
+//
+//                VStack {
+//                    Text("")
+//                    ForEach(self.game.roundsLabels, id: \.self) { label in
+//                        Text(label)
+//                    }
+//                    Text("-")
+//                    Text("")
+//                }
+//
+//                ForEach(self.game.playerScores, id: \.id) { playerScore in
+//                    Group {
+//                        VStack {
+//                            Text(playerScore.player.name.uppercased().prefix(1))
+//                            ForEach(playerScore.pointsList, id: \.self) { points in
+//                                Text(String(points))
+//                            }
+//                            Text("-")
+//                            Text(String(playerScore.totalScore()))
+//                        }
+//                        Spacer()
+//                    }
+//                }
+//            }
+            
+            VStack {
+                HStack {
+                    Text(".")
+                    Spacer()
+                    ForEach(self.game.playerScores, id: \.id) { playerScore in
+                        Group {
+                            Text(playerScore.player.name.uppercased().prefix(1))
+                            Spacer()
                         }
-                        Text(String(playerScore.totalScore()))
                     }
                 }
-            }
+                ForEach(self.game.roundsLabels, id: \.self) { intLabel in
+                    HStack {
+                        Text("\(intLabel)")
+                        Spacer()
+                        ForEach(self.game.playerScores, id: \.id) { playerScore in
+                            Group {
+                                if playerScore.pointsList.count >= intLabel {
+                                    Text(String(playerScore.pointsList[intLabel-1]))
+                                } else {
+                                    Text("-")
+                                }
+                                
+                                Spacer()
+                            }
+                        }
+                    }
+                }
+                HStack {
+                    Text("=")
+                    Spacer()
+                    ForEach(self.game.playerScores, id: \.id) { playerScore in
+                        Group {
+                            Text(String(playerScore.totalScore()))
+                            Spacer()
+                        }
+                    }
+                }.padding(.vertical)
+                
+            }.padding()
+            
             VStack {
                 Spacer()
                 HStack {

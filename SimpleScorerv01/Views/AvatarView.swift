@@ -27,9 +27,12 @@ struct AvatarView: View {
                 .resizable()
                 .scaledToFit()
             } else if user.name != Player.defaultName {
-                Text(user.name.uppercased().prefix(1))
+                Text(user.initials)
                     .fontWeight(.regular)
                     .font(.system(.largeTitle, design: .rounded))
+                    .scaledToFill()
+                    .minimumScaleFactor(0.1)
+                    .lineLimit(1)
                     .foregroundColor(Color.white)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
@@ -67,15 +70,15 @@ struct CircleImage_Previews: PreviewProvider {
     static var previews: some View {
         
         Group {
-            AvatarView(user: Player(name: "Stephane", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[0]))
+            AvatarView(user: Player(name: "Stephane", initials: "St", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[0]))
                 .background(Color.orangeEnd)
                 .previewLayout(.fixed(width: 200, height: 300))
             
-            AvatarView(user: Player(name: "Stephane", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
+            AvatarView(user: Player(name: "Stephane", initials: "St", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 200, height: 300))
             
-            AvatarView(user: Player(name: "Stephane", colorGradient: gradiants[0]))
+            AvatarView(user: Player(name: "Stephane", initials: "Km", colorGradient: gradiants[0]))
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 80*2/3, height: 80*2/3))
             

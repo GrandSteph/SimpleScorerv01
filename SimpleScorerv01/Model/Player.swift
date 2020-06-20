@@ -12,7 +12,8 @@ import Combine
 struct Player: Identifiable {
     
     var id = UUID()
-    var name: String
+    var name : String
+    var initials : String
 //    var photoURL: String?
     var photoImage: UIImage?
     var colorGradient: LinearGradient
@@ -25,6 +26,7 @@ extension Player {
     init() {
         self.name = Player.defaultName
         self.colorGradient = LinearGradient.gradDefault
+        self.initials = ""
     }
     
     

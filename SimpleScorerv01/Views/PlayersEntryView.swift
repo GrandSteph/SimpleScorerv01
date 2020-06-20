@@ -72,6 +72,7 @@ struct PlayersEntryView: View {
     func commitNameAndMove(forIndex i : Int) {
 
         self.game.playerScores[i].player.name = self.username
+        self.game.playerScores[i].player.initials = self.game.avatarInitialsForPlayer(player:  self.game.playerScores[i].player)
         self.username = ""
         
         if self.cardViews.count > 0 {

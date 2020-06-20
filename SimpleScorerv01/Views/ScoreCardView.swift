@@ -71,6 +71,7 @@ struct ScoreCardView: View {
                         HStack (alignment: .center, spacing: 0) {
                             AvatarView(user: playerScore.player)
                                 .padding(10)
+                                .frame(width: frameHeight*2/3)
                             
                             PlayerNameView(scoreEditing: $scoreEditing, nameEditing: $nameEditing, playerScore: playerScore, username: $username, indexOfScoreCard: index)
                             
@@ -167,8 +168,9 @@ struct ScoreCardView: View {
                         
                         .frame(minWidth:40, maxWidth:40, maxHeight: .infinity)
                         .onTapGesture {
-                            let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
-                            self.game.playerScores[index].addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
+//                            let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
+//                            self.game.playerScores[index].addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
+                            self.game.addPointsFor(player: self.playerScore.player, points: Int(String(format: "%.0f",self.pointsScored))!)
                             self.pointsScored = 0
                             self.scoreEditing = false
                             if self.displayInfo.scoreCardSize == .compact {
@@ -250,6 +252,7 @@ struct PlayerNameView: View {
                             self.nameEditing = false
                             let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
                             self.game.playerScores[index].player.name = self.username
+                            self.game.playerScores[index].player.initials = self.game.avatarInitialsForPlayer(player: self.game.playerScores[index].player)
                             
                             self.username = ""
                             self.displayInfo.indexOFTextfieldFocused += 1
@@ -313,7 +316,7 @@ struct ScoreCardView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
 
-            ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
+            ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", initials: "St", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
                     .previewLayout(.fixed(width: 375, height: 200))
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
