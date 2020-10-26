@@ -80,7 +80,7 @@ struct ScoreCardView: View {
                         .frame(height: frameHeight*2/3)
                         
                         if self.showBottomBar || self.displayInfo.scoreCardSize == .normal {
-                            ScoringBottomBarTools.animation(.easeOut).transition(.slide)
+                            ScoringBottomBarTools
                                 .frame(height: frameHeight/3)
                                 .disabled(self.dragOffset.width != 0)
                         }
@@ -89,6 +89,7 @@ struct ScoreCardView: View {
                 .clipShape(Rectangle()).cornerRadius(14)
                 .shadow(color: Color.black.opacity(0.2), radius: 10, x: 0, y: 10)
                 .offset(self.dragOffset)
+                .animation(.easeOut).transition(.slide)
             }
             .onTapGesture {
                 self.scoreEditing = true
@@ -139,9 +140,9 @@ struct ScoreCardView: View {
             Text("\(self.playerScore.totalScore())")
                 .font(Font.system(size: fontSize(nbrChar: String(self.playerScore.totalScore()).count, fontSize: 50), weight: .bold, design: .rounded))
                 .lineLimit(1)
-            .layoutPriority(1)
+                .layoutPriority(1)
                 .foregroundColor(Color .offWhite)
-                .padding(.horizontal,self.scoreEditing ? 0 : 20).animation(.none)
+                .padding(.horizontal,self.scoreEditing ? 0 : 20)
             
             
             if scoreEditing {
@@ -158,15 +159,13 @@ struct ScoreCardView: View {
                             .font(Font.system(size: 10, weight: .bold, design: .rounded))
                             .foregroundColor(Color .offWhite)
                         
-                    }.animation(.none)
+                    }
                     
                     
-                    Rectangle().fill(Color.clear)
+                Rectangle().fill(Color.offWhite.opacity(0.5))
                         .border(width: 1, edge: .leading, color: .offWhite)
                         .overlay(Image(systemName: "checkmark").foregroundColor(Color.white))
-                        
-                        
-                        .frame(minWidth:40, maxWidth:40, maxHeight: .infinity)
+                        .frame(minWidth:70, maxWidth:70, maxHeight: .infinity)
                         .onTapGesture {
 //                            let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
 //                            self.game.playerScores[index].addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)

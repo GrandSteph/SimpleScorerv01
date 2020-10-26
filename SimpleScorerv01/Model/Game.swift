@@ -130,15 +130,15 @@ class Game : ObservableObject {
         
     }
     
-    func maxScore() -> Int {
-        var maxScore = Int (0)
-        for score in self.playerScores {
-            if maxScore < score.totalScore()  {
-                maxScore = score.totalScore()
-            }
-        }
-        return maxScore
-    }
+//    func maxScore() -> Int {
+//        var maxScore = Int (0)
+//        for score in self.playerScores {
+//            if maxScore < score.totalScore()  {
+//                maxScore = score.totalScore()
+//            }
+//        }
+//        return maxScore
+//    }
     
     func currentMaxNumberOfRounds() -> Int {
         var maxNbrRounds = 0

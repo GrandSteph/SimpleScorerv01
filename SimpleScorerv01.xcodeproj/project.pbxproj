@@ -3,11 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		65CCB199C56AD023D51B518B /* Pods_SimpleScorerv01.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7EE9E13D8DA85C91D42C8F4 /* Pods_SimpleScorerv01.framework */; };
+		B4DBD63FE37FDD53023C76C6 /* libPods-SimpleScorerv01.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0DE04C8A6EBA3666BCAE5B0A /* libPods-SimpleScorerv01.a */; };
 		D70F1356248E37F9001D3217 /* SATextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70F1355248E37F9001D3217 /* SATextField.swift */; };
 		D76274F1247D020C0035F6DD /* GlobalDisplayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76274F0247D020C0035F6DD /* GlobalDisplayInfo.swift */; };
 		D775E717246D75ED0058064E /* TestNotes in Resources */ = {isa = PBXBuildFile; fileRef = D775E716246D75ED0058064E /* TestNotes */; };
@@ -37,9 +37,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0DE04C8A6EBA3666BCAE5B0A /* libPods-SimpleScorerv01.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SimpleScorerv01.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		7ECA00223447A9C413822523 /* Pods-SimpleScorerv01.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleScorerv01.debug.xcconfig"; path = "Target Support Files/Pods-SimpleScorerv01/Pods-SimpleScorerv01.debug.xcconfig"; sourceTree = "<group>"; };
 		C4B8CB780368C6537ED97F24 /* Pods-SimpleScorerv01.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleScorerv01.release.xcconfig"; path = "Target Support Files/Pods-SimpleScorerv01/Pods-SimpleScorerv01.release.xcconfig"; sourceTree = "<group>"; };
-		C7EE9E13D8DA85C91D42C8F4 /* Pods_SimpleScorerv01.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SimpleScorerv01.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D70F1355248E37F9001D3217 /* SATextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATextField.swift; sourceTree = "<group>"; };
 		D76274F0247D020C0035F6DD /* GlobalDisplayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDisplayInfo.swift; sourceTree = "<group>"; };
 		D775E716246D75ED0058064E /* TestNotes */ = {isa = PBXFileReference; lastKnownFileType = text; path = TestNotes; sourceTree = "<group>"; };
@@ -75,7 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				65CCB199C56AD023D51B518B /* Pods_SimpleScorerv01.framework in Frameworks */,
+				B4DBD63FE37FDD53023C76C6 /* libPods-SimpleScorerv01.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -85,7 +85,7 @@
 		58ACD46752D13C15E27FB2A3 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				C7EE9E13D8DA85C91D42C8F4 /* Pods_SimpleScorerv01.framework */,
+				0DE04C8A6EBA3666BCAE5B0A /* libPods-SimpleScorerv01.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -218,7 +218,6 @@
 				E8875190241F99DB0091853F /* Sources */,
 				E8875191241F99DB0091853F /* Frameworks */,
 				E8875192241F99DB0091853F /* Resources */,
-				4389EB1AD8C48FBC98D07625 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -236,7 +235,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 1130;
-				LastUpgradeCheck = 1130;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = "Stephane Giloppe";
 				TargetAttributes = {
 					E8875193241F99DB0091853F = {
@@ -277,23 +276,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4389EB1AD8C48FBC98D07625 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SimpleScorerv01/Pods-SimpleScorerv01-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SimpleScorerv01/Pods-SimpleScorerv01-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SimpleScorerv01/Pods-SimpleScorerv01-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		99535DEFEFC6FCB89B357A51 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -388,6 +370,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -448,6 +431,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -481,10 +465,11 @@
 			baseConfigurationReference = 7ECA00223447A9C413822523 /* Pods-SimpleScorerv01.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleScorerv01/Preview Content\"";
-				DEVELOPMENT_TEAM = 3CP7Y3H8F6;
+				DEVELOPMENT_TEAM = G529KL94KN;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SimpleScorerv01/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -493,6 +478,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.StephDev.SimpleScorer;
 				PRODUCT_NAME = SimpleScorer;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -503,10 +489,11 @@
 			baseConfigurationReference = C4B8CB780368C6537ED97F24 /* Pods-SimpleScorerv01.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 5;
 				DEVELOPMENT_ASSET_PATHS = "\"SimpleScorerv01/Preview Content\"";
-				DEVELOPMENT_TEAM = 3CP7Y3H8F6;
+				DEVELOPMENT_TEAM = G529KL94KN;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = SimpleScorerv01/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -515,6 +502,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.StephDev.SimpleScorer;
 				PRODUCT_NAME = SimpleScorer;
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
