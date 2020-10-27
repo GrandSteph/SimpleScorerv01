@@ -139,10 +139,13 @@ struct ScoreCardView: View {
             
             Text("\(self.playerScore.totalScore())")
                 .font(Font.system(size: fontSize(nbrChar: String(self.playerScore.totalScore()).count, fontSize: 50), weight: .bold, design: .rounded))
+                .scaledToFill()
+                .minimumScaleFactor(0.9)
                 .lineLimit(1)
                 .layoutPriority(1)
                 .foregroundColor(Color .offWhite)
                 .padding(.horizontal,self.scoreEditing ? 0 : 20)
+                .animation(.none)
             
             
             if scoreEditing {
@@ -150,6 +153,8 @@ struct ScoreCardView: View {
                     VStack {
                         Text("\(self.pointsScored >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
                             .font(Font.system(size: 25, weight: .bold, design: .rounded))
+                            .scaledToFill()
+                            .minimumScaleFactor(0.9)
                             .lineLimit(1)
                             .foregroundColor(Color .offWhite)
                             .padding(.trailing,10)
@@ -159,7 +164,7 @@ struct ScoreCardView: View {
                             .font(Font.system(size: 10, weight: .bold, design: .rounded))
                             .foregroundColor(Color .offWhite)
                         
-                    }
+                    }.animation(.none)
                     
                     
                 Rectangle().fill(Color.offWhite.opacity(0.5))

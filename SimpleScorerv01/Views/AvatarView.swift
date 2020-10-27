@@ -31,7 +31,7 @@ struct AvatarView: View {
                     .fontWeight(.regular)
                     .font(.system(.largeTitle, design: .rounded))
                     .scaledToFill()
-                    .minimumScaleFactor(0.1)
+                    .minimumScaleFactor(0.9)
                     .lineLimit(1)
                     .foregroundColor(Color.white)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -78,9 +78,9 @@ struct CircleImage_Previews: PreviewProvider {
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 200, height: 300))
             
-            AvatarView(user: Player(name: "Stephane", initials: "Km", colorGradient: gradiants[0]))
+            AvatarView(user: Player(name: "Karim", initials: "Wm", colorGradient: gradiants[0]))
             .background(Color.orangeEnd)
-            .previewLayout(.fixed(width: 80*2/3, height: 80*2/3))
+            .previewLayout(.fixed(width: 70, height: 70))
             
             AvatarView(user: Player())
             .background(Color.orangeEnd)
