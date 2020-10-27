@@ -84,7 +84,7 @@ struct pointsScrollView: View {
                         .padding(-4)
                 }
             }
-            let missingRounds = game.currentMaxNumberOfRounds() - playerScore.pointsList.count
+//            let missingRounds = game.currentMaxNumberOfRounds() - playerScore.pointsList.count
 //            if missingRounds > 0 {
 //                ForEach((1...missingRounds), id: \.self) {
 //                    Rectangle()

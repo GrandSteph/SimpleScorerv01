@@ -47,13 +47,13 @@ struct GameSetupView: View {
                         Spacer()
                         VStack (spacing : 20) {
                             Spacer()
-                            
+
                             Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight)
-                            
+
                             Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight)
-                            
+
                             Rectangle().cornerRadius(14).frame(maxWidth: maxWidth, maxHeight: maxHeight)
-                            
+
                             Spacer()
                         }
                         Spacer()
@@ -242,17 +242,17 @@ struct AnimatedGradientView: View {
 //    @State var gradient = [Color(hex: 0x373B44),Color(hex: 0x4286f4)]
     
     
-    @State var startPoint = UnitPoint(x: -1, y: -1)
-    @State var endPoint = UnitPoint(x: 1, y: 1)
+    @State var startPoint = UnitPoint(x: 0.2, y: 0.2)
+    @State var endPoint = UnitPoint(x: 0.8, y: 0.8)
     
     var body: some View {
         LinearGradient(gradient: Gradient(colors: self.gradient), startPoint: self.startPoint, endPoint: self.endPoint)
-            .onAppear() {
-                withAnimation (Animation.linear(duration: 5).repeatForever()){
-                    self.startPoint = UnitPoint(x: 0, y: 0)
-                    self.endPoint = UnitPoint(x: 2, y: 2)
-                }
-        }
+//            .onAppear() {
+//                withAnimation (Animation.linear(duration: 5).repeatCount(3)){
+//                    self.startPoint = UnitPoint(x: 0, y: 0)
+//                    self.endPoint = UnitPoint(x: 2, y: 2)
+//                }
+//        }
     }
 }
 

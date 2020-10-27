@@ -10,7 +10,7 @@ import SwiftUI
 
 class GlobalDisplayInfo: ObservableObject {
     
-    @Published var screenDisplayed = ScreenType.scoreCards
+    @Published var screenDisplayed = ScreenType.gameSetup
     @Published var indexOFTextfieldFocused : Int = 1000
     @Published var gradients = gradiants.shuffled()
     @Published var scoreCardSize = CardSize.normal
