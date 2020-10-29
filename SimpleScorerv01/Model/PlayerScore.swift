@@ -31,3 +31,12 @@ struct PlayerScore: Identifiable {
     }
     
 }
+
+extension PlayerScore {
+    init() {
+        self.id = UUID()
+        self.player = Player()
+        self.pointsList = []
+        
+    }
+}

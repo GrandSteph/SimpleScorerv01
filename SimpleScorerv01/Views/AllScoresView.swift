@@ -13,6 +13,9 @@ struct AllScoresView: View {
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
     @EnvironmentObject var game : Game
     
+    @State private var cellPicked  = (-1, PlayerScore())
+    @State private var showKeypad = false
+    
     let scoreColumnMaxWidth = CGFloat(80)
     let pointCellsHeight = CGFloat(40)
     
@@ -27,7 +30,7 @@ struct AllScoresView: View {
 //                        Spacer()
                         ForEach(self.game.playerScores, id: \.id) { playerScore in
                             
-                            PlayerScoreColumn(playerScore: playerScore, game: game, geometry: geometry, scoreColumnMaxWidth: scoreColumnMaxWidth, pointCellsHeight: pointCellsHeight)
+                            PlayerScoreColumn(cell: $cellPicked, showKeypad: $showKeypad, playerScore: playerScore, game: game, geometry: geometry, scoreColumnMaxWidth: scoreColumnMaxWidth, cellHeight: pointCellsHeight)
                                 .frame(maxWidth:scoreColumnMaxWidth)
                                 .background(playerScore.player.colorGradient)
                                 .clipShape(Rectangle()).cornerRadius(14)
@@ -37,6 +40,9 @@ struct AllScoresView: View {
 //                        Spacer()
                     }
                     .padding()
+                }
+                if showKeypad {
+                    padTempView(cell: $cellPicked)
                 }
                 
                 VStack {
@@ -58,53 +64,18 @@ struct AllScoresView: View {
     }
 }
 
-struct AllScoresView_Previews: PreviewProvider {
-    static var previews: some View {
-        AllScoresView()
-            .environmentObject(GlobalDisplayInfo())
-            .environmentObject(Game(withTestPlayers: ()))
-    }
-}
 
-struct pointsScrollView: View {
-    
-    var playerScore : PlayerScore
-    let maxHeight : CGFloat
-    let pointCellsHeight : CGFloat
-    let game : Game
-    
-    var body: some View {
-        ScrollView(maxHeight/CGFloat(game.currentMaxNumberOfRounds()+1) < pointCellsHeight ? .vertical : []) {
-            if playerScore.pointsList.count > 0 {
-                ForEach(playerScore.pointsList.indices) { index in
-                    Rectangle()
-                        .fill(index % 2 == 0 ? Color.white.opacity(0.1) : Color.clear)//.padding(-4)
-                        .frame(height:pointCellsHeight)
-                        .overlay(Text(String(playerScore.pointsList[index])).foregroundColor(Color .white))
-                        .padding(-4)
-                }
-            }
-//            let missingRounds = game.currentMaxNumberOfRounds() - playerScore.pointsList.count
-//            if missingRounds > 0 {
-//                ForEach((1...missingRounds), id: \.self) {
-//                    Rectangle()
-//                        .fill($0 % 2 == 0 ? Color.white.opacity(0.1) : Color.clear)//.padding(-4)
-//                        .frame(height:pointCellsHeight)
-//                        .overlay(Text("-").foregroundColor(Color .white))
-//                        .padding(-4)
-//                }
-//            }
-        }
-    }
-}
 
 struct PlayerScoreColumn: View {
+    
+    @Binding var cell : (Int,PlayerScore)
+    @Binding var showKeypad : Bool
     
     var playerScore : PlayerScore
     var game : Game
     var geometry : GeometryProxy
     let scoreColumnMaxWidth : CGFloat
-    let pointCellsHeight :  CGFloat
+    let cellHeight :  CGFloat
     
     var body: some View {
         ZStack{
@@ -119,14 +90,38 @@ struct PlayerScoreColumn: View {
                 
                 
                 AvatarView(user: playerScore.player)
+                    
                     .padding(7)
-                    .border(width: 1, edge: .bottom, color: .offWhite)
                     .frame(maxHeight:scoreColumnMaxWidth)
+                    
                 
-                pointsScrollView(playerScore: playerScore, maxHeight: maxHeightForPoints, pointCellsHeight: pointCellsHeight, game: game)
+                ScrollView(maxHeightForPoints/CGFloat(game.currentMaxNumberOfRounds()+1) < cellHeight ? .vertical : []) {
+                    ForEach(playerScore.pointsList.indices) { index in
+//                        CellView(playerScore: playerScore, index: index, cellHeight: cellHeight, cell: $cell)
+                        Rectangle()
+                            .fill(index % 2 == 0 ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
+                            .frame(height:cellHeight)
+                            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: (cell.0 == index && cell.1.id == playerScore.id) ? 5 : 0)
+                            .overlay(Text(String(playerScore.pointsList[index])).foregroundColor(Color .white))
+                            .padding(-3)
+                            .onTapGesture(count: 1, perform: {
+                                if (cell.0 == index && cell.1.id == playerScore.id) {
+                                    cell.0 = -1
+                                    cell.1 = PlayerScore()
+                                    showKeypad = false
+                                } else {
+                                    cell.0 = index
+                                    cell.1 = playerScore
+                                    showKeypad = true
+                                }
+                                
+                            })
+                    }
+                }
+                .border(width: 1, edge: .bottom, color: .offWhite)
+                .border(width: 1, edge: .top, color: .offWhite)
                 
                 Rectangle().fill(Color.clear)
-                    .border(width: 1, edge: .top, color: .offWhite)
                     .overlay(Text(String(playerScore.totalScore())).foregroundColor(Color .offWhite))
                     .frame(height:50)
                 
@@ -135,3 +130,26 @@ struct PlayerScoreColumn: View {
         
     }
 }
+
+struct padTempView: View {
+    
+    @Binding var cell : (Int,PlayerScore)
+//    @State var playerScore : PlayerScore
+    
+    var body: some View {
+        VStack {
+            Text(cell.1.player.name)
+            Text(String(cell.0))
+        }
+        
+    }
+}
+
+struct AllScoresView_Previews: PreviewProvider {
+    static var previews: some View {
+        AllScoresView()
+            .environmentObject(GlobalDisplayInfo())
+            .environmentObject(Game(withTestPlayers: ()))
+    }
+}
+
