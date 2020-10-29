@@ -24,6 +24,8 @@ struct ClickWheel: View {
     @Binding var editing: Bool
 //    @Binding var playerScore: PlayerScore
     @Binding var pointsScored: CGFloat
+    @Binding var sign: CGFloat
+    
     var wheelColor: Color
     
     var body: some View {
@@ -118,6 +120,12 @@ struct ClickWheel: View {
             default:
                 self.pointsScored += speed / 5
             }
+        
+        if self.pointsScored >= 0 {
+            sign = 1
+        } else {
+            sign = -1
+        }
     }
 }
 
@@ -128,6 +136,7 @@ struct ClickWheel_Previews: PreviewProvider {
             editing: .constant(true)
 //            ,playerScore: .constant(game.playerScores[0])
             ,pointsScored: .constant(CGFloat(0))
+            ,sign: .constant(CGFloat(1))
             ,wheelColor: Color .black
         )
     }

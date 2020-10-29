@@ -58,6 +58,7 @@ struct GameScoreView: View {
                                     if self.game.playerScores.count > 0 {
                                         ScoreCardsGridView( rows:self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).rows,
                                                             columns: self.nbrRowsColumns(screenWidth: geometry.size.width, playerCount: self.game.playerScores.count).columns)
+                                            .frame(maxWidth:geometry.size.width)
                                     }
                                 }
                                 .keyboardAdaptive()

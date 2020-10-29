@@ -17,7 +17,9 @@ struct ScoreCardView: View {
     var playerScore: PlayerScore
     
     @State private var pointsScored = CGFloat(0)
+    @State private var sign = CGFloat(1)
     @State private var scoreEditing = false
+    @State private var showKeyPad = false
     
     @State private var nameEditing = false
     @State private var username = ""
@@ -49,22 +51,13 @@ struct ScoreCardView: View {
                             .padding()
                             .contentShape(Rectangle()).frame(height: self.frameHeight*2/3)
                     }
-//                    Button(action: {
-//                        self.dragOffset = CGSize.zero
-//                    }) {
-//                        Image(systemName: "pencil.circle")
-//                            .font(.system(size: 45, weight: .light, design: .default))
-//                            .foregroundColor(Color.gray)
-//                            .padding()
-//                            .contentShape(Rectangle()).frame(height: self.frameHeight*2/3)
-//                    }
                 }
                 
                 ZStack {
                     
                     
                     
-                    self.playerScore.player.colorGradient.frame(height: self.showBottomBar || self.displayInfo.scoreCardSize == .normal ? frameHeight : frameHeight*2/3)
+                    self.playerScore.player.colorGradient.frame(height: totalFrameHeight)
                     
                     VStack (spacing: 0){
                         
@@ -80,9 +73,17 @@ struct ScoreCardView: View {
                         .frame(height: frameHeight*2/3)
                         
                         if self.showBottomBar || self.displayInfo.scoreCardSize == .normal {
-                            ScoringBottomBarTools
-                                .frame(height: frameHeight/3)
-                                .disabled(self.dragOffset.width != 0)
+                            if self.showKeyPad {
+                                KeyPadView(valueDisplayed: $pointsScored, sign: $sign)
+                                    .frame(height: frameHeight*4/3)
+                                    .clipShape(Rectangle()).cornerRadius(14)
+                                    .padding([.horizontal,.bottom],3)
+                                    .disabled(self.dragOffset.width != 0)
+                            } else {
+                                ScoringBottomBarTools
+                                    .frame(height: frameHeight/3)
+                                    .disabled(self.dragOffset.width != 0)
+                            }
                         }
                     }
                 }
@@ -113,6 +114,12 @@ struct ScoreCardView: View {
         
     }
     
+    var totalFrameHeight : CGFloat {
+        if self.showKeyPad {return frameHeight * 6/3}
+        if self.showBottomBar || self.displayInfo.scoreCardSize == .normal {return frameHeight}
+        return frameHeight*2/3
+    }
+    
     var ExpandableScoreSection: some View {
         Group {
             VStack {
@@ -126,8 +133,9 @@ struct ScoreCardView: View {
                     .frame(minWidth:20, maxWidth:20, maxHeight: .infinity)
                     .onTapGesture {
                         self.pointsScored = 0
+                        self.sign = 1
                         self.scoreEditing = false
-                        
+                        self.showKeyPad = false
                         if self.displayInfo.scoreCardSize == .compact {
                             self.showBottomBar = false
                         }
@@ -137,51 +145,65 @@ struct ScoreCardView: View {
             
             Spacer()
             
-            Text("\(self.playerScore.totalScore())")
-                .font(Font.system(size: fontSize(nbrChar: String(self.playerScore.totalScore()).count, fontSize: 50), weight: .bold, design: .rounded))
-                .scaledToFill()
-                .minimumScaleFactor(0.9)
-                .lineLimit(1)
-                .layoutPriority(1)
-                .foregroundColor(Color .offWhite)
-                .padding(.horizontal,self.scoreEditing ? 0 : 20)
-                .animation(.none)
-            
-            
-            if scoreEditing {
+            HStack {
+                Text("\(self.playerScore.totalScore())")
+                    .font(Font.system(size: fontSize(nbrChar: String(self.playerScore.totalScore()).count, fontSize: self.scoreEditing ? 25 : 50), weight: .bold, design: .rounded))
+                    .scaledToFill()
+                    .minimumScaleFactor(0.9)
+                    .lineLimit(1)
+                    .layoutPriority(1)
+                    .foregroundColor(Color .offWhite)
+                    .padding(.horizontal,self.scoreEditing ? 0 : 20)
+                
+                if scoreEditing {
+                    
+    //                    // Old presentation with total score dynamic under new points
 
-                    VStack {
-                        Text("\(self.pointsScored >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
-                            .font(Font.system(size: 25, weight: .bold, design: .rounded))
-                            .scaledToFill()
-                            .minimumScaleFactor(0.9)
-                            .lineLimit(1)
-                            .foregroundColor(Color .offWhite)
-                            .padding(.trailing,10)
+    //                    VStack {
+    //                        Text("\(self.sign >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
+    //                            .font(Font.system(size: 25, weight: .bold, design: .rounded))
+    //                            .scaledToFill()
+    //                            .minimumScaleFactor(0.9)
+    //                            .lineLimit(1)
+    //                            .foregroundColor(Color .offWhite)
+    //                            .padding(.trailing,10)
+    //
+    //
+    //                        Text("= \( String(format: "%.0f",CGFloat(self.playerScore.totalScore()) + self.pointsScored))")
+    //                            .font(Font.system(size: 10, weight: .bold, design: .rounded))
+    //                            .foregroundColor(Color .offWhite)
+    //
+    //                    }
+                    Text("\(self.sign >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
+                        .font(Font.system(size: fontSize(nbrChar: String(format: "%.0f",abs(self.pointsScored)).count, fontSize: 40), weight: .bold, design: .rounded))
+                        .scaledToFill()
+                        .minimumScaleFactor(0.9)
+                        .lineLimit(1)
+                        .foregroundColor(Color .offWhite)
+                        .padding(10)
+                        .animation(.none)
                         
-                        
-                        Text("= \( String(format: "%.0f",CGFloat(self.playerScore.totalScore()) + self.pointsScored))")
-                            .font(Font.system(size: 10, weight: .bold, design: .rounded))
-                            .foregroundColor(Color .offWhite)
-                        
-                    }.animation(.none)
-                    
-                    
-                Rectangle().fill(Color.offWhite.opacity(0.5))
-                        .border(width: 1, edge: .leading, color: .offWhite)
-                        .overlay(Image(systemName: "checkmark").foregroundColor(Color.white))
-                        .frame(minWidth:70, maxWidth:70, maxHeight: .infinity)
-                        .onTapGesture {
-//                            let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
-//                            self.game.playerScores[index].addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
-                            self.game.addPointsFor(player: self.playerScore.player, points: Int(String(format: "%.0f",self.pointsScored))!)
-                            self.pointsScored = 0
-                            self.scoreEditing = false
-                            if self.displayInfo.scoreCardSize == .compact {
-                                self.showBottomBar = false
-                            }
-                    }
+                    Rectangle().fill(Color.offWhite.opacity(0.5))
+                            .border(width: 1, edge: .leading, color: .offWhite)
+                            .overlay(Image(systemName: "checkmark").foregroundColor(Color.white))
+                            .frame(minWidth:70, maxWidth:70, maxHeight: .infinity)
+                            .onTapGesture {
+    //                            let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
+    //                            self.game.playerScores[index].addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
+                                self.game.addPointsFor(player: self.playerScore.player, points: Int(String(format: "%.0f",self.pointsScored * sign))!)
+                                self.pointsScored = 0
+                                self.sign = 1
+                                self.scoreEditing = false
+                                self.showKeyPad = false
+                                if self.displayInfo.scoreCardSize == .compact {
+                                    self.showBottomBar = false
+                                }
+                        }
+                }
             }
+            
+            
+            
         }
     }
     
@@ -197,7 +219,20 @@ struct ScoreCardView: View {
             }
             .buttonStyle(SimpleRectButtonStyle())
             
-            ClickWheel(editing: self.$scoreEditing, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
+//            ClickWheel(editing: self.$scoreEditing, pointsScored: self.$pointsScored, wheelColor: Color .purpleStart)
+            Button(action: {
+                self.scoreEditing = true
+                self.showKeyPad.toggle()
+            }) {
+                if showKeyPad {
+                    Image(systemName: "chevron.up.circle")
+                        .foregroundColor(.purpleStart)
+                } else {
+                    Image(systemName: "keyboard.chevron.compact.down")
+                        .foregroundColor(.purpleStart)
+                }
+            }
+            .buttonStyle(SimpleRectButtonStyle())
             
             Button(action: {
                 self.scoreEditing = true
@@ -214,7 +249,8 @@ struct ScoreCardView: View {
         
         if nbrChar <= 3 { return CGFloat(fontSize)}
         
-        return self.scoreEditing ? CGFloat(fontSize - (nbrChar-2)*10 ) : CGFloat(fontSize - (nbrChar-3)*10)
+//        return self.scoreEditing ? CGFloat(fontSize - (nbrChar-2)*10 ) : CGFloat(fontSize - (nbrChar-3)*10)
+        return CGFloat(fontSize - (nbrChar-2)*5 )
     }
 }
 
@@ -321,7 +357,7 @@ struct ScoreCardView_Previews: PreviewProvider {
         Group {
 
             ScoreCardView(playerScore: PlayerScore(player: Player(name: "Steph", initials: "St", colorGradient: LinearGradient.gradDefault), pointsList: []),index: 1)
-                    .previewLayout(.fixed(width: 375, height: 200))
+                    .previewLayout(.sizeThatFits)
                     .padding(.horizontal, 15)
                     .padding(.bottom,15)
                 

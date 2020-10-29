@@ -109,7 +109,7 @@ struct PlayerScoreColumn: View {
     var body: some View {
         ZStack{
             //
-            VStack {
+            VStack (spacing:0){
                 
                 let maxHeightForPoints = geometry.size.height - scoreColumnMaxWidth - 50
                 

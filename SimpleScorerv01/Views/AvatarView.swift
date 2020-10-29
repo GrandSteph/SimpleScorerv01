@@ -48,11 +48,11 @@ struct AvatarView: View {
         .clipShape(Circle())
         .aspectRatio(1, contentMode: .fit)
         .overlay(Circle().strokeBorder(Color.white, lineWidth: 2))
-        .onTapGesture {
-                self.showingImagePicker = true
-        }.sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
-            ImagePicker(image: self.$inputImage)
-        }
+//        .onTapGesture {
+//                self.showingImagePicker = true
+//        }.sheet(isPresented: $showingImagePicker, onDismiss: loadImage) {
+//            ImagePicker(image: self.$inputImage)
+//        }
     }
     
     func loadImage() {
