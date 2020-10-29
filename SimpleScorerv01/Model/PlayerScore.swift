@@ -24,6 +24,7 @@ struct PlayerScore: Identifiable {
     }
     
     mutating func modifyScore(modification: Int, forRound: Int) {
+        pointsList[forRound] = modification
     }
     
     mutating func resetScore () {

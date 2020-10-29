@@ -78,9 +78,10 @@ struct CircleImage_Previews: PreviewProvider {
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 200, height: 300))
             
-            AvatarView(user: Player(name: "Karim", initials: "W", colorGradient: gradiants[0]))
+            AvatarView(user: Player(name: "Karim", initials: "Wm", colorGradient: gradiants[0]))    
             .background(Color.orangeEnd)
             .previewLayout(.fixed(width: 70, height: 70))
+            
             
             AvatarView(user: Player())
             .background(Color.orangeEnd)

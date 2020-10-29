@@ -23,6 +23,13 @@ struct BindingProvider<StateT, Content: View>: View {
     }
 }
 
+func fontSize(nbrChar :Int, fontSize :Int) -> CGFloat {
+    
+    if nbrChar <= 5 { return CGFloat(fontSize)}
+    
+    return CGFloat(fontSize - (nbrChar-5)*7 )
+}
+
 // other Textfield
 
 
