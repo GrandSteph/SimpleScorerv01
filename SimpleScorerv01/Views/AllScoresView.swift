@@ -13,7 +13,7 @@ struct AllScoresView: View {
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
     @EnvironmentObject var game : Game
     
-    @State private var cell  = (-1, PlayerScore())
+    @State private var cell  = (cellIndex: -1, playerScore: PlayerScore())
     @State private var showKeypad = false
     @State private var pointScored = CGFloat(0)
     @State private var sign = CGFloat(1)
@@ -45,6 +45,11 @@ struct AllScoresView: View {
                     .padding()
                 }
                 
+//                VStack {
+//                    Spacer()
+//                    Text("\(cell.cellIndex) / \(cell.playerScore.player.name)")
+//                }
+                
                 if showKeypad {
                     scoreCorrectionView
                 }
@@ -70,7 +75,7 @@ struct AllScoresView: View {
     var scoreCorrectionView: some View {
         ZStack {
             
-            cell.1.player.colorGradient
+            cell.playerScore.player.colorGradient
             
             VStack {
                 HStack {
@@ -94,8 +99,8 @@ struct AllScoresView: View {
                 HStack {
                     Spacer()
                     
-                    Text("\(String(cell.1.pointsList[cell.0])) ⇢ \(self.sign >= 0 ? "" : "-") \( String(format: "%.0f",abs(pointScored)))")
-                        .font(Font.system(size: fontSize(nbrChar: String(format: "%.0f",abs(pointScored)).count + String(cell.1.pointsList[cell.0]).count + 1, fontSize: 40)
+                    Text("\(String(cell.playerScore.pointsList[cell.0].score)) ⇢ \(self.sign >= 0 ? "" : "-") \( String(format: "%.0f",abs(pointScored)))")
+                        .font(Font.system(size: fontSize(nbrChar: String(format: "%.0f",abs(pointScored)).count + String(cell.playerScore.pointsList[cell.cellIndex].score).count + 1, fontSize: 40)
                                           , weight: .bold
                                           , design: .rounded))
                         .scaledToFill()
@@ -111,20 +116,10 @@ struct AllScoresView: View {
                             .overlay(Image(systemName: "checkmark").foregroundColor(Color.white))
                             .frame(minWidth:70, maxWidth:70, maxHeight: .infinity)
                             .onTapGesture {
-                                game.playerScores[game.indexOf(player: cell.1.player)!].modifyScore(modification: Int(pointScored * sign), forRound: cell.0)
+                                game.playerScores[game.indexOf(player: cell.playerScore.player)!].modifyScore(newScore: Int(pointScored * sign), forRound: cell.cellIndex)
                                 showKeypad = false
                                 sign = 1
                                 pointScored = 0
-    //                            let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
-    //                            self.game.playerScores[index].addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
-    //                            self.game.addPointsFor(player: self.playerScore.player, points: Int(String(format: "%.0f",self.pointsScored * sign))!)
-    //                            self.pointsScored = 0
-    //                            self.sign = 1
-    //                            self.scoreEditing = false
-    //                            self.showKeyPad = false
-    //                            if self.displayInfo.scoreCardSize == .compact {
-    //                                self.showBottomBar = false
-    //                            }
                         }
                 }
                 .frame(height: frameHeight*2/3)
@@ -146,7 +141,7 @@ struct AllScoresView: View {
 
 struct PlayerScoreColumn: View {
     
-    @Binding var cell : (Int,PlayerScore)
+    @Binding var cell : (cellIndex: Int, playerScore: PlayerScore)
     @Binding var showKeypad : Bool
    
     
@@ -155,6 +150,7 @@ struct PlayerScoreColumn: View {
     var geometry : GeometryProxy
     let scoreColumnMaxWidth : CGFloat
     let cellHeight :  CGFloat
+
     
     var body: some View {
         ZStack{
@@ -163,39 +159,13 @@ struct PlayerScoreColumn: View {
                 
                 let maxHeightForPoints = geometry.size.height - scoreColumnMaxWidth - 50
                 
-//                Text(String(format: "%.0f", Double(geometry.size.width)))
-//                Text(String(format: "%.0f", Double(geometry.size.width)/Double(game.playerScores.count)))
-//                Text(String(format: "%.0f", Double(scoreColumnMaxWidth)))
-                
-                
                 AvatarView(user: playerScore.player)
-                    
                     .padding(5)
                     .frame(maxHeight:scoreColumnMaxWidth)
-                    
                 
                 ScrollView(maxHeightForPoints/CGFloat(game.currentMaxNumberOfRounds()+1) < cellHeight ? .vertical : []) {
-                    ForEach(playerScore.pointsList.indices) { index in
-//                        CellView(playerScore: playerScore, index: index, cellHeight: cellHeight, cell: $cell)
-                        Rectangle()
-                            .fill(index % 2 == 0 ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
-                            .frame(height:cellHeight)
-                            .border(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/, width: (cell.0 == index && cell.1.id == playerScore.id && showKeypad) ? 5 : 0)
-                            .overlay(Text(String(playerScore.pointsList[index])).foregroundColor(Color .white))
-                            .padding(-3)
-                            .onTapGesture(count: 1, perform: {
-                                if (cell.0 == index && cell.1.id == playerScore.id) {
-                                    cell.0 = -1
-                                    cell.1 = PlayerScore()
-                                    showKeypad = false
-                                } else {
-                                    cell.0 = index
-                                    cell.1 = playerScore
-                                    showKeypad = true
-                                }
-                                
-                            })
-                    }
+                    pointList
+//                    pointsList(playerScore: playerScore, cellHeight: cellHeight)
                 }
                 .border(width: 1, edge: .bottom, color: .offWhite)
                 .border(width: 1, edge: .top, color: .offWhite)
@@ -208,7 +178,32 @@ struct PlayerScoreColumn: View {
         }
         
     }
+    
+    var pointList: some View {
+
+        ForEach(playerScore.pointsList, id: \.self) { points in
+            
+            Rectangle()
+                .fill(points.round % 2 == 0 ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
+                .frame(height:cellHeight)
+                .border(Color.white, width: (cell.0 == points.round && cell.playerScore.id == playerScore.id && showKeypad) ? 5 : 0)
+                .overlay(Text( ("\(String(points.score))")).foregroundColor(Color .white))
+                .padding(-3)
+                .onTapGesture(count: 1, perform: {
+                    if (cell.cellIndex == points.round && cell.playerScore.id == playerScore.id) {
+                        cell.cellIndex = -1
+                        cell.playerScore = PlayerScore()
+                        showKeypad = false
+                    } else {
+                        cell.cellIndex = points.round
+                        cell.playerScore = playerScore
+                        showKeypad = true
+                    }
+                })
+        }
+    }
 }
+
 
 struct AllScoresView_Previews: PreviewProvider {
     static var previews: some View {

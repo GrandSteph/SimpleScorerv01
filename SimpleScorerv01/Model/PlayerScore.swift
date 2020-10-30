@@ -12,24 +12,43 @@ struct PlayerScore: Identifiable {
     
     var id = UUID()
     var player: Player
-    var pointsList: [Int]     
+    var pointsList: [Points]
 
+    func indexFor(round: Int) -> Int? {
+        for index in self.pointsList.indices {
+            if self.pointsList[index].round == round {
+                return index
+            }
+        }
+        return nil
+    }
     
     func totalScore() -> Int {
-        return pointsList.reduce(0, +)
+        var total = 0
+        for index in self.pointsList.indices {
+            total += self.pointsList[index].score
+        }
+        return total
     }
     
     mutating func addPoints(scoreValue: Int) {
-        pointsList.append(scoreValue)
+        pointsList.append(Points(score: scoreValue, round: pointsList.count))
     }
     
-    mutating func modifyScore(modification: Int, forRound: Int) {
-        pointsList[forRound] = modification
+    mutating func modifyScore(newScore: Int, forRound: Int) {
+        pointsList[indexFor(round: forRound)!] = Points(score: newScore, round: forRound)
     }
     
     mutating func resetScore () {
         pointsList = []
     }
+    
+}
+
+struct Points : Identifiable, Hashable {
+    var id = UUID()
+    var score : Int
+    var round : Int
     
 }
 
