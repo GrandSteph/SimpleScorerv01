@@ -30,7 +30,6 @@ struct AllScoresView: View {
                 
                 ScrollView(geometry.size.width/CGFloat(game.playerScores.count) < scoreColumnMaxWidth ? .horizontal : []) {
                     HStack {
-//                        Spacer()
                         ForEach(self.game.playerScores, id: \.id) { playerScore in
                             
                             PlayerScoreColumn(cell: $cell, showKeypad: $showKeypad, playerScore: playerScore, game: game, geometry: geometry, scoreColumnMaxWidth: scoreColumnMaxWidth, cellHeight: pointCellsHeight)
@@ -40,15 +39,10 @@ struct AllScoresView: View {
                                 .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
                             
                         }
-//                        Spacer()
                     }
                     .padding()
-                }.frame(maxHeight:pointCellsHeight * CGFloat(game.currentMaxNumberOfRounds()))
+                }
                 
-//                VStack {
-//                    Spacer()
-//                    Text("\(cell.cellIndex) / \(cell.playerScore.player.name)")
-//                }
                 
                 if showKeypad {
                     scoreCorrectionView
@@ -169,9 +163,15 @@ struct PlayerScoreColumn: View {
                 }
                 .border(width: 1, edge: .bottom, color: .offWhite)
                 .border(width: 1, edge: .top, color: .offWhite)
+                .frame(maxHeight:cellHeight * CGFloat(game.currentMaxNumberOfRounds()))
                 
                 Rectangle().fill(Color.clear)
-                    .overlay(Text(String(playerScore.totalScore())).foregroundColor(Color .offWhite))
+                    .overlay(
+                        Text(String(playerScore.totalScore())))
+                            .font(Font.system(size: fontSize(nbrChar: String(playerScore.totalScore()).count + 1, fontSize: 25)
+                                              , weight: .bold
+                                              , design: .rounded))
+                    .foregroundColor(Color.offWhite)
                     .frame(height:50)
                 
             }.padding(0)
