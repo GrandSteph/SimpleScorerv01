@@ -43,7 +43,7 @@ struct AllScoresView: View {
 //                        Spacer()
                     }
                     .padding()
-                }
+                }.frame(maxHeight:pointCellsHeight * CGFloat(game.currentMaxNumberOfRounds()))
                 
 //                VStack {
 //                    Spacer()
