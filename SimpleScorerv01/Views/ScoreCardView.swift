@@ -212,6 +212,7 @@ struct ScoreCardView: View {
             
             Button(action: {
                 self.scoreEditing = true
+                self.sign = self.pointsScored <= 0 ? -1 : 1
                 self.pointsScored -= 1
             }) {
                 Image(systemName: "minus.rectangle")
@@ -236,6 +237,7 @@ struct ScoreCardView: View {
             
             Button(action: {
                 self.scoreEditing = true
+                self.sign = self.pointsScored >= 0 ? 1 : -1
                 self.pointsScored += 1
             }) {
                 Image(systemName: "plus.rectangle")
