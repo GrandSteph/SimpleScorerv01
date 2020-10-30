@@ -197,7 +197,7 @@ struct PlayerScoreColumn: View {
                 .fill(points.round % 2 == 0 ? Color.white.opacity(0.1) : Color.black.opacity(0.1))
                 .frame(height:cellHeight)
                 .border(Color.white, width: (cell.0 == points.round && cell.playerScore.id == playerScore.id && showKeypad) ? 5 : 0)
-                .overlay(Text( ("\(String(points.score))")).foregroundColor(Color .white))
+                .overlay(Text( ("\(String(points.score)) / \(String(points.round))")).foregroundColor(Color .white))
                 .padding(-3)
                 .onTapGesture(count: 1, perform: {
                     if (cell.cellIndex == points.round && cell.playerScore.id == playerScore.id) {
@@ -212,6 +212,8 @@ struct PlayerScoreColumn: View {
                 })
                 .onLongPressGesture {
                     self.showingActionSheet = true
+                    cell.cellIndex = points.round
+                    cell.playerScore = playerScore
                 }.actionSheet(isPresented: $showingActionSheet) {
                     ActionSheet(title: Text("Delete this entry ?").font(.system(.headline, design: .rounded)), buttons: [
                         .default(Text("OK")) {

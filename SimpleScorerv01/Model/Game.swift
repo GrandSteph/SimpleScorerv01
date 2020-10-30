@@ -125,7 +125,22 @@ class Game : ObservableObject {
     }
     
     func deletePointsFor(player : Player, round : Int) {
-        self.playerScores[self.indexOf(player: player)!].pointsList.remove(at: round)
+        let index = self.indexOf(player: player)!
+        
+        self.playerScores[index].pointsList.remove(at: round)
+        
+        // Adjust roundNbr for all points
+        // (Decrease round for those after)
+        for point in self.playerScores[index].pointsList {
+            if point.round > round {
+                let pointIndex = self.playerScores[index].indexFor(round: point.round)!
+                self.playerScores[index].pointsList[pointIndex].round -= 1
+            }
+        }
+        
+        for point in self.playerScores[index].pointsList {
+            print(point.round)
+        }
     }
     
     func findScore(playerScore: PlayerScore) -> PlayerScore {
