@@ -30,6 +30,8 @@ struct AllScoresView: View {
                 
                 ScrollView(geometry.size.width/CGFloat(game.playerScores.count) < scoreColumnMaxWidth ? .horizontal : []) {
                     HStack {
+                        Spacer()
+                        
                         ForEach(self.game.playerScores, id: \.id) { playerScore in
                             
                             PlayerScoreColumn(cell: $cell, showKeypad: $showKeypad, playerScore: playerScore, game: game, geometry: geometry, scoreColumnMaxWidth: scoreColumnMaxWidth, cellHeight: pointCellsHeight)
@@ -39,6 +41,8 @@ struct AllScoresView: View {
                                 .shadow(color: Color.black.opacity(0.2), radius: 5, x: 0, y: 5)
                             
                         }
+                        
+                        Spacer()
                     }
                     .padding()
                 }
