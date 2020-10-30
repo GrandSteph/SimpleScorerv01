@@ -30,7 +30,7 @@ func fontSize(nbrChar :Int, fontSize :Int) -> CGFloat {
     return CGFloat(fontSize - (nbrChar-5)*7 )
 }
 
-// other Textfield
+// MARK: - TextField
 
 
 
@@ -92,6 +92,7 @@ func textFieldShouldReturn(_ textField: UITextField) -> Bool {
     }
 }
 
+// MARK: - Keyb slide
 
 // Keyboard slide
 // Courtesy of https://stackoverflow.com/questions/56491881/move-textfield-up-when-thekeyboard-has-appeared-by-using-swiftui-ios
@@ -112,7 +113,24 @@ struct GeometryGetter: View {
     }
 }
 
-//--------------- UIview / Image
+// MARK: - Views / Images
+
+extension View {
+    func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
+        clipShape( RoundedCorner(radius: radius, corners: corners) )
+    }
+}
+
+struct RoundedCorner: Shape {
+
+    var radius: CGFloat = .infinity
+    var corners: UIRectCorner = .allCorners
+
+    func path(in rect: CGRect) -> Path {
+        let path = UIBezierPath(roundedRect: rect, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        return Path(path.cgPath)
+    }
+}
 
 extension CGRect {
     var uiImage: UIImage? {
@@ -268,7 +286,7 @@ func resizeImage(image: UIImage, targetSize: CGSize) -> UIImage {
     return newImage!
 }
 
-// Shape
+// MARK: - shapes
 
 struct EdgeBorder: Shape {
     

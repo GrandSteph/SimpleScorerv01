@@ -76,7 +76,7 @@ struct ScoreCardView: View {
                             if self.showKeyPad {
                                 KeyPadView(valueDisplayed: $pointsScored, sign: $sign)
                                     .frame(height: frameHeight*4/3)
-                                    .clipShape(Rectangle()).cornerRadius(14)
+                                    .cornerRadius(14, corners: [.bottomLeft, .bottomRight])
                                     .padding([.horizontal,.bottom],3)
                                     .disabled(self.dragOffset.width != 0)
                             } else {

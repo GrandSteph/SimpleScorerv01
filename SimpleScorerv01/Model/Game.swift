@@ -122,10 +122,10 @@ class Game : ObservableObject {
             self.playerScores[self.indexOf(player: player)!].addPoints(scoreValue: 0)
             self.addPointsFor(player: player, points: points)
         }
-        
-        
-
-        
+    }
+    
+    func deletePointsFor(player : Player, round : Int) {
+        self.playerScores[self.indexOf(player: player)!].pointsList.remove(at: round)
     }
     
     func findScore(playerScore: PlayerScore) -> PlayerScore {

@@ -18,6 +18,7 @@ struct AllScoresView: View {
     @State private var pointScored = CGFloat(0)
     @State private var sign = CGFloat(1)
     
+    
     let scoreColumnMaxWidth = CGFloat(90)
     let pointCellsHeight = CGFloat(40)
     let frameHeight = CGFloat(135)
@@ -148,6 +149,8 @@ struct PlayerScoreColumn: View {
     var geometry : GeometryProxy
     let scoreColumnMaxWidth : CGFloat
     let cellHeight :  CGFloat
+    
+    @State private var showingActionSheet = false
 
     
     var body: some View {
@@ -162,12 +165,15 @@ struct PlayerScoreColumn: View {
                     .frame(maxHeight:scoreColumnMaxWidth)
                 
                 ScrollView(maxHeightForPoints/CGFloat(game.currentMaxNumberOfRounds()+1) < cellHeight ? .vertical : []) {
-                    pointList
+                    VStack {
+                        pointList
+                        Spacer()
+                    }
 //                    pointsList(playerScore: playerScore, cellHeight: cellHeight)
                 }
                 .border(width: 1, edge: .bottom, color: .offWhite)
                 .border(width: 1, edge: .top, color: .offWhite)
-                .frame(maxHeight:cellHeight * CGFloat(game.currentMaxNumberOfRounds()))
+                .frame(maxHeight:8 + cellHeight * CGFloat(game.currentMaxNumberOfRounds()))
                 
                 Rectangle().fill(Color.clear)
                     .overlay(
@@ -204,6 +210,16 @@ struct PlayerScoreColumn: View {
                         showKeypad = true
                     }
                 })
+                .onLongPressGesture {
+                    self.showingActionSheet = true
+                }.actionSheet(isPresented: $showingActionSheet) {
+                    ActionSheet(title: Text("Delete this entry ?").font(.system(.headline, design: .rounded)), buttons: [
+                        .default(Text("OK")) {
+                            game.deletePointsFor(player: playerScore.player, round: cell.cellIndex)
+                        },
+                        .cancel()
+                    ])
+                }
         }
     }
 }
