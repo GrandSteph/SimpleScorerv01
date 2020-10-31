@@ -40,6 +40,9 @@ struct PlayersEntryView: View {
                                         self.username = newString
                                     }
                                     , onCommitHandler: {
+                                        if self.username == "" {
+                                            self.username = "P\(self.game.playerScores.firstIndex(where: { $0.id == cardView.playerScore.id })!+1)"
+                                        }
                                         self.commitNameAndMove(forIndex: self.game.playerScores.firstIndex(where: { $0.id == cardView.playerScore.id })!)
                                     })
                                     .padding(EdgeInsets(top: 0, leading: 8, bottom: 0, trailing: 8))
