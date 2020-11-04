@@ -57,7 +57,7 @@ struct AllScoresView: View {
                     Spacer()
                     HStack {
                         Spacer()
-                        Image(systemName: "chevron.right.square.fill")
+                        Image(systemName: "arrow.right.circle")
                             .font(.system(.largeTitle, design: .rounded))
                             .foregroundColor(Color.gray)
                             .background(Color.clear.opacity(0))

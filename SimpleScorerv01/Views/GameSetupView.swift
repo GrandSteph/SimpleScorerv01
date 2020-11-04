@@ -22,7 +22,7 @@ struct GameSetupView: View {
     var body: some View {
         
         ZStack {
-//            Color.offWhite.edgesIgnoringSafeArea(.all)
+            Color.offWhite.edgesIgnoringSafeArea(.all)
             
             HStack {
                 Spacer()
@@ -141,7 +141,7 @@ struct GameSetupView: View {
                                             .font(.system(.body, design: .rounded))
                                             .foregroundColor(Color .offWhite)
                                     }
-                                }.animation(.none)
+                                }
                                 
                                 if game.playerScores.count < gradiants.count {
                                     Rectangle().fill(Color.clear).border(width: 1, edge: .leading, color: .offWhite)
@@ -194,7 +194,7 @@ struct GameSetupView: View {
             VStack {
                 Spacer()
                 HStack {
-                    Image(systemName: "chevron.left.square.fill")
+                    Image(systemName: "arrow.left.circle")
                         .font(.system(.largeTitle, design: .rounded))
                         .foregroundColor(Color.gray)
                         .padding([.trailing,.bottom])

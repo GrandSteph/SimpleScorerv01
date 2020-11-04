@@ -97,20 +97,20 @@ struct ScoreCardView: View {
                 self.showBottomBar = true
                 self.dragOffset.width = 0
             }
-            .gesture(
-                DragGesture(minimumDistance: 25, coordinateSpace: .local)
-                    .onChanged({ (value) in
-                        if !self.scoreEditing {
-                            self.dragOffset.width = value.translation.width
-                        }
-                    })
-                    .onEnded({ (value) in
-                        if value.translation.width < -90 && !self.scoreEditing {
-                            self.dragOffset.width = -75
-                        } else {
-                            self.dragOffset = CGSize.zero
-                        }
-                    }))
+//            .gesture(
+//                DragGesture(minimumDistance: 25, coordinateSpace: .local)
+//                    .onChanged({ (value) in
+//                        if !self.scoreEditing {
+//                            self.dragOffset.width = value.translation.width
+//                        }
+//                    })
+//                    .onEnded({ (value) in
+//                        if value.translation.width < -90 && !self.scoreEditing {
+//                            self.dragOffset.width = -75
+//                        } else {
+//                            self.dragOffset = CGSize.zero
+//                        }
+//                    }))
         
     }
     

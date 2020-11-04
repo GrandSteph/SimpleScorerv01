@@ -19,6 +19,9 @@ struct GameScoreView: View {
     
     // cube display
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
+    @State var dragOffset = CGSize.zero
+    @State var previousWidth = CGFloat(0)
+    @State var swipingLeft = true
     
     // image picker
     @State private var imagePicked = UIImage()
@@ -36,6 +39,15 @@ struct GameScoreView: View {
         return Angle(degrees: Double(translation.width/4.16))
     }
     
+    func setSwipingDirection (width : CGFloat) {
+        if width - previousWidth > 0 {
+            swipingLeft = false
+        } else {
+            swipingLeft = true
+        }
+        previousWidth = width
+    }
+    
     var body: some View {
         
         GeometryReader { geometry in
@@ -44,11 +56,11 @@ struct GameScoreView: View {
                 
                 AllScoresView()
 //                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .modifier(cubeRotation(screen: .allScores, screenWidth: geometry.size.width))
+                    .modifier(cubeRotation(dragOffset: $dragOffset, screen: .allScores, screenWidth: geometry.size.width))
                 
                 GameSetupView(showPlayerEntry: self.$showPlayerEntry)
 //                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-                    .modifier(cubeRotation(screen: .gameSetup, screenWidth: geometry.size.width))
+                    .modifier(cubeRotation(dragOffset: $dragOffset, screen: .gameSetup, screenWidth: geometry.size.width))
 
                 Group {
                     ZStack {
@@ -71,7 +83,7 @@ struct GameScoreView: View {
                         VStack {
                             Spacer()
                             HStack {
-                                Image(systemName: "chevron.left.square.fill")
+                                Image(systemName: "arrow.left.circle")
                                     .font(.system(.largeTitle, design: .rounded))
                                     .foregroundColor(Color.gray)
                                     .background(Color.clear.opacity(0))
@@ -80,7 +92,7 @@ struct GameScoreView: View {
 
                                 }.padding()
                                 Spacer()
-                                Image(systemName: "chevron.right.square.fill")
+                                Image(systemName: "arrow.right.circle")
                                     .font(.system(.largeTitle, design: .rounded))
                                     .foregroundColor(Color.gray)
                                     .background(Color.clear.opacity(0))
@@ -92,7 +104,7 @@ struct GameScoreView: View {
                         }
                     }
                 }
-                .modifier(cubeRotation(screen: .scoreCards, screenWidth: geometry.size.width))
+                .modifier(cubeRotation(dragOffset: $dragOffset, screen: .scoreCards, screenWidth: geometry.size.width))
 
                 if self.showImagePicker {
                     CircleImagePickerView(isPresented: self.$showImagePicker, selectedImage: self.$imagePicked, source: self.pickerSource)
@@ -103,6 +115,34 @@ struct GameScoreView: View {
                     PlayersEntryView(isVisible: self.$showPlayerEntry)
                 }
             }
+            .gesture(
+
+                DragGesture()
+                    .onChanged { gesture in
+                        
+//                        print("\(gesture.translation.width) - Prev \(previousWidth) - left? \(swipingLeft)")
+                        
+                        self.setSwipingDirection(width: gesture.translation.width)
+                        
+                        if gesture.startLocation.x > (geometry.size.width - 25) && self.displayInfo.screenDisplayed != ScreenType.gameSetup {
+                            self.dragOffset = gesture.translation
+                        } else if gesture.startLocation.x < 25 && self.displayInfo.screenDisplayed != ScreenType.allScores {
+                            self.dragOffset = gesture.translation
+                        } else {
+                            self.dragOffset = .zero
+                        }
+                    }
+                    .onEnded({ (value) in
+                        if self.dragOffset != .zero {
+                            if self.dragOffset.width > 0 && !self.swipingLeft {
+                                self.displayInfo.screenDisplayed = ScreenType(rawValue: self.displayInfo.screenDisplayed.rawValue - 1)!
+                            } else if self.dragOffset.width < 0 && self.swipingLeft {
+                                self.displayInfo.screenDisplayed = ScreenType(rawValue: self.displayInfo.screenDisplayed.rawValue + 1)!
+                            }
+                            self.dragOffset = .zero
+                        }
+                    })
+            )
         }
     }
 }
@@ -111,25 +151,42 @@ struct cubeRotation: ViewModifier {
     
     @EnvironmentObject var displayInfo : GlobalDisplayInfo
     
+    @Binding var dragOffset : CGSize
+    
     let screen : ScreenType
     
     let screenWidth : CGFloat
     
     func angle() -> Angle {
-        return Angle(degrees: 90 * Double(screen - self.displayInfo.screenDisplayed))
+        return Angle(degrees: 90 * Double(screen - self.displayInfo.screenDisplayed)) + self.dragToRotation(translation: self.dragOffset)
     }
     
     func edge() -> UnitPoint {
     
         if (screen - self.displayInfo.screenDisplayed) > 0 {
-            return .leading
+//        if (dragOffset.width > 0 ) {
+            if dragOffset.width > 0 {
+                return .trailing
+            } else {
+                return .leading
+            }
         } else {
-            return .trailing
+            if dragOffset.width > 0 {
+                return .leading
+            } else {
+                return .trailing
+            }
         }
     }
     
     func offSet() -> CGFloat {
-        return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed)
+        return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed) + self.dragOffset.width * 1.2
+    }
+    
+    func dragToRotation(translation : CGSize) -> Angle {
+        
+        return Angle(degrees: Double(translation.width/4.16))
+
     }
     
     func body(content: Content) -> some View {
@@ -139,6 +196,7 @@ struct cubeRotation: ViewModifier {
             .animation(.linear)
             .disabled(!(self.displayInfo.screenDisplayed == screen))
     }
+    
 }
 
 
