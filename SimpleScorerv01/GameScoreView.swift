@@ -135,9 +135,13 @@ struct GameScoreView: View {
                     .onEnded({ (value) in
                         if self.dragOffset != .zero {
                             if self.dragOffset.width > 0 && !self.swipingLeft {
-                                self.displayInfo.screenDisplayed = ScreenType(rawValue: self.displayInfo.screenDisplayed.rawValue - 1)!
+                                if (ScreenType(rawValue: self.displayInfo.screenDisplayed.rawValue - 1) != nil) {
+                                    self.displayInfo.screenDisplayed = ScreenType(rawValue: self.displayInfo.screenDisplayed.rawValue - 1)!
+                                }
                             } else if self.dragOffset.width < 0 && self.swipingLeft {
-                                self.displayInfo.screenDisplayed = ScreenType(rawValue: self.displayInfo.screenDisplayed.rawValue + 1)!
+                                if (ScreenType(rawValue: self.displayInfo.screenDisplayed.rawValue + 1) != nil) {
+                                    self.displayInfo.screenDisplayed = ScreenType(rawValue: self.displayInfo.screenDisplayed.rawValue + 1)!
+                                }
                             }
                             self.dragOffset = .zero
                         }
@@ -162,9 +166,14 @@ struct cubeRotation: ViewModifier {
     }
     
     func edge() -> UnitPoint {
-    
-        if (screen - self.displayInfo.screenDisplayed) > 0 {
-//        if (dragOffset.width > 0 ) {
+        
+        if (screen - self.displayInfo.screenDisplayed) == 0 {
+            if dragOffset.width > 0 {
+                return .leading
+            } else {
+                return .trailing
+            }
+        } else if (screen - self.displayInfo.screenDisplayed) > 0 {
             if dragOffset.width > 0 {
                 return .trailing
             } else {
@@ -172,15 +181,15 @@ struct cubeRotation: ViewModifier {
             }
         } else {
             if dragOffset.width > 0 {
-                return .leading
-            } else {
                 return .trailing
+            } else {
+                return .leading
             }
         }
     }
     
     func offSet() -> CGFloat {
-        return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed) + self.dragOffset.width * 1.2
+        return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed) + self.dragOffset.width*1.2
     }
     
     func dragToRotation(translation : CGSize) -> Angle {
