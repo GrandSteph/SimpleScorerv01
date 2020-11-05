@@ -28,6 +28,7 @@
 		E88751B5241F9E000091853F /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88751B4241F9E000091853F /* AvatarView.swift */; };
 		E88C328B25488751000EE7AB /* KeyPadView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E88C328A25488751000EE7AB /* KeyPadView.swift */; };
 		E897D6C62449B1C900FB214D /* ScoreCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E897D6C52449B1C900FB214D /* ScoreCardView.swift */; };
+		E8ADADAD25540B3600874D44 /* AppStoreReviewManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8ADADAC25540B3600874D44 /* AppStoreReviewManager.swift */; };
 		E8AE91A8245C405B00CA7F55 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8AE91A7245C405B00CA7F55 /* Helpers.swift */; };
 		E8B42DA52456DFBB001AE7C2 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B42DA42456DFBB001AE7C2 /* Constants.swift */; };
 		E8F648382464014E00F59B7C /* GameSetupView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8F648372464014E00F59B7C /* GameSetupView.swift */; };
@@ -59,6 +60,7 @@
 		E88751B4241F9E000091853F /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		E88C328A25488751000EE7AB /* KeyPadView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyPadView.swift; sourceTree = "<group>"; };
 		E897D6C52449B1C900FB214D /* ScoreCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCardView.swift; sourceTree = "<group>"; };
+		E8ADADAC25540B3600874D44 /* AppStoreReviewManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreReviewManager.swift; sourceTree = "<group>"; };
 		E8AE91A7245C405B00CA7F55 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		E8B42DA42456DFBB001AE7C2 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		E8F648372464014E00F59B7C /* GameSetupView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupView.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 		D7C03BAD246EE9D50006FB9F /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				E8ADADAC25540B3600874D44 /* AppStoreReviewManager.swift */,
 				D7C03BAE246EEA1B0006FB9F /* KeyboardAvoidance.swift */,
 				D76274F0247D020C0035F6DD /* GlobalDisplayInfo.swift */,
 				D70F1355248E37F9001D3217 /* SATextField.swift */,
@@ -306,6 +309,7 @@
 				E8875198241F99DB0091853F /* AppDelegate.swift in Sources */,
 				E8B42DA52456DFBB001AE7C2 /* Constants.swift in Sources */,
 				D7899CC0249CADBA00C6053E /* AllScoresView.swift in Sources */,
+				E8ADADAD25540B3600874D44 /* AppStoreReviewManager.swift in Sources */,
 				D76274F1247D020C0035F6DD /* GlobalDisplayInfo.swift in Sources */,
 				E887519A241F99DB0091853F /* SceneDelegate.swift in Sources */,
 				D78C0A5A24891FDC00FF5EEE /* PlayersEntryView.swift in Sources */,

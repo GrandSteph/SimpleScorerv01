@@ -30,54 +30,44 @@ import Foundation
 import StoreKit
 
 enum AppStoreReviewManager {
-  static let minimumReviewWorthyActionCount = 2
-
-  static func requestReviewIfAppropriate() {
-    let defaults = UserDefaults.standard
-    let bundle = Bundle.main
-
-    var actionCount = defaults.integer(forKey: .reviewWorthyActionCount)
-    actionCount += 1
-    defaults.set(actionCount, forKey: .reviewWorthyActionCount)
-
-    guard actionCount >= minimumReviewWorthyActionCount else {
-      return
+    static let minimumReviewWorthyActionCount = 5
+    
+    static func requestReviewIfAppropriate() {
+        // If the count has not yet been stored, this will return 0
+        var count = UserDefaults.standard.integer(forKey: UserDefaultsKeys.processCompletedCountKey)
+        count += 1
+        UserDefaults.standard.set(count, forKey: UserDefaultsKeys.processCompletedCountKey)
+        
+        print("Process completed \(count) time(s)")
+        
+        // Get the current bundle version for the app
+        let infoDictionaryKey = kCFBundleVersionKey as String
+        guard let currentVersion = Bundle.main.object(forInfoDictionaryKey: infoDictionaryKey) as? String
+        else { fatalError("Expected to find a bundle version in the info dictionary") }
+        
+        print(currentVersion)
+        
+        let lastVersionPromptedForReview = UserDefaults.standard.string(forKey: UserDefaultsKeys.lastVersionPromptedForReviewKey)
+        
+        // Has the process been completed several times and the user has not already been prompted for this version?
+        if count >= minimumReviewWorthyActionCount && currentVersion != lastVersionPromptedForReview {
+            let twoSecondsFromNow = DispatchTime.now() + 2.0
+            DispatchQueue.main.asyncAfter(deadline: twoSecondsFromNow) {
+                SKStoreReviewController.requestReview()
+                UserDefaults.standard.set(currentVersion, forKey: UserDefaultsKeys.lastVersionPromptedForReviewKey)
+            }
+        }
     }
-
-    let bundleVersionKey = kCFBundleVersionKey as String
-    let currentVersion = bundle.object(forInfoDictionaryKey: bundleVersionKey) as? String
-    let lastVersion = defaults.string(forKey: .lastReviewRequestAppVersion)
-
-    guard lastVersion == nil || lastVersion != currentVersion else {
-      return
-    }
-
-    SKStoreReviewController.requestReview()
-
-    defaults.set(0, forKey: .reviewWorthyActionCount)
-    defaults.set(currentVersion, forKey: .lastReviewRequestAppVersion)
-  }
 }
 
-extension UserDefaults {
-  enum Key: String {
-    case reviewWorthyActionCount
-    case lastReviewRequestAppVersion
-  }
-
-  func integer(forKey key: Key) -> Int {
-    return integer(forKey: key.rawValue)
-  }
-
-  func string(forKey key: Key) -> String? {
-    return string(forKey: key.rawValue)
-  }
-
-  func set(_ integer: Int, forKey key: Key) {
-    set(integer, forKey: key.rawValue)
-  }
-
-  func set(_ object: Any?, forKey key: Key) {
-    set(object, forKey: key.rawValue)
-  }
+class UserDefaultsKeys {
+    
+    class var processCompletedCountKey: String {
+        return "processCompletedCount"
+    }
+    
+    class var lastVersionPromptedForReviewKey: String {
+        return "lastVersionPromptedForReview"
+    }
+    
 }

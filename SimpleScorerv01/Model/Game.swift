@@ -79,7 +79,6 @@ class Game : ObservableObject {
         return false
     }
     
-    // FIXME: Returns incorrect values 
     func avatarInitialsForPlayer(player : Player) -> String {
         
         var initials = player.name.uppercased().prefix(1)
@@ -247,13 +246,13 @@ class Game : ObservableObject {
 //        self.playerScores[1].addPoints(scoreValue: 1)
 //        self.playerScores[1].addPoints(scoreValue: 1)
 
-        self.playerScores[2].addPoints(scoreValue: 2)
-        self.playerScores[2].addPoints(scoreValue: 2)
-        self.playerScores[2].addPoints(scoreValue: 2)
-        self.playerScores[2].addPoints(scoreValue: 2)
-        self.playerScores[2].addPoints(scoreValue: 2)
-        self.playerScores[2].addPoints(scoreValue: 2)
-        self.playerScores[2].addPoints(scoreValue: 2)
+//        self.playerScores[2].addPoints(scoreValue: 2)
+//        self.playerScores[2].addPoints(scoreValue: 2)
+//        self.playerScores[2].addPoints(scoreValue: 2)
+//        self.playerScores[2].addPoints(scoreValue: 2)
+//        self.playerScores[2].addPoints(scoreValue: 2)
+//        self.playerScores[2].addPoints(scoreValue: 2)
+//        self.playerScores[2].addPoints(scoreValue: 2)
 //        self.playerScores[2].addPoints(scoreValue: 2)
 //        self.playerScores[2].addPoints(scoreValue: 2)
 //        self.playerScores[2].addPoints(scoreValue: 2)

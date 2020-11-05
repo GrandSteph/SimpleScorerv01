@@ -202,11 +202,10 @@ struct PlayerScoreColumn: View {
                         pointList
                         Spacer()
                     }
-//                    pointsList(playerScore: playerScore, cellHeight: cellHeight)
                 }
                 .border(width: 1, edge: .bottom, color: .offWhite)
                 .border(width: 1, edge: .top, color: .offWhite)
-                .frame(maxHeight:8 + cellHeight * CGFloat(game.currentMaxNumberOfRounds()))
+                .frame(maxHeight:8 + max(cellHeight * CGFloat(game.currentMaxNumberOfRounds()), cellHeight))
                 
                 Rectangle().fill(Color.clear)
                     .overlay(
@@ -272,6 +271,7 @@ struct AllScoresView_Previews: PreviewProvider {
         AllScoresView()
             .environmentObject(GlobalDisplayInfo())
             .environmentObject(Game(withTestPlayers: ()))
+//            .environmentObject(Game())
     }
 }
 
