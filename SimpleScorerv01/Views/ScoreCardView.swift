@@ -54,9 +54,7 @@ struct ScoreCardView: View {
                 }
                 
                 ZStack {
-                    
-                    
-                    
+  
                     self.playerScore.player.colorGradient.frame(height: totalFrameHeight)
                     
                     VStack (spacing: 0){

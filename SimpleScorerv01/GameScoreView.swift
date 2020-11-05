@@ -98,7 +98,6 @@ struct GameScoreView: View {
                                     .background(Color.clear.opacity(0))
                                     .onTapGesture {
                                         self.displayInfo.screenDisplayed = .gameSetup
-
                                 }.padding()
                             }
                         }
@@ -119,20 +118,25 @@ struct GameScoreView: View {
 
                 DragGesture()
                     .onChanged { gesture in
-                        
+                        print(self.dragOffset)
 //                        print("\(gesture.translation.width) - Prev \(previousWidth) - left? \(swipingLeft)")
-                        
-                        self.setSwipingDirection(width: gesture.translation.width)
-                        
-                        if gesture.startLocation.x > (geometry.size.width - 25) && self.displayInfo.screenDisplayed != ScreenType.gameSetup {
-                            self.dragOffset = gesture.translation
-                        } else if gesture.startLocation.x < 25 && self.displayInfo.screenDisplayed != ScreenType.allScores {
-                            self.dragOffset = gesture.translation
+                        if !(self.displayInfo.allScoreScrolling) {
+                            self.setSwipingDirection(width: gesture.translation.width)
+                            
+                            if gesture.startLocation.x > (geometry.size.width - 25) && self.displayInfo.screenDisplayed != ScreenType.gameSetup {
+                                self.dragOffset = gesture.translation
+                            } else if gesture.startLocation.x < 25 && self.displayInfo.screenDisplayed != ScreenType.allScores {
+                                self.dragOffset = gesture.translation
+                            } else {
+                                self.dragOffset = .zero
+                            }
                         } else {
                             self.dragOffset = .zero
                         }
+                        
                     }
                     .onEnded({ (value) in
+                        
                         if self.dragOffset != .zero {
                             if self.dragOffset.width > 0 && !self.swipingLeft {
                                 if (ScreenType(rawValue: self.displayInfo.screenDisplayed.rawValue - 1) != nil) {
@@ -189,7 +193,7 @@ struct cubeRotation: ViewModifier {
     }
     
     func offSet() -> CGFloat {
-        return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed) + self.dragOffset.width*1.2
+        return screenWidth * CGFloat(screen - self.displayInfo.screenDisplayed) + self.dragOffset.width * 1.2
     }
     
     func dragToRotation(translation : CGSize) -> Angle {

@@ -13,7 +13,11 @@ struct KeyPadButton: View {
 
     var body: some View {
         Button(action: { self.action(self.key) }) {
-            Text(key).foregroundColor(.purpleStart)
+            if key == "＋∕−" || key == "⌫" {
+                Text(key).foregroundColor(.purpleStart).fontWeight(.light)
+            } else {
+                Text(key).foregroundColor(.purpleStart).fontWeight(.heavy)
+            }
         }.buttonStyle(SimpleRectButtonStyle())
     }
 
@@ -151,7 +155,7 @@ struct KeyPadButton_Previews: PreviewProvider {
 struct ContentView_keypad_Previews : PreviewProvider {
     static var previews: some View {
         Group {
-            ContentView_keypad()
+            ContentView_keypad().frame(width: 300, height: 200)
         }
     }
 }

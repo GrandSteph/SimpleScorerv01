@@ -198,11 +198,11 @@ class Game : ObservableObject {
 //        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
 //        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
 //        
-//        self.addPlayer(player: Player(name: "Karine", initials: "Kn",  colorGradient: gradiants[Int.random(in: 1 ..< 5)]))
-//        self.addPlayer(player: Player(name: "Vincent", initials: "V",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
+        self.addPlayer(player: Player(name: "Karine", initials: "Kn",  colorGradient: gradiants[Int.random(in: 1 ..< 5)]))
+        self.addPlayer(player: Player(name: "Vincent", initials: "V",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
         self.addPlayer(player: Player(name: "Mat", initials: "M",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
         self.addPlayer(player: Player(name: "Karim", initials: "Km",  colorGradient: gradiants[Int.random(in: 15 ..< 20)]))
-        self.addPlayer(player: Player(name: "Steph", initials: "St",  colorGradient: gradiants[Int.random(in: 1 ..< 20)]))
+//        self.addPlayer(player: Player(name: "Steph", initials: "St",  colorGradient: gradiants[Int.random(in: 1 ..< 20)]))
         
 //        self.addEmptyPlayer(with: gradiants[Int.random(in: 0 ..< 5)])
 //        self.addEmptyPlayer(with: gradiants[Int.random(in: 5 ..< 10)])

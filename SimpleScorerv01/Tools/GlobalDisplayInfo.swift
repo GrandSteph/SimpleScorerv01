@@ -15,9 +15,11 @@ class GlobalDisplayInfo: ObservableObject {
     @Published var gradients = gradiants.shuffled()
     @Published var scoreCardSize = CardSize.normal
     @Published var shouldScroll = true
+    @Published var allScoreScrolling = false
 
-    func setSizeAndScroll (nbrPlayers : Int) {
+    func setSizeAndScroll (nbrPlayers : Int/*, screenSize : CGSize*/) {
         
+        // SCoreCards View
         self.shouldScroll = false
         self.scoreCardSize = .normal
         
@@ -33,7 +35,9 @@ class GlobalDisplayInfo: ObservableObject {
             self.screenDisplayed = .gameSetup
         }
         
-        self.shouldScroll = true
+//        self.shouldScroll = true
+        
+        // All Scores View        
     }
 }
 
