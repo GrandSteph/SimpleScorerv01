@@ -8,6 +8,5 @@ target 'SimpleScorerv01' do
 
   # Pods for SimpleScorerv01
   pod "Introspect"
-  pod 'SwiftGifOrigin', '~> 1.7.0'
 
 end
