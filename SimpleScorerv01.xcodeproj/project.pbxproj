@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		03E0751782CCBD235923B648 /* Pods_SimpleScorerv01.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 929B9070BB9E9419D6695C73 /* Pods_SimpleScorerv01.framework */; };
+		D7027B0E25556ED9009FB899 /* HelpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7027B0D25556ED9009FB899 /* HelpView.swift */; };
 		D70F1356248E37F9001D3217 /* SATextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D70F1355248E37F9001D3217 /* SATextField.swift */; };
 		D76274F1247D020C0035F6DD /* GlobalDisplayInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = D76274F0247D020C0035F6DD /* GlobalDisplayInfo.swift */; };
 		D7899CC0249CADBA00C6053E /* AllScoresView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7899CBF249CADBA00C6053E /* AllScoresView.swift */; };
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		929B9070BB9E9419D6695C73 /* Pods_SimpleScorerv01.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SimpleScorerv01.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B1C66F21B8F1DF96253304AA /* Pods-SimpleScorerv01.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SimpleScorerv01.debug.xcconfig"; path = "Target Support Files/Pods-SimpleScorerv01/Pods-SimpleScorerv01.debug.xcconfig"; sourceTree = "<group>"; };
+		D7027B0D25556ED9009FB899 /* HelpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HelpView.swift; sourceTree = "<group>"; };
 		D70F1355248E37F9001D3217 /* SATextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SATextField.swift; sourceTree = "<group>"; };
 		D76274F0247D020C0035F6DD /* GlobalDisplayInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalDisplayInfo.swift; sourceTree = "<group>"; };
 		D7899CBF249CADBA00C6053E /* AllScoresView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllScoresView.swift; sourceTree = "<group>"; };
@@ -182,6 +184,7 @@
 				E897D6C52449B1C900FB214D /* ScoreCardView.swift */,
 				D78C0A5924891FDC00FF5EEE /* PlayersEntryView.swift */,
 				E88C328A25488751000EE7AB /* KeyPadView.swift */,
+				D7027B0D25556ED9009FB899 /* HelpView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -321,6 +324,7 @@
 				E88751B1241F9B9A0091853F /* Player.swift in Sources */,
 				E88C328B25488751000EE7AB /* KeyPadView.swift in Sources */,
 				D7C03BAF246EEA1B0006FB9F /* KeyboardAvoidance.swift in Sources */,
+				D7027B0E25556ED9009FB899 /* HelpView.swift in Sources */,
 				E828ADB4242387500046BAF8 /* Game.swift in Sources */,
 				E8F648382464014E00F59B7C /* GameSetupView.swift in Sources */,
 				D70F1356248E37F9001D3217 /* SATextField.swift in Sources */,

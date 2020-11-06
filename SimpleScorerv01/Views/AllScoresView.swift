@@ -25,6 +25,9 @@ struct AllScoresView: View {
     @State private var sign = CGFloat(1)
     @State private var editMode = ScoreEditMode.modification
     
+    @State private var showHelp = true
+    @State private var dismissHelpForever = UserDefaults.standard.bool(forKey: UserDefaultsKeys.didShowHelpAllScores)
+    
     
     let scoreColumnMaxWidth = CGFloat(80)
     let pointCellsHeight = CGFloat(40)
@@ -84,6 +87,10 @@ struct AllScoresView: View {
                             .padding()
                     }
                 }
+                if self.showHelp && !self.dismissHelpForever {
+                    HelpView(showHelp: self.$showHelp, DismissHelpForever: self.$dismissHelpForever)
+                }
+                
             }
         }
     }

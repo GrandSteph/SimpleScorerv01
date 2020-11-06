@@ -30,7 +30,7 @@ import Foundation
 import StoreKit
 
 enum AppStoreReviewManager {
-    static let minimumReviewWorthyActionCount = 5
+    static let minimumReviewWorthyActionCount = 8
     
     static func requestReviewIfAppropriate() {
         // If the count has not yet been stored, this will return 0
@@ -68,6 +68,10 @@ class UserDefaultsKeys {
     
     class var lastVersionPromptedForReviewKey: String {
         return "lastVersionPromptedForReview"
+    }
+    
+    class var didShowHelpAllScores: String {
+        return "didShowHelpAllScores"
     }
     
 }

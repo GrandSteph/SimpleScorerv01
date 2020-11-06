@@ -118,7 +118,6 @@ struct GameScoreView: View {
 
                 DragGesture()
                     .onChanged { gesture in
-                        print(self.dragOffset)
 //                        print("\(gesture.translation.width) - Prev \(previousWidth) - left? \(swipingLeft)")
                         if !(self.displayInfo.allScoreScrolling) {
                             self.setSwipingDirection(width: gesture.translation.width)
