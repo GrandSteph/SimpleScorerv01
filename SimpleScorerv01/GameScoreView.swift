@@ -55,13 +55,12 @@ struct GameScoreView: View {
                 Color.offWhite.edgesIgnoringSafeArea(.all)
                 
                 AllScoresView()
-//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .modifier(cubeRotation(dragOffset: $dragOffset, screen: .allScores, screenWidth: geometry.size.width))
                 
                 GameSetupView(showPlayerEntry: self.$showPlayerEntry)
-//                    .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .modifier(cubeRotation(dragOffset: $dragOffset, screen: .gameSetup, screenWidth: geometry.size.width))
 
+                // Score Cards View
                 Group {
                     ZStack {
                         if self.game.playerScores.count != 0 {
@@ -80,6 +79,7 @@ struct GameScoreView: View {
                             EmptyView()
                         }
                         
+                        // bottom Scroll Buttons
                         VStack {
                             Spacer()
                             HStack {
@@ -210,8 +210,6 @@ struct cubeRotation: ViewModifier {
     }
     
 }
-
-
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {

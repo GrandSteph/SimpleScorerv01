@@ -14,6 +14,9 @@ struct GameSetupView: View {
     @EnvironmentObject var game : Game
     @Binding var showPlayerEntry : Bool
     
+    let dismissHelpForever = UserDefaults.standard.bool(forKey: UserDefaultsKeys.didShowHelpAllScores)
+    @State private var showHelp = false
+    
     @State private var showingActionSheet = false
     
     let maxHeight = CGFloat(100)
@@ -189,20 +192,36 @@ struct GameSetupView: View {
                 Spacer()
             }
             .padding()
-            //            Rectangle().fill(buttonSwitch ? Color.cyan1 : Color.orangeStart).frame(width: 200, height: 50).clipShape(Rectangle()).cornerRadius(14)
+//                        Rectangle().fill(buttonSwitch ? Color.cyan1 : Color.orangeStart).frame(width: 200, height: 50).clipShape(Rectangle()).cornerRadius(14)
             
             VStack {
                 Spacer()
                 HStack {
+
                     Image(systemName: "arrow.left.circle")
                         .font(.system(.largeTitle, design: .rounded))
                         .foregroundColor(Color.gray)
-                        .padding([.trailing,.bottom])
+                        .padding([.bottom])
                         .onTapGesture {
                             self.moveNextScreen()
                         }
+
                     Spacer()
+
+                    if self.dismissHelpForever {
+                        Image(systemName: "questionmark.circle")
+                            .font(.system(.largeTitle, design: .rounded))
+                            .foregroundColor(Color.gray)
+                            .padding([.bottom])
+                            .onTapGesture {
+                                self.showHelp = true
+                        }
+                    }
                 }.padding()
+            }
+            
+            if self.showHelp {
+                HelpScreensView(showHelp: self.$showHelp)
             }
         }
     }
@@ -212,6 +231,29 @@ struct GameSetupView: View {
         if self.game.needsNameEntry() {
             self.showPlayerEntry = true
         }
+    }
+    
+}
+
+struct HelpScreensView: View {
+
+    @Binding var showHelp : Bool
+    @State private var showHelp2 = false
+    
+    var body: some View {
+        ZStack {
+            Color.offWhite.edgesIgnoringSafeArea(.all)
+            Image("Help1").scaledToFit()
+            if showHelp2 {
+                Image("Help2").scaledToFit()
+            }
+        }.onTapGesture(count: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/, perform: {
+            if showHelp2 {
+                showHelp = false
+            } else {
+                showHelp2 = true
+            }
+        })
     }
 }
 
