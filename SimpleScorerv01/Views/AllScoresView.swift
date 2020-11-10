@@ -70,7 +70,11 @@ struct AllScoresView: View {
 //                Text(String(self.displayInfo.allScoreScrolling))
                 
                 if showKeypad {
-                    scoreCorrectionView
+                    VStack {
+                        Spacer()
+                        scoreCorrectionView
+                    }
+                    
                 }
                 
                 VStack {
@@ -101,7 +105,7 @@ struct AllScoresView: View {
             if editMode == ScoreEditMode.modification {
                 return "\(String(cell.playerScore.pointsList[cell.0].score)) ⇢ \(self.sign >= 0 ? "" : "-") \( String(format: "%.0f",abs(pointScored)))"
             } else {
-                return "\(cell.playerScore.totalScore()) + \(String(format: "%.0f",abs(pointScored)))"
+                return "\(cell.playerScore.totalScore()) \(self.sign >= 0 ? "+" : "-") \(String(format: "%.0f",abs(pointScored)))"
             }
         }
         
