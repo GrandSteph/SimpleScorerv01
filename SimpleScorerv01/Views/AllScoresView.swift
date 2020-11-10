@@ -72,7 +72,7 @@ struct AllScoresView: View {
                 if showKeypad {
                     VStack {
                         Spacer()
-                        scoreCorrectionView
+                        scoreCorrectionView.padding(.bottom,50)
                     }
                     
                 }
