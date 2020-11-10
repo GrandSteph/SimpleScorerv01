@@ -87,7 +87,7 @@ struct AllScoresView: View {
                             .padding()
                     }
                 }
-                if self.showHelp && !self.dismissHelpForever && game.currentMaxNumberOfRounds() > 2 {
+                if self.showHelp && !self.dismissHelpForever && game.currentMaxNumberOfRounds() >= 2 {
                     HelpView(showHelp: self.$showHelp, DismissHelpForever: self.$dismissHelpForever)
                 }
                 

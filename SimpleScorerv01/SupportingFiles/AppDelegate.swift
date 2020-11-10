@@ -18,7 +18,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 //        if let bundleID = Bundle.main.bundleIdentifier {
 //            UserDefaults.standard.removePersistentDomain(forName: bundleID)
 //        }
-        AppStoreReviewManager.requestReviewIfAppropriate()
         return true
     }
 

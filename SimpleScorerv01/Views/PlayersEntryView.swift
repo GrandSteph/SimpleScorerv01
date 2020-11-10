@@ -84,6 +84,7 @@ struct PlayersEntryView: View {
 
         if self.cardViews.count == 0 {
             self.isVisible = false
+            AppStoreReviewManager.requestReviewIfAppropriate()
         }
         
     }
