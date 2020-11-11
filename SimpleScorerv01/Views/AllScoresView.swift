@@ -137,7 +137,7 @@ struct AllScoresView: View {
                     
                     Text(display)
                         .font(Font.system(
-                                size: fontSize(nbrChar: display.count + 1, fontSize: 50),
+                                size: fontSize(nbrChar: display.count - 2, fontSize: 50),
                                 weight: .bold,
                                 design: .rounded))
                         .scaledToFill()

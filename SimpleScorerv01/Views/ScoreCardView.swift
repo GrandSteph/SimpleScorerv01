@@ -275,7 +275,7 @@ struct PlayerNameView: View {
             if !scoreEditing {
                 if !self.nameEditing && self.playerScore.player.name != Player.defaultName {
                     Text(self.playerScore.player.name)
-                        .font(Font.system(size: fontSize(nbrChar: self.playerScore.player.name.count, fontSize: 40), weight: .semibold, design: .rounded))
+                        .font(Font.system(size: fontSize(nbrChar: self.playerScore.player.name.count + ( String(self.playerScore.totalScore()).count - 2), fontSize: 40), weight: .semibold, design: .rounded))
                             .lineLimit(1)
                         .foregroundColor(Color .offWhite)
                         .onLongPressGesture {

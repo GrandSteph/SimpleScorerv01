@@ -37,12 +37,13 @@ struct AvatarView: View {
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .padding()
             } else {
-                Image(systemName: "camera")
+                Image(systemName: "keyboard")
                     .font(.system(size: 30, weight: .light, design: .default))
                     .foregroundColor(Color.white)
                     .padding()
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
                     .contentShape(Circle())
+                    .opacity(0.5)
             }
         }
         .clipShape(Circle())
