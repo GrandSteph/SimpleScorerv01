@@ -58,23 +58,11 @@ struct KeyPadView: View {
             KeyPadRow(keys: ["4", "5", "6"])
             KeyPadRow(keys: ["7", "8", "9"])
             KeyPadRow(keys: ["＋∕−", "0", "⌫"])
-//            Text(String(format: "%.0f",sign))
-//            Text(String(format: "%.2f",valueDisplayed))
         }.environment(\.keyPadButtonAction, self.keyWasPressed(_:))
     }
 
     private func keyWasPressed(_ key: String) {
         switch key {
-
-//        case "＋∕−" where valueDisplayed == 0 && sign == 1:
-//            sign = -1
-////            valueDisplayed = -CGFloat(0.1)
-////            valueDisplayed = -CGFloat(0)
-//
-//        case "＋∕−" where valueDisplayed == 0 && sign == -1:
-//            sign = 1
-////            valueDisplayed = CGFloat(0.1)
-////            valueDisplayed = CGFloat(0)
             
         case "＋∕−" :
             sign = -sign

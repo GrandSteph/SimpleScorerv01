@@ -155,23 +155,6 @@ struct ScoreCardView: View {
                 
                 if scoreEditing {
                     
-    //                    // Old presentation with total score dynamic under new points
-
-    //                    VStack {
-    //                        Text("\(self.sign >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
-    //                            .font(Font.system(size: 25, weight: .bold, design: .rounded))
-    //                            .scaledToFill()
-    //                            .minimumScaleFactor(0.9)
-    //                            .lineLimit(1)
-    //                            .foregroundColor(Color .offWhite)
-    //                            .padding(.trailing,10)
-    //
-    //
-    //                        Text("= \( String(format: "%.0f",CGFloat(self.playerScore.totalScore()) + self.pointsScored))")
-    //                            .font(Font.system(size: 10, weight: .bold, design: .rounded))
-    //                            .foregroundColor(Color .offWhite)
-    //
-    //                    }
                     Text("\(self.sign >= 0 ? "+" : "-") \( String(format: "%.0f",abs(self.pointsScored)))")
                         .font(Font.system(size: fontSize(nbrChar: String(format: "%.0f",abs(self.pointsScored)).count, fontSize: 40), weight: .bold, design: .rounded))
                         .scaledToFill()
