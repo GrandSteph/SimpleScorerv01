@@ -171,7 +171,7 @@ struct ScoreCardView: View {
                             .onTapGesture {
     //                            let index = self.game.playerScores.firstIndex(where: {$0.id == self.playerScore.id})!
     //                            self.game.playerScores[index].addPoints(scoreValue: Int(String(format: "%.0f",self.pointsScored))!)
-                                self.game.addPointsFor(player: self.playerScore.player, points: Int(String(format: "%.0f",self.pointsScored * sign))!)
+                                self.game.addPointsFor(player: self.playerScore.player, points: Int(String(format: "%.0f",abs(self.pointsScored) * sign))!)
                                 self.pointsScored = 0
                                 self.sign = 1
                                 self.scoreEditing = false
