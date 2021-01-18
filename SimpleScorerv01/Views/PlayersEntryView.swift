@@ -84,6 +84,9 @@ struct PlayersEntryView: View {
 
         if self.cardViews.count == 0 {
             self.isVisible = false
+            for i in 0...self.game.playerScores.count - 1  {
+                self.game.playerScores[i].player.initials = self.game.avatarInitialsForPlayer(player:  self.game.playerScores[i].player)
+            }
             AppStoreReviewManager.requestReviewIfAppropriate()
         }
         

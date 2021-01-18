@@ -81,28 +81,28 @@ class Game : ObservableObject {
     
     func avatarInitialsForPlayer(player : Player) -> String {
         
+        var indexOfDifference = 0
+        
         var initials = player.name.uppercased().prefix(1)
         
-        for playerScore in self.playerScores {
-            
+        for playerScore in self.playerScores.sorted(by: {$0.player.name.lowercased() < $1.player.name.lowercased()}) {
+            print(playerScore.player.name,"-",player.name)
             if player.id != playerScore.player.id {
                 
-                if player.name.uppercased().first == playerScore.player.name.first {
+                while player.name.lowercased()[indexOfDifference] == playerScore.player.name.lowercased()[indexOfDifference]
+                        && player.name.length <= indexOfDifference + 1
+                        && playerScore.player.name.length <= indexOfDifference + 1 {
                     
-                    let difference = zip(player.name.uppercased(), playerScore.player.name.uppercased()).filter{ $0 != $1 }
-                    
-                    if difference.count > 0 {
-                        
-                        guard let secondChar = difference.first(where: { ($0.0 != $0.1) && ($0.0 != player.name.uppercased().first)}) else {
-                            return String(initials)
-                        }
-                        
-                        initials += String(secondChar.0).lowercased()
-//                        return String(initials)
-                    }
+                    indexOfDifference += 1
+                    print(indexOfDifference)
                 }
             }
         }
+        
+        if indexOfDifference > 0 && player.name.length <= indexOfDifference + 1 {
+            initials += player.name.lowercased()[indexOfDifference]
+        }
+        
         return String(initials)
     }
     
@@ -153,15 +153,15 @@ class Game : ObservableObject {
         
     }
     
-//    func maxScore() -> Int {
-//        var maxScore = Int (0)
-//        for score in self.playerScores {
-//            if maxScore < score.totalScore()  {
-//                maxScore = score.totalScore()
-//            }
-//        }
-//        return maxScore
-//    }
+    //    func maxScore() -> Int {
+    //        var maxScore = Int (0)
+    //        for score in self.playerScores {
+    //            if maxScore < score.totalScore()  {
+    //                maxScore = score.totalScore()
+    //            }
+    //        }
+    //        return maxScore
+    //    }
     
     func currentMaxNumberOfRounds() -> Int {
         var maxNbrRounds = 0
@@ -174,29 +174,29 @@ class Game : ObservableObject {
     }
     
     
-
     
-//    func ranking(for playerScore:PlayerScore) -> Int {
-//
-//        var ranking = 1
-//
-//        let playerScore = self.findScore(playerScore: playerScore).totalScore()
-//
-//        for score in self.playerScores {
-//            if score.totalScore() > playerScore {
-//                ranking += 1
-//            }
-//        }
-//        return ranking
-//    }
+    
+    //    func ranking(for playerScore:PlayerScore) -> Int {
+    //
+    //        var ranking = 1
+    //
+    //        let playerScore = self.findScore(playerScore: playerScore).totalScore()
+    //
+    //        for score in self.playerScores {
+    //            if score.totalScore() > playerScore {
+    //                ranking += 1
+    //            }
+    //        }
+    //        return ranking
+    //    }
     
     func addTestPlayers (){
         
-//        self.addPlayer(player: Player(name: "Steph", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
-//        self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
-//        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
-//        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
-//        
+        //        self.addPlayer(player: Player(name: "Steph", photoImage: UIImage(named: "steph-test"), colorGradient: gradiants[0]))
+        //        self.addPlayer(player: Player(name: "Sof", photoImage: UIImage(named: "vertical"), colorGradient: gradiants[1]))
+        //        self.addPlayer(player: Player(name: "Chloé", photoImage: UIImage(named: "chloe"), colorGradient: gradiants[3]))
+        //        self.addPlayer(player: Player(name: "Gaby", photoImage: UIImage(named: "gaby"), colorGradient: gradiants[4]))
+        //
         self.addPlayer(player: Player(name: "Emma", initials: "Em",  colorGradient: gradiants[Int.random(in: 1 ..< 5)]))
         self.addPlayer(player: Player(name: "Marc", initials: "M",  colorGradient: gradiants[Int.random(in: 5 ..< 10)]))
         self.addPlayer(player: Player(name: "Mat", initials: "Mt",  colorGradient: gradiants[Int.random(in: 10 ..< 15)]))
@@ -208,10 +208,10 @@ class Game : ObservableObject {
         self.addPlayer(player: Player(name: "Chris", initials: "C",  colorGradient: gradiants[Int.random(in: 1 ..< 20)]))
         self.addPlayer(player: Player(name: "Steve", initials: "S",  colorGradient: gradiants[Int.random(in: 1 ..< 20)]))
         
-//        self.addEmptyPlayer(with: gradiants[Int.random(in: 0 ..< 5)])
-//        self.addEmptyPlayer(with: gradiants[Int.random(in: 5 ..< 10)])
-//        self.addEmptyPlayer(with: gradiants[Int.random(in: 10 ..< 15)])
-//        self.addEmptyPlayer(with: gradiants[Int.random(in: 15 ..< 20)])
+        //        self.addEmptyPlayer(with: gradiants[Int.random(in: 0 ..< 5)])
+        //        self.addEmptyPlayer(with: gradiants[Int.random(in: 5 ..< 10)])
+        //        self.addEmptyPlayer(with: gradiants[Int.random(in: 10 ..< 15)])
+        //        self.addEmptyPlayer(with: gradiants[Int.random(in: 15 ..< 20)])
         
         self.playerScores[0].addPoints(scoreValue: -1)
         self.playerScores[0].addPoints(scoreValue: -2)
@@ -250,7 +250,7 @@ class Game : ObservableObject {
         self.playerScores[1].addPoints(scoreValue: 7)
         self.playerScores[1].addPoints(scoreValue: 7)
         self.playerScores[1].addPoints(scoreValue: 7)
-
+        
         self.playerScores[2].addPoints(scoreValue: 2)
         self.playerScores[2].addPoints(scoreValue: 20)
         self.playerScores[2].addPoints(scoreValue: 22)
@@ -269,7 +269,7 @@ class Game : ObservableObject {
         self.playerScores[2].addPoints(scoreValue: 22)
         self.playerScores[2].addPoints(scoreValue: 32)
         self.playerScores[2].addPoints(scoreValue: 2)
-
+        
         self.playerScores[3].addPoints(scoreValue: 1)
         self.playerScores[3].addPoints(scoreValue: 2)
         self.playerScores[3].addPoints(scoreValue: 3)
@@ -288,8 +288,8 @@ class Game : ObservableObject {
         self.playerScores[3].addPoints(scoreValue: 53)
         self.playerScores[3].addPoints(scoreValue: -43)
         self.playerScores[3].addPoints(scoreValue: 3)
-//
-
+        //
+        
         
         for n in 1...18 {
             self.roundsLabels.append(n)
