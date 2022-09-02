@@ -30,7 +30,7 @@ import Foundation
 import StoreKit
 
 enum AppStoreReviewManager {
-    static let minimumReviewWorthyActionCount = 8
+    static let minimumReviewWorthyActionCount = 20
     
     static func requestReviewIfAppropriate() {
         // If the count has not yet been stored, this will return 0
